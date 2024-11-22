@@ -1,0 +1,12 @@
+export 'edit_boat_cruise_availability.dart';
+export 'edit_boat_cruise_description.dart';
+export 'edit_boat_cruise_details_view.dart';
+export 'edit_boat_cruise_features.dart';
+export 'edit_boat_cruise_fee.dart';
+export 'edit_boat_cruise_images_view.dart';
+export 'edit_boat_cruise_location.dart';
+export 'edit_boat_cruise_name_view.dart';
+export 'edit_boat_cruise_policies.dart';
+export 'edit_boat_cruise_safety_features.dart';
+export 'edit_boat_cruise_sailors_services.dart';
+export 'edit_boat_cruise_type.dart';

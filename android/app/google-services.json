@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878959294487",
+    "project_id": "tizela-f1452",
+    "storage_bucket": "tizela-f1452.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878959294487:android:262614253382f9c3c50452",
+        "android_client_info": {
+          "package_name": "com.tizela.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw5h_c32q2OhOG2CPjQnOuSQnwinNuxjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
