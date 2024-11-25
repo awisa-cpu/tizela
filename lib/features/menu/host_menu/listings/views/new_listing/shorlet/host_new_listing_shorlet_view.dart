@@ -48,7 +48,7 @@ class HostNewListingShorletView extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: CustomNewListingCreationBNB(
-        onSave: () => hostShorletCon.createNewListing(),
+        onSave: () => hostShorletCon.createNewShortletListing(),
         onExit: () => AppNagivator.goBack(context),
       ),
     );

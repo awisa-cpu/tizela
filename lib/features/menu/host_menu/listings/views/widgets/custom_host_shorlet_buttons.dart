@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/edit_host_availability_setup_view.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
+import '../../controllers/edit_host_shortlet_controller.dart';
 import '../edit_listing/shorlet/edit_host_shorlet_details.dart';
 import '../edit_listing/shorlet/edit_host_shorlet_pricesset.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
@@ -16,6 +17,9 @@ class CustomHostShorletButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   Get.put(EditHostShortletController());
+
+    //
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: Row(

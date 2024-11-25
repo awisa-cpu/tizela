@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_add_images_sections.dart';
 
+import '../../../../../../../../utils/enums/image_type.dart';
+import '../../../../controllers/edit_host_shortlet_controller.dart';
+import '../../../../model/shorlet_model.dart';
+import '../../widgets/custom_image_displayer.dart';
+
 class EditShorletUploadedPhotoesView extends StatelessWidget {
-  const EditShorletUploadedPhotoesView({super.key});
+  final ShortletModel shortlet;
+  const EditShorletUploadedPhotoesView({super.key, required this.shortlet});
 
   @override
   Widget build(BuildContext context) {
+    final controller = EditHostShortletController.instance;
+
+    //
     return CustomEditView(
       child: CustomColumn(
         children: [
@@ -16,14 +26,26 @@ class EditShorletUploadedPhotoesView extends StatelessWidget {
             padding: const EdgeInsets.only(top: 5, bottom: 15),
             child: CustomColumn(
               children: [
-                CustomAddImagesSections(
-                  headerText: "Living room",
-                  onImageTapSelect: () {},
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    return const Text("");
-                  },
+                Obx(
+                  () => CustomAddImagesSections(
+                    headerText: "Uploaded photos",
+                    itemCount: controller.selectedImages.length,
+                    itemBuilder: (context, index) {
+                      final imageFile = controller.selectedImages[index];
+                      return CustomImageDisplayer(
+                        imageFile: imageFile,
+                        imageType: ImageType.file,
+                        onDoubleTapDelete: () =>
+                            controller.deleteImageFileFromSelectedImages(
+                          selectedImages: controller.selectedImages,
+                          imageFile: imageFile,
+                        ),
+                      );
+                    },
+                    onImageTapSelect: controller.selectImages,
+                  ),
                 ),
+                /*
                 CustomAddImagesSections(
                   headerText: "Bed",
                   onImageTapSelect: () {},
@@ -56,13 +78,20 @@ class EditShorletUploadedPhotoesView extends StatelessWidget {
                     return const Text("");
                   },
                 ),
+
+                */
               ],
             ),
           ),
 
-          CustomEleButton(
-            onPressed: () {},
-            text: "Save",
+          Obx(
+            () => CustomEleButton(
+              onPressed: () =>
+                  controller.updateShortletImages(shortlet: shortlet),
+              text: controller.areImagesUpdating.value
+                  ? "Update in progress..."
+                  : "Save",
+            ),
           )
         ],
       ),

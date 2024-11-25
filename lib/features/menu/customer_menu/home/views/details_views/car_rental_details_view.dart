@@ -13,10 +13,10 @@ import 'package:tizela/features/menu/customer_menu/home/model/car_rental_model_x
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/more_car_rental_images_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
+import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import 'widgets/custom_first_section_car_rental_details_view.dart';
 import 'widgets/driver_service_panel.dart';
 import 'widgets/policy_tab.dart';

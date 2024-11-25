@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
-import 'package:tizela/data/local_database.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/shorlet/widgets/shortlet_edits_imports.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_listing_details_displayer.dart';
@@ -9,7 +8,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widge
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_id_name_and_card_displayer.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
-import '../../../../../../../utils/constants/app_functions.dart';
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../../../utils/enums/image_type.dart';
 import '../../../../../../personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 
 import '../widgets/custom_image_displayer.dart';
@@ -22,11 +22,6 @@ class EditHostShorletDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shorlets = [
-      ...LocalDatabase.shortletPackages,
-      ...LocalDatabase.shortletPackages,
-      ...LocalDatabase.shortletPackages
-    ];
     return HostListingDetailsView(
       onSearchTap: () {},
       child: CustomColumn(
@@ -34,11 +29,13 @@ class EditHostShorletDetails extends StatelessWidget {
           //Apartment name
           CustomListingDetailsDisplayer(
             marginNumber: 13.5,
-            titleName: "Apartment name",
-            data: "Sunderam Boys PG",
-            onEditTap: () => diplayEditSheet(
+            titleName: "Apartment Name",
+            data: shortlet.apartmentName,
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletNameView(),
+              child: EditShorletNameView(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -49,44 +46,51 @@ class EditHostShorletDetails extends StatelessWidget {
             child: GridView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: shorlets.length,
+              itemCount: shortlet.apartmentImages.length,
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: 0.0,
-                crossAxisSpacing: 13.5,
+                mainAxisSpacing: 7.0,
+                crossAxisSpacing: 10.5,
                 mainAxisExtent: 90,
               ),
               itemBuilder: (_, index) {
-                final shorlet = shorlets[index];
+                final shorletImageurl = shortlet.apartmentImages[index];
                 return CustomImageDisplayer(
-                  imageUrl: shorlet.imageUrl,
+                  imageUrl: shorletImageurl,
+                  imageType: ImageType.network,
                 );
               },
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletUploadedPhotoesView(),
+              child: EditShorletUploadedPhotoesView(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
           //Apartment Type
           CustomListingDetailsDisplayer(
             titleName: "Apartment Type",
-            data: "Studio apartment",
-            onEditTap: () => diplayEditSheet(
+            data: shortlet.apartmentType.name,
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletApartmentTypeView(),
+              child: EditShorletApartmentTypeView(
+                shorlet: shortlet,
+              ),
             ),
           ),
 
           //Apartment Story
           CustomListingDetailsDisplayer(
             titleName: "Apartment Story",
-            data: "Its a place to have a restful vacation",
-            onEditTap: () => diplayEditSheet(
+            data: shortlet.anyStory,
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletApartmentStory(),
+              child: EditShorletApartmentStory(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -118,7 +122,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletLocationView(),
             ),
@@ -157,7 +161,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletApartmentPrice(),
             ),
@@ -184,7 +188,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletAvailability(),
             ),
@@ -211,7 +215,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletCheckInAndOutTime(),
             ),
@@ -221,7 +225,7 @@ class EditHostShorletDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Minimum check-in period",
             data: "1 night",
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletMinimumCheckinPeriod(),
             ),
@@ -252,7 +256,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletApartmentDetails(),
             ),
@@ -321,7 +325,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletAmenitiesView(),
             ),
@@ -357,7 +361,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletSafetyView(),
             ),
@@ -415,7 +419,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletStandoutAmenities(),
             ),
@@ -462,7 +466,7 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditShorletHouseRulesView(),
             ),

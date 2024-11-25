@@ -6,6 +6,8 @@ import 'package:tizela/features/menu/host_menu/listings/controllers/host_shorlet
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_image_displayer.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_add_images_sections.dart';
 
+import '../../../../../../../../utils/enums/image_type.dart';
+
 class CustomNewListingShorletAddImages extends StatelessWidget {
   const CustomNewListingShorletAddImages({
     super.key,
@@ -39,8 +41,8 @@ class CustomNewListingShorletAddImages extends StatelessWidget {
                           controller.livingRoomImagesSelected.elementAt(index);
 
                       return CustomImageDisplayer(
-                        isImageFromFile: true,
                         imageFile: image,
+                        imageType: ImageType.file,
                       );
                     },
                     onImageTapSelect: () => controller.addImages(
@@ -56,7 +58,7 @@ class CustomNewListingShorletAddImages extends StatelessWidget {
                       final image =
                           controller.bedImagesSelected.elementAt(index);
                       return CustomImageDisplayer(
-                        isImageFromFile: true,
+                        imageType: ImageType.file,
                         imageFile: image,
                       );
                     },
@@ -72,8 +74,8 @@ class CustomNewListingShorletAddImages extends StatelessWidget {
                       final image =
                           controller.bathroomImagesSelected.elementAt(index);
                       return CustomImageDisplayer(
-                        isImageFromFile: true,
                         imageFile: image,
+                        imageType: ImageType.file,
                       );
                     },
                     onImageTapSelect: () => controller.addImages(
@@ -88,7 +90,7 @@ class CustomNewListingShorletAddImages extends StatelessWidget {
                       final image =
                           controller.kitchenImagesSelected.elementAt(index);
                       return CustomImageDisplayer(
-                        isImageFromFile: true,
+                        imageType: ImageType.file,
                         imageFile: image,
                       );
                     },
@@ -104,7 +106,7 @@ class CustomNewListingShorletAddImages extends StatelessWidget {
                       final image =
                           controller.amenitiesImagesSelected.elementAt(index);
                       return CustomImageDisplayer(
-                        isImageFromFile: true,
+                        imageType: ImageType.file,
                         imageFile: image,
                       );
                     },

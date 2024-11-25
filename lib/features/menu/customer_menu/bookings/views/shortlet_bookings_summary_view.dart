@@ -4,7 +4,7 @@ import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
+import '../../../../../utils/device/app_device_services/app_device_services.dart';
 import 'widgets/custom_shorlet_booking_summary_fifth_section.dart';
 import 'widgets/custom_shorlet_booking_summary_first_section.dart';
 import 'widgets/custom_shorlet_booking_summary_fourth_section.dart';

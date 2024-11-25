@@ -15,7 +15,7 @@ import '../../../../../data/repositories/auth_repository/auth_repository.dart';
 import '../../../../../data/services/media_service.dart';
 import '../../../../../setup/app_navigator.dart';
 import '../../../../../utils/device/app_debugger/app_debugger.dart';
-import '../../../../../utils/device/app_device_services.dart';
+import '../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../model/apartment_amenities_model.dart';
 import '../model/apartment_house_rules_model.dart';
 import '../model/id_type_model.dart';
@@ -228,7 +228,7 @@ class HostShorletController extends GetxController {
   }
 
   //create a new listing
-  void createNewListing() async {
+  void createNewShortletListing() async {
     try {
       //show loader
       AppLoaderService.startLoader(
@@ -293,24 +293,36 @@ class HostShorletController extends GetxController {
     addressCon.clear();
     apartmentPriceCon.clear();
     apartmentCautionFeeCon.clear();
-    selectedApartType = ApartmentTypeModel.empty().obs;
-    selectedIdType = IdTypeModel.empty().obs;
+    //
+    selectedApartType.value = ApartmentTypeModel.empty();
+    selectedIdType.value = IdTypeModel.empty();
+
+    //
     apartmentDescFormKey.currentState?.reset();
     addressDescFormKey.currentState?.reset();
     apartmentFeeFormKey.currentState?.reset();
-    isTizelaTermsForPriceAcceptetd = false.obs;
-    dateInFocusedDay = DateTime.now().obs;
-    dateOutFocusedDay = DateTime.now().obs;
-    checkInTime = "Check-in time".obs;
-    checkOutTime = "Checkout time".obs;
-    minimumCheckInTime = "1 night".obs;
+
+    //
+    isTizelaTermsForPriceAcceptetd.value = false;
+    dateInFocusedDay.value = DateTime.now();
+    dateOutFocusedDay.value = DateTime.now();
+    checkInTime.value = "Check-in time";
+    checkOutTime.value = "Checkout time";
+    minimumCheckInTime.value = "1 night";
     livingRoomImagesSelected = <AppFileModel>{}.obs;
     bedImagesSelected = <AppFileModel>{}.obs;
     bathroomImagesSelected = <AppFileModel>{}.obs;
     kitchenImagesSelected = <AppFileModel>{}.obs;
     amenitiesImagesSelected = <AppFileModel>{}.obs;
-    idFrontPage = AppFileModel.empty().obs;
-    idBackPage = AppFileModel.empty().obs;
+    idFrontPage.value = AppFileModel.empty();
+    idBackPage.value = AppFileModel.empty();
+
+    //
+    selectedApartmentDetails = LocalDatabase.selectedApartmentDetails;
+    selectedAmenities = LocalDatabase.selectedAmenities;
+    selectedSafetyFeatures = LocalDatabase.selectedSafetyFeatures;
+    selectedStandOutAmenities = LocalDatabase.selectedStandOutAmenities;
+    apartHouseRules = LocalDatabase.apartHouseRules;
   }
 
   Future<List<String>> _uploadImages() async {

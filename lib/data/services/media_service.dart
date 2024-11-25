@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
-import '../../utils/device/app_device_services.dart';
+import '../../utils/device/app_device_services/app_device_services.dart';
 
 class MediaServiceController extends GetxController {
   static MediaServiceController get instance => Get.find();

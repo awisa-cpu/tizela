@@ -8,8 +8,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widge
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_main_and_subtext_listing_details.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_shorlet_apartment_details_section.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
-import '../../../../../../../utils/constants/app_functions.dart';
 import '../../../../../../../utils/constants/images_texts.dart';
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../model/car_rental_model.dart';
 import '../widgets/custom_edit_id_name_and_card_displayer.dart';
 import '../widgets/custom_listing_details_displayer.dart';
@@ -31,7 +31,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
             marginNumber: 13.5,
             titleName: "Car name",
             data: "BMW M4. Convertible",
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalNameView(),
             ),
@@ -60,7 +60,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 );
               },
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalImagesView(),
             ),
@@ -86,7 +86,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalType(),
             ),
@@ -116,7 +116,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalLocation(),
             ),
@@ -143,7 +143,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ],
               ),
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalFee(),
             ),
@@ -170,7 +170,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalAvailability(),
             ),
@@ -197,7 +197,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalDetailsView(),
             ),
@@ -277,7 +277,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalFeatures(),
             ),
@@ -300,7 +300,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalSafetyFeatures(),
             ),
@@ -323,7 +323,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalCarPolicies(),
             ),
@@ -347,7 +347,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalCarRules(),
             ),
@@ -366,7 +366,7 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditCarRentalDriverLicenses(),
             ),

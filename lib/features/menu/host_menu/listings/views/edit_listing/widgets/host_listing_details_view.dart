@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
+
+import '../../../../../../../utils/device/app_device_services/app_device_services.dart';
 
 class HostListingDetailsView extends StatelessWidget {
   final VoidCallback onSearchTap;

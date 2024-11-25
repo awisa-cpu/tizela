@@ -11,7 +11,7 @@ import 'package:tizela/features/menu/host_menu/listings/model/car_rental_model.d
 import '../../../../../data/repositories/auth_repository/auth_repository.dart';
 import '../../../../../setup/app_navigator.dart';
 import '../../../../../utils/device/app_debugger/app_debugger.dart';
-import '../../../../../utils/device/app_device_services.dart';
+import '../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../model/address_model.dart';
 import '../model/car_rental_details_model.dart';
 import '../model/car_rental_features_model.dart';

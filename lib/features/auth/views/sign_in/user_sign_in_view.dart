@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
 import 'package:tizela/features/auth/views/sign_in/widgets/auth_header_texts.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
+import '../../../../utils/device/app_device_services/app_device_services.dart';
 import 'widgets/user_sign_in_form.dart';
 
 class UserSignInView extends StatefulWidget {

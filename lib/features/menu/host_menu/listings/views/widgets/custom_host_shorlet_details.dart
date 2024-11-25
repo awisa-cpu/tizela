@@ -83,7 +83,6 @@ class CustomHostShorletDetails extends StatelessWidget {
   String _getDateRange({required List<DateTime> availableDates}) {
     final firstDate = AppDateFormater.formatDate(availableDates[0]);
     final secondDate = AppDateFormater.formatDate(availableDates[1]);
-
     return "$firstDate - $secondDate";
   }
 }

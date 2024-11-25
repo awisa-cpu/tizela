@@ -9,7 +9,7 @@ import 'package:tizela/setup/root_app.dart';
 
 import 'data/repositories/auth_repository/auth_repository.dart';
 import 'data/repositories/user_repo/app_user_repository.dart';
-import 'utils/device/app_device_services.dart';
+import 'utils/device/app_device_services/app_device_services.dart';
 
 void main() async {
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();

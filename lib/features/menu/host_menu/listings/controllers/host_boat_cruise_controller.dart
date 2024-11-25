@@ -11,7 +11,7 @@ import "../../../../../data/repositories/boat_cruise_repository/boat_cruise_repo
 import "../../../../../data/services/media_service.dart";
 import "../../../../../setup/app_navigator.dart";
 import "../../../../../utils/device/app_debugger/app_debugger.dart";
-import "../../../../../utils/device/app_device_services.dart";
+import "../../../../../utils/device/app_device_services/app_device_services.dart";
 import "../model/app_file_model.dart";
 import "../model/boat_cruise_details_model.dart";
 import "../model/boat_cruise_features_model.dart";
@@ -75,15 +75,6 @@ class HostBoatCruiseController extends GetxController {
     boatPriceController.dispose();
   }
 
-  void resetResources() {
-    boatdescriptionKey.currentState?.reset();
-    boatAddressKey.currentState?.reset();
-    boatPriceKey.currentState?.reset();
-    boatNameController.clear();
-    boatStoryController.clear();
-    boatAddressController.clear();
-    boatPriceController.clear();
-  }
 
   void onPageViewChanged(int newPageIndex) =>
       currentSelectedPageIndex.value = newPageIndex;

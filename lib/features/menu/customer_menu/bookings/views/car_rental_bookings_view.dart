@@ -11,9 +11,10 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_boo
 import 'package:tizela/features/menu/customer_menu/home/model/car_rental_model_xxxxx.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
+
+import '../../../../../utils/device/app_device_services/app_device_services.dart';
 
 class CarRentalBookingsView extends StatefulWidget {
   final CarRentalModelxxxxxxxxxxx carRental;

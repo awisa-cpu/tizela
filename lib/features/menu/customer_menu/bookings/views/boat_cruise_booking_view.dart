@@ -8,8 +8,9 @@ import 'package:tizela/common/widgets/custom_dropdown_form.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_booking_summary.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/boat_cruise_model_xxxxx.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
+
+import '../../../../../utils/device/app_device_services/app_device_services.dart';
 
 class BoatCruiseBookingView extends StatefulWidget {
   final BoatCruiseModelxxxxxxxx boatCruise;

@@ -4,6 +4,7 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_boat_cruise_controller.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_add_images_sections.dart';
+import '../../../../../../../../utils/enums/image_type.dart';
 import '../../../edit_listing/widgets/custom_image_displayer.dart';
 
 class CustomNewListingBoatCruiseAddImages extends StatelessWidget {
@@ -38,7 +39,7 @@ class CustomNewListingBoatCruiseAddImages extends StatelessWidget {
                           controller.boatImagesSelected.elementAt(index);
 
                       return CustomImageDisplayer(
-                        isImageFromFile: true,
+                        imageType: ImageType.file,
                         imageFile: image,
                         onDoubleTapDelete: () {
                           controller.boatImagesSelected.remove(image);

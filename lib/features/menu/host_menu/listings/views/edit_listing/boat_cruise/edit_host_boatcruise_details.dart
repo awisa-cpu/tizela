@@ -6,8 +6,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/boat_
 import '../../../../../../../common/styles/custom_bulliet_point_with_text.dart';
 import '../../../../../../../common/styles/styles.dart';
 import '../../../../../../../utils/constants/app_colors.dart';
-import '../../../../../../../utils/constants/app_functions.dart';
 import '../../../../../../../utils/constants/images_texts.dart';
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../widgets/custom_image_displayer.dart';
 import '../widgets/custom_listing_details_displayer.dart';
 import '../widgets/custom_main_and_subtext_listing_details.dart';
@@ -33,7 +33,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
             marginNumber: 13.5,
             titleName: "Boat name",
             data: "Bavaria 30 Cruiser (2006)",
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseNameView(),
             ),
@@ -61,7 +61,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 );
               },
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseImagesView(),
             ),
@@ -88,7 +88,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseDescription(),
             ),
@@ -122,7 +122,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseLocation(),
             ),
@@ -149,7 +149,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 ],
               ),
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseFee(),
             ),
@@ -176,7 +176,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseAvailability(),
             ),
@@ -194,7 +194,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseDetailsView(),
             ),
@@ -274,7 +274,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseFeatures(),
             ),
@@ -297,7 +297,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseSafetyFeatures(),
             ),
@@ -320,7 +320,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 )
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruisePolicies(),
             ),
@@ -339,7 +339,7 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
                 ),
               ],
             ),
-            onEditTap: () => diplayEditSheet(
+            onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
               child: const EditBoatCruiseSailorsServices(),
             ),

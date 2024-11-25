@@ -8,11 +8,11 @@ import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxx
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/more_shorlet_images_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import '../../../../../../common/widgets/custom_divider.dart';
+import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import 'widgets/custom_first_shorlet_details_section.dart';
 import 'widgets/custom_map_view_section.dart';
 import 'widgets/custom_shorlet_policies.dart';

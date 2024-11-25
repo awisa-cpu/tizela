@@ -15,11 +15,11 @@ import 'package:tizela/features/menu/customer_menu/home/views/details_views/widg
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/safety_features_panel.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import 'widgets/boat_details_panel.dart';
 import 'widgets/custom_boat_cruise_details_first_section.dart';
 import 'widgets/sailor_service_panel.dart';

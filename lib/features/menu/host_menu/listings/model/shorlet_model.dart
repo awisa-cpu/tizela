@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:tizela/features/menu/customer_menu/home/model/apartment_type_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/address_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/apartment_amenities_model.dart';
@@ -162,6 +164,7 @@ class ShortletModel {
         apartmentPrice: data['apartmentPrice'] as double,
         cautionFee: data['cautionFee'] as double,
         ratingsCount: data['ratingsCount'] as double,
+        anyStory: data['anyStory'] as String,
         availableDates: List<DateTime>.from(
             (data['availableDates'] as List).map((ds) => DateTime.parse(ds))),
         checkInTime: data['checkinTime'] as String,
@@ -188,5 +191,53 @@ class ShortletModel {
       );
     }
     return ShortletModel.empty();
+  }
+
+  ShortletModel copyWith({
+    String? uid,
+    String? userId,
+    ApartmentTypeModel? apartmentType,
+    String? apartmentName,
+    String? anyStory,
+    AddressModel? address,
+    double? apartmentPrice,
+    double? cautionFee,
+    double? ratingsCount,
+    List<DateTime>? availableDates,
+    String? checkInTime,
+    String? checkOutTime,
+    String? minimumCheckInTime,
+    List<ApartmentDetailModel>? apartmentDetails,
+    List<ApartmentAmenitiesModel>? amenities,
+    List<ApartmentAmenitiesModel>? safetyFeatures,
+    List<ApartmentAmenitiesModel>? standOutAmenities,
+    List<ApartmentHouseRulesModel>? houseRules,
+    String? thumbImage,
+    List<String>? apartmentImages,
+    IdTypeModel? idType,
+  }) {
+    return ShortletModel(
+      uid: uid ?? this.uid,
+      userId: userId ?? this.userId,
+      apartmentType: apartmentType ?? this.apartmentType,
+      apartmentName: apartmentName ?? this.apartmentName,
+      anyStory: anyStory ?? this.anyStory,
+      address: address ?? this.address,
+      apartmentPrice: apartmentPrice ?? this.apartmentPrice,
+      cautionFee: cautionFee ?? this.cautionFee,
+      ratingsCount: ratingsCount ?? this.ratingsCount,
+      availableDates: availableDates ?? this.availableDates,
+      checkOutTime: checkOutTime ?? this.checkOutTime,
+      checkInTime: checkInTime ?? this.checkInTime,
+      minimumCheckInTime: minimumCheckInTime ?? this.minimumCheckInTime,
+      apartmentDetails: apartmentDetails ?? this.apartmentDetails,
+      amenities: amenities ?? this.amenities,
+      safetyFeatures: safetyFeatures ?? this.safetyFeatures,
+      standOutAmenities: standOutAmenities ?? this.standOutAmenities,
+      houseRules: houseRules ?? this.houseRules,
+      thumbImage: thumbImage ?? this.thumbImage,
+      apartmentImages: apartmentImages ?? this.apartmentImages,
+      idType: idType ?? this.idType,
+    );
   }
 }

@@ -3,9 +3,10 @@ import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/device/app_device_services.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
+
+import '../../utils/device/app_device_services/app_device_services.dart';
 
 class SuccessView extends StatefulWidget {
   final String mainText, subText;
