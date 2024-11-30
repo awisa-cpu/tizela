@@ -86,7 +86,9 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
           //
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 13.5),
-            child: CustomColumn(
+            child: 
+            
+            CustomColumn(
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),
@@ -123,7 +125,9 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
           //
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 13.5),
-            child: CustomColumn(
+            child: 
+            
+            CustomColumn(
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),
@@ -163,7 +167,9 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
               top: 13.5,
               bottom: 26,
             ),
-            child: CustomColumn(
+            child: 
+            
+            CustomColumn(
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),

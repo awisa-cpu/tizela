@@ -1,13 +1,14 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class ApartmentTypeModel {
+import 'package:equatable/equatable.dart';
+
+class ApartmentTypeModel extends Equatable {
   final String name, imageIcon;
-  ApartmentTypeModel({
+  const ApartmentTypeModel({
     required this.name,
     required this.imageIcon,
   });
 
   factory ApartmentTypeModel.empty() =>
-      ApartmentTypeModel(name: "", imageIcon: "");
+      const ApartmentTypeModel(name: "", imageIcon: "");
 
   Map<String, dynamic> toJson() {
     return {'name': name, 'imageIcon': imageIcon};
@@ -20,5 +21,6 @@ class ApartmentTypeModel {
     );
   }
 
-  
+  @override
+  List<Object?> get props => [name, imageIcon];
 }

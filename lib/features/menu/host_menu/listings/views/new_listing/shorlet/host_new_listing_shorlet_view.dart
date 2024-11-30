@@ -35,6 +35,9 @@ class HostNewListingShorletView extends StatelessWidget {
               onPageChanged: (newValue) =>
                   hostShorletCon.onContinueToNextPage(newValue),
               children: const [
+
+                //todo: review methods that should be replaced with the appfunction methods
+                
                 CustomNewListingShorletDescription(),
                 CustomNewListingShorletLocation(),
                 CustomNewListingShorletPriceSet(),

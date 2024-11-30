@@ -138,28 +138,28 @@ class LocalDatabase {
     ImagesText.ship3,
   ];
 
-  static final List<ApartmentTypeModel> apartmentTypes = [
-    ApartmentTypeModel(
+  static final List<ApartmentTypeModel> apartmentTypes =[
+    const ApartmentTypeModel(
       name: "House",
       imageIcon: ImagesText.houseFilterIcon,
     ),
-    ApartmentTypeModel(
+    const ApartmentTypeModel(
       name: "Apartment",
       imageIcon: ImagesText.apartmentIcon,
     ),
-    ApartmentTypeModel(
+    const ApartmentTypeModel(
       name: "Hotel",
       imageIcon: ImagesText.hotelsFilterIcon,
     ),
-    ApartmentTypeModel(
+    const ApartmentTypeModel(
       name: "Resort",
       imageIcon: ImagesText.resortFilterIcon,
     ),
-    ApartmentTypeModel(
+    const ApartmentTypeModel(
       name: "Guest house",
       imageIcon: ImagesText.guestHouseIcon,
     ),
-    ApartmentTypeModel(
+    const ApartmentTypeModel(
       name: "Duplex",
       imageIcon: ImagesText.duplexIcon,
     ),

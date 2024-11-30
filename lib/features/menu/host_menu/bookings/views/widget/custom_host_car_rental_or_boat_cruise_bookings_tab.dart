@@ -51,7 +51,7 @@ class CustomHostCarRentalOrBoatCruiseBookingsTab extends StatelessWidget {
                     ),
                   ),
                   const CustomWidth(width: 3),
-                  Text(AppDateFormater.formatDate(DateTime.now()))
+                  Text(AppDateFormater.formatDate(date:DateTime.now()))
                 ],
               ),
               const CustomHeight(height: 15),

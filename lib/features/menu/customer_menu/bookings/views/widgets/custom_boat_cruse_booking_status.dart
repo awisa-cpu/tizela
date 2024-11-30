@@ -44,7 +44,7 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
             children: [
               //date
               Text(
-                AppDateFormater.formatDate(DateTime.now()),
+                AppDateFormater.formatDate(date:DateTime.now()),
                 style: customTextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,

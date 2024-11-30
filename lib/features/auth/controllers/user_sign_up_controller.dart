@@ -8,6 +8,7 @@ import 'package:tizela/data/services/app_loader_services.dart';
 import 'package:tizela/features/auth/models/app_user.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
+import '../../../utils/device/app_debugger/app_debugger.dart';
 import '../../../utils/formatters/app_date_formatter.dart';
 
 class UserSignUpController extends GetxController {
@@ -66,14 +67,14 @@ class UserSignUpController extends GetxController {
 
     if (selectedDate != null) {
       dobSelected = selectedDate;
-      selectedDobString.value = AppDateFormater.formatDate(selectedDate);
+      selectedDobString.value = AppDateFormater.formatDate(date: selectedDate);
     }
   }
 
   void signUpUser() async {
     try {
       AppLoaderService.startLoader(
-          loaderText: "Creaating account please wait...");
+          loaderText: "Creating account please wait...");
 
       //validate form data
       final bool isFormValid = signUpFormKey.currentState!.validate();
@@ -106,6 +107,7 @@ class UserSignUpController extends GetxController {
         userSignInRoute,
       );
     } catch (e) {
+      AppDebugger.debugger(e);
       AppLoaderService.stopLoader();
       AlertServices.errorSnackBar(
         title: "Oh shit",

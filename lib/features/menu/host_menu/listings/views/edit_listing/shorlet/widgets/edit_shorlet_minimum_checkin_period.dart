@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 import 'package:tizela/features/personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 
+import '../../../../../../../../common/widgets/custom_dropdown_form.dart';
+import '../../../../../../../../data/local_database.dart';
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../controllers/edit_host_shortlet_controller.dart';
+import '../../../../model/shorlet_model.dart';
+
 class EditShorletMinimumCheckinPeriod extends StatelessWidget {
-  const EditShorletMinimumCheckinPeriod({super.key});
+  final ShortletModel shortlet;
+  const EditShorletMinimumCheckinPeriod({super.key, required this.shortlet});
 
   @override
   Widget build(BuildContext context) {
+    final controller = EditHostShortletController.instance;
+
+    //
     return CustomEditView(
       child: CustomColumn(
         children: [
@@ -19,27 +30,31 @@ class EditShorletMinimumCheckinPeriod extends StatelessWidget {
           const CustomHeight(
             height: 13.5,
           ),
-          DropdownButtonFormField(
-            icon: const Icon(Icons.keyboard_arrow_down_outlined),
-            enableFeedback: false,
-            value: "1 night",
-            items: [
-              "1 night",
-              "2 night",
-              '3 night',
-              '4 night',
-            ]
-                .map<DropdownMenuItem>((value) =>
-                    DropdownMenuItem(value: value, child: Text(value)))
-                .toList(),
-            onChanged: (newValue) {},
+          Obx(
+            () => CustomDropdownForm(
+              currentValue: controller.minimumCheckInValue.value,
+              items: LocalDatabase.checkInPeriod,
+              onChanged: (value) => AppFunctions.updateCheckboxStringValue(
+                newValue: value,
+                oldValue: controller.minimumCheckInValue,
+              ),
+            ),
           ),
           const CustomHeight(),
           const CustomInfoNotificationWithText(
             text: "The default minimum check in period is set at 1\n  night",
           ),
           const CustomHeight(height: 20),
-          CustomEleButton(onPressed: () {}, text: "Save")
+          Obx(
+            () => CustomEleButton(
+              onPressed: () => controller.updateShortletMinimumCheckInPeriod(
+                shorlet: shortlet,
+              ),
+              text: controller.isShorletMinimumCheckInPeriodUpdating.value
+                  ? "Updating in progress..."
+                  : "Save",
+            ),
+          )
         ],
       ),
     );

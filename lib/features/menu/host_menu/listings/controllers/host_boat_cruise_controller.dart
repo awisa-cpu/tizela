@@ -75,7 +75,6 @@ class HostBoatCruiseController extends GetxController {
     boatPriceController.dispose();
   }
 
-
   void onPageViewChanged(int newPageIndex) =>
       currentSelectedPageIndex.value = newPageIndex;
 
@@ -171,7 +170,7 @@ class HostBoatCruiseController extends GetxController {
 
   void createNewBoatCruise() async {
     try {
-      AppLoaderService.showOverlayLoader(
+      AppLoaderService.startLoader(
         loaderText: "creating boat cruise, please wait...",
       );
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/edit_host_shortlet_controller.dart';
@@ -33,9 +34,11 @@ class EditShorletNameView extends StatelessWidget {
                   fieldName: "apartment name"),
             ),
             const CustomHeight(height: 20),
-            CustomEleButton(
-              onPressed: () => controller.updateShortletName(shorlet: shortlet),
-              text: "Save",
+            Obx(
+              ()=> CustomEleButton(
+                onPressed: () => controller.updateShortletName(shorlet: shortlet),
+                text: controller.isShorletNameUpdating.value? "Update in progress..." : "Save",
+              ),
             )
           ],
         ),

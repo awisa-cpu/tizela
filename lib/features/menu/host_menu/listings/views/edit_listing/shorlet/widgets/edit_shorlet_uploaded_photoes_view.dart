@@ -4,6 +4,7 @@ import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_add_images_sections.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../../utils/enums/image_type.dart';
 import '../../../../controllers/edit_host_shortlet_controller.dart';
 import '../../../../model/shorlet_model.dart';
@@ -36,13 +37,15 @@ class EditShorletUploadedPhotoesView extends StatelessWidget {
                         imageFile: imageFile,
                         imageType: ImageType.file,
                         onDoubleTapDelete: () =>
-                            controller.deleteImageFileFromSelectedImages(
+                            AppFunctions.deleteImageFromList(
                           selectedImages: controller.selectedImages,
                           imageFile: imageFile,
                         ),
                       );
                     },
-                    onImageTapSelect: controller.selectImages,
+                    onImageTapSelect: () => AppFunctions.selectImages(
+                      selectedImages: controller.selectedImages,
+                    ),
                   ),
                 ),
                 /*

@@ -7,13 +7,13 @@ import 'package:tizela/data/services/app_loader_services.dart';
 import 'package:tizela/features/auth/views/sign_in/user_sign_in_view.dart';
 
 import '../../../data/services/network_service.dart';
+import '../../../utils/device/app_debugger/app_debugger.dart';
 
 class UserSignInController extends GetxController {
   static UserSignInController get instance => Get.find();
 
   final AuthRepository authRepo = AuthRepository.instance;
-  final NetworkServiceController networkCon =
-      NetworkServiceController.instance;
+  final NetworkServiceController networkCon = NetworkServiceController.instance;
 
   final GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -54,7 +54,7 @@ class UserSignInController extends GetxController {
       AlertServices.errorSnackBar(
           title: "Oh snap!", message: "INVALID LOGIN CRENDENTIALS");
     } catch (e) {
-      // print(e);
+      AppDebugger.debugger(e);
       AppLoaderService.stopLoader();
       AlertServices.errorSnackBar(
           title: "Oh snap!", message: "something went wrong");

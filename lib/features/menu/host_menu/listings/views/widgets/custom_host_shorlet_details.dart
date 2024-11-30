@@ -6,8 +6,7 @@ import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_listing_creation_cost_and_date.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_shorlet_buttons.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
-
-import 'package:tizela/utils/formatters/app_date_formatter.dart';
+import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
 
 class CustomHostShorletDetails extends StatelessWidget {
   final ShortletModel shortlet;
@@ -69,7 +68,8 @@ class CustomHostShorletDetails extends StatelessWidget {
           CustomHostListingCreationCostAndDate(
             cost: shortlet.apartmentPrice.toStringAsFixed(2),
             perWhat: "per hr",
-            dateTime: _getDateRange(availableDates: shortlet.availableDates),
+            dateTime: AppFunctions.getDateRange(
+                availableDates: shortlet.availableDates),
           ),
 
           CustomHostShorletButtons(
@@ -78,11 +78,5 @@ class CustomHostShorletDetails extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getDateRange({required List<DateTime> availableDates}) {
-    final firstDate = AppDateFormater.formatDate(availableDates[0]);
-    final secondDate = AppDateFormater.formatDate(availableDates[1]);
-    return "$firstDate - $secondDate";
   }
 }

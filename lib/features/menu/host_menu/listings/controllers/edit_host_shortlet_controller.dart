@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +8,6 @@ import 'package:tizela/data/services/media_service.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/app_file_model.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/device/app_debugger/app_debugger.dart';
-import 'package:tizela/utils/device/app_device_services/app_device_services.dart';
 import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../data/local_database.dart';
 import '../../../customer_menu/home/model/apartment_type_model.dart';
@@ -27,14 +24,31 @@ class EditHostShortletController extends GetxController {
   late final TextEditingController cautionPrice;
   late final TextEditingController shorletNameCon;
   late final TextEditingController shorletAnyStoryCon;
+  late final TextEditingController shorletApartmentPriceCon;
+  late final TextEditingController shorletCautionFeeCon;
   double shortletFee = 0.0;
   RxBool isTermsAccepted = false.obs;
+  RxBool isShorletNameUpdating = false.obs;
   RxBool areImagesUpdating = false.obs;
   RxBool isApartmentTypeUpdating = false.obs;
   RxBool isShorletStoryUpdating = false.obs;
+  RxBool isShorletPricesUpdating = false.obs;
+  RxBool isShorletAvailabilityUpdating = false.obs;
+  RxBool isShorletCheckInOutTimeUpdating = false.obs;
+  RxBool isShorletMinimumCheckInPeriodUpdating = false.obs;
+  RxBool isShorletApartmentDetailsUpdating = false.obs;
+  RxBool isShorletAmenitiesUpdating = false.obs;
+  RxBool isShorletSafetyFeaturesUpdating = false.obs;
+  RxBool isShorletStandoutAmenitiesUpdating = false.obs;
+  RxBool isShorletHouseRulesUpdating = false.obs;
   RxList<AppFileModel> selectedImages = <AppFileModel>[].obs;
   Rx<ApartmentTypeModel> selectedApartment = ApartmentTypeModel.empty().obs;
   final apartmentTypes = LocalDatabase.apartmentTypes;
+  Rx<DateTime> dateInFocusedDay = DateTime.now().obs;
+  Rx<DateTime> dateOutFocusedDay = DateTime.now().obs;
+  RxString checkInValue = "Check-in time".obs;
+  RxString checkOutValue = "Checkout time".obs;
+  RxString minimumCheckInValue = "1 night".obs;
 
   @override
   void onInit() {
@@ -43,6 +57,8 @@ class EditHostShortletController extends GetxController {
     cautionPrice = TextEditingController();
     shorletNameCon = TextEditingController();
     shorletAnyStoryCon = TextEditingController();
+    shorletApartmentPriceCon = TextEditingController();
+    shorletCautionFeeCon = TextEditingController();
   }
 
   @override
@@ -51,7 +67,8 @@ class EditHostShortletController extends GetxController {
     apartmentPrice.dispose();
     cautionPrice.dispose();
     shorletNameCon.dispose();
-    shorletAnyStoryCon.dispose();
+    shorletApartmentPriceCon.dispose();
+    shorletCautionFeeCon.dispose();
   }
 
   void _resetResources() {
@@ -63,12 +80,8 @@ class EditHostShortletController extends GetxController {
     selectedImages.value = [];
     selectedApartment.value = ApartmentTypeModel.empty();
     shorletAnyStoryCon.clear();
-  }
-
-  void updateTizelaTerms(bool? value) {
-    if (value != null) {
-      isTermsAccepted.value = value;
-    }
+    shorletCautionFeeCon.clear();
+    shorletApartmentPriceCon.clear();
   }
 
   String calculateEarningAfterServiceCharge() {
@@ -122,6 +135,7 @@ class EditHostShortletController extends GetxController {
       if (!(apartmentNameKey.currentState?.validate() ?? false)) {
         return;
       }
+      isShorletNameUpdating.value = true;
       //
       final updatedShortlet = shorlet.copyWith(
         apartmentName: shorletNameCon.text.trim(),
@@ -140,46 +154,28 @@ class EditHostShortletController extends GetxController {
         title: "Oh snap!",
         message: "apartment name not updated",
       );
+    } finally {
+      isShorletNameUpdating.value = false;
     }
   }
-
-  void selectImages() async {
-    try {
-      final imageFile = await mediaService.pickImageFromGallery();
-      if (imageFile != null) {
-        final fileName = AppDeviceServices.getImageName(imageFile: imageFile);
-        final AppFileModel file = AppFileModel(file: imageFile, name: fileName);
-        if (!selectedImages.contains(file)) {
-          selectedImages.add(file);
-        }
-      }
-    } catch (e) {
-      AppDebugger.debugger(e);
-      AlertServices.errorSnackBar(
-        title: "oh snap",
-        message: "Try again",
-      );
-    }
-  }
-
-  void deleteImageFileFromSelectedImages({
-    required List<AppFileModel> selectedImages,
-    required AppFileModel imageFile,
-  }) =>
-      selectedImages.remove(imageFile);
 
   void updateShortletImages({required ShortletModel shortlet}) async {
     try {
       //check
       if (selectedImages.isEmpty) {
         AlertServices.warningSnackBar(
-            title: "warning", message: "You should select at least an image");
+          title: "warning",
+          message: "You should select at least an image",
+        );
         return;
       }
       areImagesUpdating.value = true;
       //
       List<String> uploadedImages =
-          await _uploadSelectedImagesToCloud(shortlet);
+          await AppFunctions.uploadSelectedImagesToCloud(
+        uid: shortlet.uid!,
+        selectedImages: selectedImages,
+      );
 
       await shortletRepo.editSpecificShorletDetails(
         shorletId: shortlet.uid!,
@@ -204,27 +200,9 @@ class EditHostShortletController extends GetxController {
     }
   }
 
-  Future<List<String>> _uploadSelectedImagesToCloud(
-      ShortletModel shortlet) async {
-    List<File> images = selectedImages.map((file) => file.file).toList();
-    List<String> uploadedImages = [];
-
-    //
-    for (final imageFile in images) {
-      final String? downloadUrl = await mediaService.uploadImageTo(
-        currentUid: shortlet.userId,
-        imageFile: imageFile,
-      );
-
-      if (downloadUrl != null) {
-        uploadedImages.add(downloadUrl);
-      }
-    }
-    return uploadedImages;
-  }
-
   void onSelectedApartmentUpdate(ApartmentTypeModel apartmentType) =>
       selectedApartment.value = apartmentType;
+
   void updateApartmentType({required ShortletModel shortlet}) async {
     try {
       //todo: work on this check mechanism
@@ -286,6 +264,269 @@ class EditHostShortletController extends GetxController {
       );
     } finally {
       isShorletStoryUpdating.value = false;
+    }
+  }
+
+  void updateShorletPriceAndCautionFee(
+      {required ShortletModel shortlet}) async {
+    try {
+      if (shorletApartmentPriceCon.text.isEmpty ||
+          shorletCautionFeeCon.text.isEmpty) {
+        return;
+      }
+      //
+      isShorletPricesUpdating.value = true;
+      final updatedShorlet = shortlet.copyWith(
+        apartmentPrice:
+            AppFunctions.getPriceFromController(shorletApartmentPriceCon),
+        cautionFee: AppFunctions.getPriceFromController(shorletCautionFeeCon),
+      );
+
+      await shortletRepo.editShorlet(shorlet: updatedShorlet);
+      _resetResources();
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Shortlet prices updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Oh snap!",
+        message: "Shorlet prices not updated",
+      );
+    } finally {
+      isShorletPricesUpdating.value = false;
+    }
+  }
+
+  void updateShortletAvailability({required ShortletModel shortlet}) async {
+    try {
+      final firstDate = shortlet.availableDates[0];
+      final secondDate = shortlet.availableDates[1];
+      if (firstDate == dateInFocusedDay.value &&
+          secondDate == dateOutFocusedDay.value) {
+        return;
+      }
+
+      isShorletAvailabilityUpdating.value = true;
+
+      //
+      final updatedShortlet = shortlet.copyWith(availableDates: [
+        dateInFocusedDay.value,
+        dateOutFocusedDay.value,
+      ]);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+
+      //reset values
+      dateInFocusedDay.value = DateTime.now();
+      dateOutFocusedDay.value = DateTime.now();
+
+      //
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Shortlet availability updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Oh snap!",
+        message: "Availability not updated",
+      );
+    } finally {
+      isShorletAvailabilityUpdating.value = false;
+    }
+  }
+
+  void updateShortletCheckInAndOutTime({required ShortletModel shorlet}) async {
+    try {
+      if (checkInValue.value == "Check-in time" ||
+          checkOutValue.value == "Checkout time") {
+        return;
+      }
+      isShorletCheckInOutTimeUpdating.value = true;
+      //
+      final updatedShortlet = shorlet.copyWith(
+        checkInTime: checkInValue.value,
+        checkOutTime: checkOutValue.value,
+      );
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      checkInValue.value = "Check-in time";
+      checkOutValue.value = "Checkout time";
+      checkInValue.refresh();
+      checkOutValue.refresh();
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Checkin and out time updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.successSnackBar(
+        title: "Oh snap!",
+        message: "Checkin and out time  not updated",
+      );
+    } finally {
+      isShorletCheckInOutTimeUpdating.value = false;
+    }
+  }
+
+  void updateShortletMinimumCheckInPeriod(
+      {required ShortletModel shorlet}) async {
+    try {
+      isShorletMinimumCheckInPeriodUpdating = true.obs;
+
+      //
+      final updatedShortlet = shorlet.copyWith(
+        minimumCheckInTime: minimumCheckInValue.value,
+      );
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      minimumCheckInValue.value = "1 night";
+      minimumCheckInValue.refresh();
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Minimum checkin updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.successSnackBar(
+        title: "Oh snap!",
+        message: "Minimum checkin not updated",
+      );
+    } finally {
+      isShorletMinimumCheckInPeriodUpdating.value = false;
+    }
+  }
+
+  void updateShortletApartmentDetails({required ShortletModel shortlet}) async {
+    try {
+      isShorletApartmentDetailsUpdating = true.obs;
+
+      //
+      final updatedShortlet =
+          shortlet.copyWith(apartmentDetails: shortlet.apartmentDetails);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Apartment details updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Apartment details not updated",
+      );
+    } finally {
+      isShorletApartmentDetailsUpdating.value = false;
+    }
+  }
+
+  void updateShortletAmenities({required ShortletModel shortlet}) async {
+    try {
+      isShorletAmenitiesUpdating = true.obs;
+
+      //
+      final updatedShortlet = shortlet.copyWith(amenities: shortlet.amenities);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Apartment amenities updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Apartment amenities not updated",
+      );
+    } finally {
+      isShorletAmenitiesUpdating.value = false;
+    }
+  }
+
+  void updateShortletSafetyFeatures({required ShortletModel shortlet}) async {
+    try {
+      isShorletSafetyFeaturesUpdating = true.obs;
+
+      //
+      final updatedShortlet =
+          shortlet.copyWith(safetyFeatures: shortlet.safetyFeatures);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Safety features updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Safety features not updated",
+      );
+    } finally {
+      isShorletSafetyFeaturesUpdating.value = false;
+    }
+  }
+
+  void updateShortletStandoutAmenities(
+      {required ShortletModel shortlet}) async {
+    try {
+      isShorletStandoutAmenitiesUpdating = true.obs;
+
+      //
+      final updatedShortlet =
+          shortlet.copyWith(standOutAmenities: shortlet.standOutAmenities);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Standout amenities updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Standout amenities not updated",
+      );
+    } finally {
+      isShorletStandoutAmenitiesUpdating.value = false;
+    }
+  }
+
+  void updateShortletHouseRules({required ShortletModel shortlet}) async {
+    try {
+      isShorletHouseRulesUpdating = true.obs;
+
+      //
+      final updatedShortlet =
+          shortlet.copyWith(houseRules: shortlet.houseRules);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "House rules updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "House rules not updated",
+      );
+    } finally {
+      isShorletHouseRulesUpdating.value = false;
     }
   }
 }

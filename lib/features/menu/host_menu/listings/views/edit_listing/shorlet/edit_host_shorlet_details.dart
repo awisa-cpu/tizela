@@ -22,6 +22,26 @@ class EditHostShorletDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safetyFeatures = shortlet.safetyFeatures
+        .where(
+          (sf) => sf.isActive.value != false,
+        )
+        .toList();
+    final amenities = shortlet.amenities
+        .where(
+          (am) => am.isActive.value == true,
+        )
+        .toList();
+    final specialAmenities = shortlet.standOutAmenities
+        .where(
+          (am) => am.isActive.value == true,
+        )
+        .toList();
+    final houseRules = shortlet.houseRules
+        .where((rule) => rule.isActive.value == true)
+        .toList();
+
+        //
     return HostListingDetailsView(
       onSearchTap: () {},
       child: CustomColumn(
@@ -94,7 +114,7 @@ class EditHostShorletDetails extends StatelessWidget {
             ),
           ),
 
-          //location
+          //todo: localtion to be addressed
           CustomListingDetailsDisplayer(
             titleName: "Location",
             isJustText: false,
@@ -140,8 +160,8 @@ class EditHostShorletDetails extends StatelessWidget {
                       fontSize: 14, fontWeight: FontWeight.normal),
                 ),
                 const CustomHeight(),
-                const CustomTextFormField(
-                  hintText: "#64,000",
+                CustomTextFormField(
+                  hintText: "#${shortlet.apartmentPrice}",
                 ),
                 const CustomInfoNotificationWithText(
                   text: "per night",
@@ -153,8 +173,8 @@ class EditHostShorletDetails extends StatelessWidget {
                       fontSize: 14, fontWeight: FontWeight.normal),
                 ),
                 const CustomHeight(),
-                const CustomTextFormField(
-                  hintText: "#50,000",
+                CustomTextFormField(
+                  hintText: "#${shortlet.cautionFee}",
                 ),
                 const CustomInfoNotificationWithText(
                   text: "Refundable to customers after check-out",
@@ -163,7 +183,9 @@ class EditHostShorletDetails extends StatelessWidget {
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletApartmentPrice(),
+              child: EditShorletApartmentPrice(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -179,7 +201,8 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
                 const CustomWidth(width: 5),
                 Text(
-                  "May 15th - Apr 20th",
+                  AppFunctions.getDateRange(
+                      availableDates: shortlet.availableDates),
                   style: customTextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
@@ -190,7 +213,9 @@ class EditHostShorletDetails extends StatelessWidget {
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletAvailability(),
+              child: EditShorletAvailability(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -206,7 +231,8 @@ class EditHostShorletDetails extends StatelessWidget {
                 ),
                 const CustomWidth(width: 5),
                 Text(
-                  "10:00 AM - 09: 00 AM",
+                  // "10:00 AM - 09: 00 AM",
+                  "${shortlet.checkInTime} - ${shortlet.checkOutTime}",
                   style: customTextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
@@ -217,17 +243,21 @@ class EditHostShorletDetails extends StatelessWidget {
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletCheckInAndOutTime(),
+              child: EditShorletCheckInAndOutTime(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
           //Minimum check-in period
           CustomListingDetailsDisplayer(
             titleName: "Minimum check-in period",
-            data: "1 night",
+            data: shortlet.minimumCheckInTime,
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletMinimumCheckinPeriod(),
+              child: EditShorletMinimumCheckinPeriod(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -235,30 +265,22 @@ class EditHostShorletDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Apartment details",
             isJustText: false,
-            child: const CustomColumn(
-              children: [
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Guests:",
-                  value: "4",
-                ),
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Bedrooms:",
-                  value: "2",
-                ),
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Bed:",
-                  value: "2",
-                ),
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Bathrooms:",
-                  value: "2",
-                  showDivider: false,
-                ),
-              ],
+            child: CustomListview(
+              isPaddingNeeded: false,
+              itemCount: shortlet.apartmentDetails.length,
+              itemBuilder: (_, index) {
+                final apartmentDetail = shortlet.apartmentDetails[index];
+                return CustomShorletApartmentDetailsSection(
+                  detailTitle: apartmentDetail.name,
+                  value: apartmentDetail.detailCount.value.toString(),
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletApartmentDetails(),
+              child: EditShorletApartmentDetails(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -266,68 +288,29 @@ class EditHostShorletDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Amenities",
             isJustText: false,
-            child: CustomColumn(
-              children: [
-                Padding(
+            child: CustomListview(
+              isPaddingNeeded: false,
+              itemCount: amenities.length,
+              itemBuilder: (_, index) {
+                final amenity = amenities[index];
+                return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
-                    "Wifi",
+                    amenity.name,
                     style: customTextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: AppColors.appTextFadedColor,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Kitchen",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "4k tv screen",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Gym",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Free Parking space",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                )
-              ],
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletAmenitiesView(),
+              child: EditShorletAmenitiesView(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -335,35 +318,30 @@ class EditHostShorletDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Safety",
             isJustText: false,
-            child: CustomColumn(
-              children: [
-                Padding(
+            child: CustomListview(
+              isPaddingNeeded: false,
+              itemCount: safetyFeatures.length,
+              itemBuilder: (_, index) {
+                final safety = safetyFeatures[index];
+
+                return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
-                    "First Aid",
+                    safety.name,
                     style: customTextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: AppColors.appTextFadedColor,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Fire extinguisher",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletSafetyView(),
+              child: EditShorletSafetyView(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -371,57 +349,30 @@ class EditHostShorletDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Special Amenities",
             isJustText: false,
-            child: CustomColumn(
-              children: [
-                Padding(
+            child: CustomListview(
+              isPaddingNeeded: false,
+              itemCount: specialAmenities.length,
+              itemBuilder: (_, index) {
+                final specialAmenity = specialAmenities[index];
+
+                return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
-                    "Pool",
+                    specialAmenity.name,
                     style: customTextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: AppColors.appTextFadedColor,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Beach access",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Lake access",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Hot tub",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletStandoutAmenities(),
+              child: EditShorletStandoutAmenities(
+                shortlet: shortlet,
+              ),
             ),
           ),
 
@@ -429,46 +380,28 @@ class EditHostShorletDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "House Rules",
             isJustText: false,
-            child: CustomColumn(
-              children: [
-                Padding(
+            child: CustomListview(
+              isPaddingNeeded: false,
+              itemCount: houseRules.length,
+              itemBuilder: (_, index) {
+                final houseRule = houseRules[index];
+
+                return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
-                    "No pets allowed",
+                    houseRule.name,
                     style: customTextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: AppColors.appTextFadedColor,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "No smoking allowed",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Yes, party is allowed",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletHouseRulesView(),
+              child: EditShorletHouseRulesView(shortlet: shortlet,),
             ),
           ),
 
