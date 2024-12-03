@@ -78,4 +78,29 @@ class MediaServiceController extends GetxController {
       rethrow;
     }
   }
+
+  //todo : review the upload path
+
+  Future<String?> uploadUsersData({
+    required String currentUid,
+    required File imageFile,
+  }) {
+    try {
+      final String mainPath = "Photos/$currentUid";
+      final String imageName =
+          AppDeviceServices.getImageName(imageFile: imageFile);
+      final reference = _storage.ref(mainPath).child(imageName);
+
+      final UploadTask uploadTask = reference.putFile(imageFile);
+      return uploadTask.then((value) async {
+        if (value.state == TaskState.success) {
+          return await reference.getDownloadURL();
+        } else {
+          return null;
+        }
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

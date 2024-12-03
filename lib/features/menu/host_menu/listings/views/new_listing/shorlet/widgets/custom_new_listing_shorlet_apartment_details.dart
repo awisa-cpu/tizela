@@ -6,6 +6,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/new_listing/shorle
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_text_and_add_and_remove_buttons.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class CustomNewListingShorletApartmentDetails extends StatelessWidget {
   const CustomNewListingShorletApartmentDetails({
     super.key,
@@ -35,13 +37,12 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
                     controller.selectedApartmentDetails[index];
                 return Obx(() {
                   return CustomTextAndAddAndRemoveButtons(
-                    text: apartmentDetail.name,
-                    count: apartmentDetail.detailCount.toString(),
-                    onAdd: () =>
-                        controller.incrementCount(apartmentDetail.detailCount),
-                    onRemove: () =>
-                        controller.decrementCount(apartmentDetail.detailCount),
-                  );
+                      text: apartmentDetail.name,
+                      count: apartmentDetail.detailCount.toString(),
+                      onAdd: () => AppFunctions.incrementCount(
+                          apartmentDetail.detailCount),
+                      onRemove: () => AppFunctions.decrementCount(
+                          apartmentDetail.detailCount));
                 });
               },
             ),
@@ -70,9 +71,9 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
                           text: amenity.name,
                           isChecked: amenity.isActive.value,
                           onValueChanged: (value) =>
-                              controller.onAmenitiySelected(
-                            oldValue: amenity.isActive,
+                              AppFunctions.updateCheckboxValue(
                             newValue: value,
+                            oldValue: amenity.isActive,
                           ),
                         );
                       },
@@ -86,9 +87,7 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
           //
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 13.5),
-            child: 
-            
-            CustomColumn(
+            child: CustomColumn(
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),
@@ -109,9 +108,9 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
                           text: safetyFeature.name,
                           isChecked: safetyFeature.isActive.value,
                           onValueChanged: (value) =>
-                              controller.onAmenitiySelected(
-                            oldValue: safetyFeature.isActive,
+                              AppFunctions.updateCheckboxValue(
                             newValue: value,
+                            oldValue: safetyFeature.isActive,
                           ),
                         );
                       },
@@ -125,9 +124,7 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
           //
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 13.5),
-            child: 
-            
-            CustomColumn(
+            child: CustomColumn(
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),
@@ -148,9 +145,9 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
                           text: standOutAmenity.name,
                           isChecked: standOutAmenity.isActive.value,
                           onValueChanged: (value) =>
-                              controller.onAmenitiySelected(
-                            oldValue: standOutAmenity.isActive,
+                              AppFunctions.updateCheckboxValue(
                             newValue: value,
+                            oldValue: standOutAmenity.isActive,
                           ),
                         );
                       },
@@ -167,9 +164,7 @@ class CustomNewListingShorletApartmentDetails extends StatelessWidget {
               top: 13.5,
               bottom: 26,
             ),
-            child: 
-            
-            CustomColumn(
+            child: CustomColumn(
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),

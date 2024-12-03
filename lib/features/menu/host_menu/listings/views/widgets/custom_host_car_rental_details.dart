@@ -6,6 +6,7 @@ import 'package:tizela/features/menu/host_menu/listings/model/car_rental_model.d
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_car_rental_buttons.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_listing_creation_cost_and_date.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
+import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 
 class CustomHostCarRentalDetails extends StatelessWidget {
   final CarRentalModel carRental;
@@ -22,7 +23,7 @@ class CustomHostCarRentalDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                carRental.carType,
+                carRental.carBrand.name,
                 style: customTextStyle(
                   fontSize: 16,
                 ),
@@ -55,10 +56,11 @@ class CustomHostCarRentalDetails extends StatelessWidget {
 
           //cost
           CustomHostListingCreationCostAndDate(
-            cost: carRental.carPrice.toString(),
-            perWhat: "per hr",
-            dateTime: "May 15th-April 20th", //todo: work on this again
-          ),
+              cost: carRental.carPrice.toString(),
+              perWhat: "per hr",
+              dateTime: AppFunctions.getDateRange(
+                availableDates: carRental.availableDates,
+              )),
 
           CustomHostCarRentalButtons(
             carRental: carRental,

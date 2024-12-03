@@ -1,61 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tizela/common/widgets/widgets.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/car_rental_model.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../controllers/edit_host_car_rental_controller.dart';
 import '../../widgets/custom_edit_view.dart';
 
-class EditCarRentalAvailability extends StatefulWidget {
-  const EditCarRentalAvailability({super.key});
+class EditCarRentalAvailability extends StatelessWidget {
+  final CarRentalModel carRental;
+  const EditCarRentalAvailability({super.key, required this.carRental});
 
-  @override
-  State<EditCarRentalAvailability> createState() =>
-      _EditCarRentalAvailabilityState();
-}
-
-class _EditCarRentalAvailabilityState extends State<EditCarRentalAvailability> {
-  DateTime _focusedDay = DateTime.now();
-  DateTime? selectedDayVar;
-  CalendarFormat calenderFormat = CalendarFormat.month;
-
-  void _onDateSelected(DateTime date, DateTime selectedDay) {
-    setState(() {
-      _focusedDay = date;
-      selectedDayVar = selectedDay;
-    });
-  }
-
-  void _onFormatChanged(CalendarFormat format) => setState(() {
-        calenderFormat = format;
-      });
-
-  void _onPageChanged(DateTime focusedDay) => setState(() {
-        _focusedDay = focusedDay;
-      });
   @override
   Widget build(BuildContext context) {
+    final controller = EditHostCarRentalController.instance;
+
+    //
     return CustomEditView(
       child: CustomColumn(
         children: [
           //date in
           Padding(
             padding: const EdgeInsets.only(bottom: 13.5),
-            child: TableCalendar(
-              headerStyle: const HeaderStyle(
-                leftChevronVisible: false,
-                rightChevronVisible: false,
-                formatButtonVisible: false,
+            child: Obx(
+              () => TableCalendar(
+                headerStyle: const HeaderStyle(
+                  leftChevronVisible: false,
+                  rightChevronVisible: false,
+                  formatButtonVisible: false,
+                ),
+                rowHeight: 38,
+                locale: 'en_US',
+                availableGestures: AvailableGestures.all,
+                focusedDay: controller.dateInSelected.value,
+                firstDay: DateTime.utc(2023, 1, 30),
+                lastDay: DateTime.utc(2030, 12, 30),
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateInDateSelected(
+                  date1,
+                  date2,
+                  dateInFocusedDay: controller.dateInSelected,
+                ),
+                selectedDayPredicate: (day) => isSameDay(
+                  day,
+                  controller.dateInSelected.value,
+                ),
               ),
-              rowHeight: 38,
-              locale: 'en_US',
-              availableGestures: AvailableGestures.all,
-              calendarFormat: calenderFormat,
-              onFormatChanged: _onFormatChanged,
-              focusedDay: _focusedDay,
-              firstDay: DateTime.utc(2023, 1, 30),
-              lastDay: DateTime.utc(2030, 12, 30),
-              onDaySelected: _onDateSelected,
-              selectedDayPredicate: (day) => isSameDay(day, _focusedDay),
-              onPageChanged: _onPageChanged,
             ),
           ),
 
@@ -64,27 +55,40 @@ class _EditCarRentalAvailabilityState extends State<EditCarRentalAvailability> {
             padding: const EdgeInsets.symmetric(
               vertical: 13.5,
             ),
-            child: TableCalendar(
-              headerStyle: const HeaderStyle(
-                leftChevronVisible: false,
-                rightChevronVisible: false,
-                formatButtonVisible: false,
+            child: Obx(
+              () => TableCalendar(
+                headerStyle: const HeaderStyle(
+                  leftChevronVisible: false,
+                  rightChevronVisible: false,
+                  formatButtonVisible: false,
+                ),
+                rowHeight: 38,
+                locale: 'en_US',
+                availableGestures: AvailableGestures.all,
+                focusedDay: controller.dateOutSelected.value,
+                firstDay: DateTime.utc(2023, 1, 30),
+                lastDay: DateTime.utc(2030, 12, 30),
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateOutDateSelected(
+                  date1,
+                  date2,
+                  dateOutFocusedDay: controller.dateOutSelected,
+                ),
+                selectedDayPredicate: (day) =>
+                    isSameDay(day, controller.dateOutSelected.value),
               ),
-              rowHeight: 38,
-              locale: 'en_US',
-              availableGestures: AvailableGestures.all,
-              calendarFormat: calenderFormat,
-              onFormatChanged: _onFormatChanged,
-              focusedDay: _focusedDay,
-              firstDay: DateTime.utc(2023, 1, 30),
-              lastDay: DateTime.utc(2030, 12, 30),
-              onDaySelected: _onDateSelected,
-              selectedDayPredicate: (day) => isSameDay(day, _focusedDay),
-              onPageChanged: _onPageChanged,
             ),
           ),
 
-          CustomEleButton(onPressed: () {}, text: "Save")
+          Obx(
+            () => CustomEleButton(
+              onPressed: () => controller.updateCarRentalDateSelected(
+                  currentCarRental: carRental),
+              text: controller.isCarRentalDatesUpdating.value
+                  ? "updating in progress..."
+                  : "Save",
+            ),
+          )
         ],
       ),
     );

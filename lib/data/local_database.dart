@@ -138,7 +138,7 @@ class LocalDatabase {
     ImagesText.ship3,
   ];
 
-  static final List<ApartmentTypeModel> apartmentTypes =[
+  static final List<ApartmentTypeModel> apartmentTypes = [
     const ApartmentTypeModel(
       name: "House",
       imageIcon: ImagesText.houseFilterIcon,

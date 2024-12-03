@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_bulliet_point_with_text.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
-import 'package:tizela/data/local_database.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/car_rental/widgets/car_rental_edits_imports.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_image_displayer.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_main_and_subtext_listing_details.dart';
@@ -10,6 +9,7 @@ import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widge
 import 'package:tizela/utils/constants/app_colors.dart';
 import '../../../../../../../utils/constants/images_texts.dart';
 import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../../../utils/enums/image_type.dart';
 import '../../../model/car_rental_model.dart';
 import '../widgets/custom_edit_id_name_and_card_displayer.dart';
 import '../widgets/custom_listing_details_displayer.dart';
@@ -21,7 +21,18 @@ class EditHostCarrentalDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cars = LocalDatabase.moreCarRentalImages;
+    final carFeatures = carRental.carRentalFeatures
+        .where((x) => x.isActive.value == true)
+        .toList();
+    final safetyFeatures = carRental.safetyFeatures
+        .where((x) => x.isActive.value == true)
+        .toList();
+    final carPolicies =
+        carRental.carPolicies.where((x) => x.isActive.value == true).toList();
+    final driverPolicies = carRental.driverPolicies
+        .where((x) => x.isActive.value == true)
+        .toList();
+    //
     return HostListingDetailsView(
       onSearchTap: () {},
       child: CustomColumn(
@@ -30,10 +41,12 @@ class EditHostCarrentalDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             marginNumber: 13.5,
             titleName: "Car name",
-            data: "BMW M4. Convertible",
+            data: carRental.carName,
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalNameView(),
+              child: EditCarRentalNameView(
+                carRental: carRental,
+              ),
             ),
           ),
 
@@ -44,55 +57,59 @@ class EditHostCarrentalDetails extends StatelessWidget {
             child: GridView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: cars.length,
+              itemCount: carRental.carImages.length,
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 mainAxisSpacing: 15.0,
-                crossAxisSpacing: 0,
+                crossAxisSpacing: 10.5,
                 mainAxisExtent: 105,
               ),
               itemBuilder: (_, index) {
-                final car = cars[index];
+                final carImageUrl = carRental.carImages[index];
                 return CustomImageDisplayer(
-                  imageUrl: car,
+                  imageUrl: carImageUrl,
                   size: 50,
+                  imageType: ImageType.network,
                 );
               },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalImagesView(),
+              child: EditCarRentalImagesView(
+                carRental: carRental,
+              ),
             ),
           ),
 
-          //Listing description
           CustomListingDetailsDisplayer(
             titleName: "Listing description",
             isJustText: false,
-            child: const CustomColumn(
+            child: CustomColumn(
               children: [
                 CustomMainAndSubtextListingDetails(
                   attribute: "Car type",
-                  value: "Luxury",
+                  value: carRental.carType,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Brand",
-                  value: "Ferrari",
+                  value: carRental.carBrand.name,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Car year",
-                  value: "2024",
+                  value: carRental.carYear,
                 ),
               ],
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalType(),
+              child: EditCarRentalType(
+                carRental: carRental,
+              ),
             ),
           ),
 
-          //location
+          //todo: location
           CustomListingDetailsDisplayer(
             titleName: "Location",
             isJustText: false,
@@ -122,33 +139,6 @@ class EditHostCarrentalDetails extends StatelessWidget {
             ),
           ),
 
-          //Car fee
-          CustomListingDetailsDisplayer(
-            marginNumber: 13.5,
-            titleName: "Car fee",
-            isJustText: false,
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  customTextSpan(
-                    text: "#50,000",
-                    color: AppColors.appMainColor,
-                  ),
-                  customTextSpan(
-                    text: "/ per hour",
-                    color: AppColors.appMainColor,
-                    fontweight: FontWeight.normal,
-                    fontsize: 14,
-                  )
-                ],
-              ),
-            ),
-            onEditTap: () => AppFunctions.diplayEditSheet(
-              context: context,
-              child: const EditCarRentalFee(),
-            ),
-          ),
-
           //set availability
           CustomListingDetailsDisplayer(
             titleName: "Set Availability",
@@ -161,7 +151,8 @@ class EditHostCarrentalDetails extends StatelessWidget {
                 ),
                 const CustomWidth(width: 5),
                 Text(
-                  "May 15th - Apr 20th",
+                  AppFunctions.getDateRange(
+                      availableDates: carRental.availableDates),
                   style: customTextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
@@ -172,7 +163,9 @@ class EditHostCarrentalDetails extends StatelessWidget {
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalAvailability(),
+              child: EditCarRentalAvailability(
+                carRental: carRental,
+              ),
             ),
           ),
 
@@ -180,26 +173,21 @@ class EditHostCarrentalDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Car details",
             isJustText: false,
-            child: const CustomColumn(
-              children: [
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Passengers:",
-                  value: "3",
-                ),
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Seats:",
-                  value: "4",
-                ),
-                CustomShorletApartmentDetailsSection(
-                  detailTitle: "Luggages:",
-                  value: "2",
-                  showDivider: false,
-                ),
-              ],
+            child: CustomListview(
+              itemCount: carRental.carRentalDetails.length,
+              itemBuilder: (_, index) {
+                final detail = carRental.carRentalDetails[index];
+                return CustomShorletApartmentDetailsSection(
+                  detailTitle: "${detail.name}:",
+                  value: detail.detailCount.value.toString(),
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalDetailsView(),
+              child: EditCarRentalDetailsView(
+                carRental: carRental,
+              ),
             ),
           ),
 
@@ -207,79 +195,28 @@ class EditHostCarrentalDetails extends StatelessWidget {
           CustomListingDetailsDisplayer(
             titleName: "Features",
             isJustText: false,
-            child: CustomColumn(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
+            child: CustomListview(
+              itemCount: carFeatures.length,
+              itemBuilder: (_, index) {
+                final feature = carFeatures[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    "Air Conditioning",
+                    feature.name,
                     style: customTextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: AppColors.appTextFadedColor,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Bluetooth Connectivity",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Navigation System",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Sunroof/Moonroof",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Leather Seats",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    "Apple CarPlay/Android Auto",
-                    style: customTextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.appTextFadedColor,
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalFeatures(),
+              child: EditCarRentalFeatures(
+                carRental: carRental,
+              ),
             ),
           ),
 
@@ -288,21 +225,18 @@ class EditHostCarrentalDetails extends StatelessWidget {
             marginNumber: 13.5,
             titleName: "Safety features",
             isJustText: false,
-            child: const CustomColumn(
-              children: [
-                CustomBullietPointWithText(
-                  text:
-                      "Advanced Driver Assistance System (ADAS) with features like Traffic-Aware Cruise Control, Autosteer, and Auto Lane Change.",
-                ),
-                CustomBullietPointWithText(
-                  text:
-                      "Collision Avoidance Assist with automatic emergency braking and pedestrian detection.",
-                )
-              ],
+            child: CustomListview(
+              itemCount: safetyFeatures.length,
+              itemBuilder: (_, index) {
+                final safeFea = safetyFeatures[index];
+                return CustomBullietPointWithText(text: safeFea.name);
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalSafetyFeatures(),
+              child: EditCarRentalSafetyFeatures(
+                carRental: carRental,
+              ),
             ),
           ),
 
@@ -311,45 +245,18 @@ class EditHostCarrentalDetails extends StatelessWidget {
             marginNumber: 13.5,
             titleName: "Car policies",
             isJustText: false,
-            child: const CustomColumn(
-              children: [
-                CustomBullietPointWithText(
-                  text:
-                      "Cancellation made 24 hours or more before the scheduled pick-up time incur no penalty.",
-                ),
-                CustomBullietPointWithText(
-                  text:
-                      "Cancellation made less than 24 hours before the scheduled pick-up time may incur a cancellation fee equivalent to a percentage of the total rental cost.",
-                )
-              ],
+            child: CustomListview(
+              itemCount: carPolicies.length,
+              itemBuilder: (_, index) {
+                final policy = carPolicies[index];
+                return CustomBullietPointWithText(text: policy.name);
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalCarPolicies(),
-            ),
-          ),
-
-          //Car rules
-          CustomListingDetailsDisplayer(
-            marginNumber: 13.5,
-            titleName: "Car rules",
-            isJustText: false,
-            child: const CustomColumn(
-              children: [
-                CustomBullietPointWithText(
-                  text: "Additional services offered by the ",
-                ),
-                CustomBullietPointWithText(
-                  text: "Additional services offered by the ",
-                ),
-                CustomBullietPointWithText(
-                  text: "Additional services offered by the ",
-                ),
-              ],
-            ),
-            onEditTap: () => AppFunctions.diplayEditSheet(
-              context: context,
-              child: const EditCarRentalCarRules(),
+              child: EditCarRentalCarPolicies(
+                carRental: carRental,
+              ),
             ),
           ),
 
@@ -358,21 +265,22 @@ class EditHostCarrentalDetails extends StatelessWidget {
             marginNumber: 13.5,
             titleName: "Driver’s services",
             isJustText: false,
-            child: const CustomColumn(
-              children: [
-                CustomBullietPointWithText(
-                  text:
-                      "Cancellation made 24 hours or more before the scheduled pick-up time incur no penalty.",
-                ),
-              ],
+            child: CustomListview(
+              itemCount: driverPolicies.length,
+              itemBuilder: (_, index) {
+                final driverPolicy = driverPolicies[index];
+                return CustomBullietPointWithText(text: driverPolicy.name);
+              },
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalDriverLicenses(),
+              child: EditCarRentalDriverLicenses(
+                carRental: carRental,
+              ),
             ),
           ),
 
-          //Identification card
+          //todo: Identification card
           CustomListingDetailsDisplayer(
             titleName: "Identification card",
             isJustText: false,

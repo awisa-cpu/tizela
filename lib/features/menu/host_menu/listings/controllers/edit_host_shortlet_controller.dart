@@ -77,7 +77,6 @@ class EditHostShortletController extends GetxController {
     shorletNameCon.clear();
     apartmentPriceKey.currentState?.reset();
     apartmentNameKey.currentState?.reset();
-    selectedImages.value = [];
     selectedApartment.value = ApartmentTypeModel.empty();
     shorletAnyStoryCon.clear();
     shorletCautionFeeCon.clear();
@@ -183,7 +182,7 @@ class EditHostShortletController extends GetxController {
           "apartmentImages": FieldValue.arrayUnion(uploadedImages),
         },
       );
-      _resetResources();
+      selectedImages.clear();
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",

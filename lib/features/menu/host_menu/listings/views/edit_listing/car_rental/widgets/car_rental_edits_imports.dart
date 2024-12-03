@@ -1,10 +1,8 @@
 export 'edit_car_rental_availability.dart';
 export 'edit_car_rental_car_policies.dart';
-export 'edit_car_rental_car_rules.dart';
 export 'edit_car_rental_details_view.dart';
 export 'edit_car_rental_driver_licenses.dart';
 export 'edit_car_rental_features.dart';
-export 'edit_car_rental_fee.dart';
 export 'edit_car_rental_images_view.dart';
 export 'edit_car_rental_location.dart';
 export 'edit_car_rental_name_view.dart';

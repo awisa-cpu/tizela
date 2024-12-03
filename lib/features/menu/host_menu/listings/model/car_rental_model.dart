@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:tizela/features/menu/host_menu/listings/model/address_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/car_brand_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/car_rental_details_model.dart';
@@ -8,8 +10,9 @@ class CarRentalModel {
   String? uid;
   final String userId;
   String carType;
-  CarBrandModel carBrand;
+  String carName;
   String carYear;
+  CarBrandModel carBrand;
   AddressModel address;
   double carPrice;
   double ratingsCount;
@@ -25,8 +28,9 @@ class CarRentalModel {
     this.uid,
     required this.userId,
     required this.carType,
-    required this.carBrand,
+    required this.carName,
     required this.carYear,
+    required this.carBrand,
     required this.address,
     required this.carPrice,
     required this.ratingsCount,
@@ -43,8 +47,9 @@ class CarRentalModel {
     return <String, dynamic>{
       "userId": userId,
       'carType': carType,
-      'carBrand': carBrand.toJson(),
+      'carName': carName,
       'carYear': carYear,
+      'carBrand': carBrand.toJson(),
       'address': address.toJson(),
       'carPrice': carPrice,
       'ratingsCount': ratingsCount,
@@ -63,8 +68,9 @@ class CarRentalModel {
       uid: "",
       userId: '',
       carType: '',
-      carBrand: CarBrandModel.empty(),
+      carName: "",
       carYear: "",
+      carBrand: CarBrandModel.empty(),
       address: AddressModel.empty(),
       carPrice: 0.0,
       ratingsCount: 0.0,
@@ -82,9 +88,10 @@ class CarRentalModel {
       uid: json['uid'] as String,
       userId: json['userId'] as String,
       carType: json['carType'] as String,
+      carName: json['carName'] as String,
+      carYear: json['carYear'] as String,
       carBrand:
           CarBrandModel.fromJson(json['carBrand'] as Map<String, dynamic>),
-      carYear: json['carYear'] as String,
       address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
       carPrice: json['carPrice'] as double,
       ratingsCount: json['ratingsCount'] as double,
@@ -122,9 +129,10 @@ class CarRentalModel {
         uid: docSnapshot.id,
         userId: data['userId'] as String,
         carType: data['carType'] as String,
+        carName: data['carName'] as String,
+        carYear: data['carYear'] as String,
         carBrand:
             CarBrandModel.fromJson(data['carBrand'] as Map<String, dynamic>),
-        carYear: data['carYear'] as String,
         address: AddressModel.fromJson(data['address']),
         carPrice: data['carPrice'] as double,
         ratingsCount: data['ratingsCount'] as double,
@@ -151,5 +159,43 @@ class CarRentalModel {
     }
 
     return CarRentalModel.empty();
+  }
+
+  CarRentalModel copyWith({
+    String? uid,
+    String? userId,
+    String? carType,
+    String? carName,
+    String? carYear,
+    CarBrandModel? carBrand,
+    AddressModel? address,
+    double? carPrice,
+    double? ratingsCount,
+    List<DateTime>? availableDates,
+    List<CarRentalDetailsModel>? carRentalDetails,
+    List<CarRentalFeaturesModel>? carRentalFeatures,
+    List<CarRentalFeaturesModel>? safetyFeatures,
+    List<CarRentalFeaturesModel>? carPolicies,
+    List<CarRentalFeaturesModel>? driverPolicies,
+    List<String>? carImages,
+  }) {
+    return CarRentalModel(
+      uid: uid ?? this.uid,
+      userId: userId ?? this.userId,
+      carType: carType ?? this.carType,
+      carName: carName ?? this.carName,
+      carYear: carYear ?? this.carYear,
+      carBrand: carBrand ?? this.carBrand,
+      address: address ?? this.address,
+      carPrice: carPrice ?? this.carPrice,
+      ratingsCount: ratingsCount ?? this.ratingsCount,
+      availableDates: availableDates ?? this.availableDates,
+      carRentalDetails: carRentalDetails ?? this.carRentalDetails,
+      carRentalFeatures: carRentalFeatures ?? this.carRentalFeatures,
+      safetyFeatures: safetyFeatures ?? this.safetyFeatures,
+      carPolicies: carPolicies ?? this.carPolicies,
+      driverPolicies: driverPolicies ?? this.driverPolicies,
+      carImages: carImages ?? this.carImages,
+    );
   }
 }

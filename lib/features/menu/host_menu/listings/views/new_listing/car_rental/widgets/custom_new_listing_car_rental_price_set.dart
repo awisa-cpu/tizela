@@ -8,6 +8,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widget
 import 'package:tizela/features/personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 import 'package:tizela/utils/validators/app_validators.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class CustomNewListingCarRentalPriceSet extends StatelessWidget {
   const CustomNewListingCarRentalPriceSet({super.key});
 
@@ -50,13 +52,17 @@ class CustomNewListingCarRentalPriceSet extends StatelessWidget {
                   //terms and conditions
                   Obx(
                     () => CustomCheckboxWithText(
-                        isChecked: controller.isTizelaTandCAccepted.value,
-                        isCheckBoxFirst: true,
-                        isSpaceBetween: false,
-                        activeColor: Colors.green,
-                        text: "I accept Tizela service charge of 12.5%",
-                        onValueChanged: (newValue) =>
-                            controller.onChangedTizelaTandC(newValue)),
+                      isChecked: controller.isTizelaTandCAccepted.value,
+                      isCheckBoxFirst: true,
+                      isSpaceBetween: false,
+                      activeColor: Colors.green,
+                      text: "I accept Tizela service charge of 12.5%",
+                      onValueChanged: (newValue) =>
+                          AppFunctions.updateCheckboxValue(
+                        newValue: newValue,
+                        oldValue: controller.isTizelaTandCAccepted,
+                      ),
+                    ),
                   ),
 
                   //

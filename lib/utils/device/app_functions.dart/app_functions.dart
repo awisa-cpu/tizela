@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/services/alert_services.dart';
 import '../../../data/services/media_service.dart';
 import '../../../features/menu/host_menu/listings/model/apartment_house_rules_model.dart';
 import '../../../features/menu/host_menu/listings/model/app_file_model.dart';
+import '../../../features/menu/host_menu/listings/model/car_brand_model.dart';
 import '../../constants/app_colors.dart';
 import '../../formatters/app_date_formatter.dart';
 import '../app_debugger/app_debugger.dart';
@@ -22,6 +24,29 @@ class AppFunctions {
 
     return 0.0;
   }
+
+//car rental
+  static void onUpdateCarTypeSelected(
+          {required String carType, required RxString selectedCarType}) =>
+      selectedCarType.value = carType;
+
+  static void onUpdateCarBrandSelected(
+          {required CarBrandModel carBrand,
+          required Rx<CarBrandModel> selectedCarBrand}) =>
+      selectedCarBrand.value = carBrand;
+
+  static void onCarYearChanged(
+      {required dynamic newValue, required RxString currentCarYear}) {
+    if (newValue != null) {
+      currentCarYear.value = newValue;
+    }
+  }
+
+//general
+  static onCurrentPageIndexChanged(
+          {required int newPageIndex,
+          required RxInt currentSelectedPageIndex}) =>
+      currentSelectedPageIndex.value = newPageIndex;
 
   static void diplayEditSheet(
       {required BuildContext context, required Widget child}) {
@@ -70,7 +95,7 @@ class AppFunctions {
     //
     for (final imageFile in images) {
       final String? downloadUrl =
-          await MediaServiceController.instance.uploadImageTo(
+          await MediaServiceController.instance.uploadUsersData(
         currentUid: uid,
         imageFile: imageFile,
       );
@@ -158,7 +183,7 @@ class AppFunctions {
   }
 
   static void incrementCount(RxInt itemCount) {
-    if (itemCount.value != 10) {
+    if (itemCount.value != 20) {
       itemCount.value++;
     }
   }
@@ -183,5 +208,12 @@ class AppFunctions {
     houseRule.isFirstValue.value = false;
     houseRule.isSecondValue.value = true;
     houseRule.isActive.value = false;
+  }
+
+  static String getCurrency() {
+    var format = NumberFormat.simpleCurrency(
+      locale: Platform.localeName,
+    );
+    return format.currencySymbol;
   }
 }

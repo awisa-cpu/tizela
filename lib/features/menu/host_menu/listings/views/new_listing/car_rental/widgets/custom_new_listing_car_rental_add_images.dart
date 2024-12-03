@@ -4,6 +4,7 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_add_images_sections.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../../utils/enums/image_type.dart';
 import '../../../../controllers/host_car_rental_controller.dart';
 import '../../../edit_listing/widgets/custom_image_displayer.dart';
@@ -38,19 +39,20 @@ class CustomNewListingCarRentalAddImages extends StatelessWidget {
                     headerText: "Living room",
                     itemCount: controller.carImagesSelected.length,
                     itemBuilder: (_, index) {
-                      final image =
-                          controller.carImagesSelected.elementAt(index);
+                      final image = controller.carImagesSelected[index];
 
                       return CustomImageDisplayer(
-                       imageType: ImageType.file,
+                        imageType: ImageType.file,
                         imageFile: image,
-                        onDoubleTapDelete: () {
-                          controller.carImagesSelected.remove(image);
-                        },
+                        onDoubleTapDelete: () =>
+                            AppFunctions.deleteImageFromList(
+                          selectedImages: controller.carImagesSelected,
+                          imageFile: image,
+                        ),
                       );
                     },
-                    onImageTapSelect: () => controller.addCarImages(
-                      carImages: controller.carImagesSelected,
+                    onImageTapSelect: () => AppFunctions.selectImages(
+                      selectedImages: controller.carImagesSelected,
                     ),
                   ),
                 ),

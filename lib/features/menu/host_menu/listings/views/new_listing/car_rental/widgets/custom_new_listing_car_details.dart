@@ -5,6 +5,8 @@ import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_car_rental_controller.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_text_and_add_and_remove_buttons.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class CustomNewListingCarDetails extends StatelessWidget {
   const CustomNewListingCarDetails({super.key});
 
@@ -29,16 +31,18 @@ class CustomNewListingCarDetails extends StatelessWidget {
               itemCount: controller.carDetails.length,
               itemBuilder: (context, index) {
                 final carDetail = controller.carDetails[index];
-                return Obx(() {
-                  return CustomTextAndAddAndRemoveButtons(
-                    text: carDetail.name,
-                    count: carDetail.detailCount.value.toString(),
-                    onRemove: () => controller.onCarDetailsIncrementCount(
-                        carDetail: carDetail),
-                    onAdd: () => controller.onCarDetailsIncrementCount(
-                        carDetail: carDetail),
-                  );
-                });
+                return Obx(
+                  () {
+                    return CustomTextAndAddAndRemoveButtons(
+                      text: carDetail.name,
+                      count: carDetail.detailCount.value.toString(),
+                      onRemove: () =>
+                          AppFunctions.decrementCount(carDetail.detailCount),
+                      onAdd: () =>
+                          AppFunctions.incrementCount(carDetail.detailCount),
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -55,17 +59,19 @@ class CustomNewListingCarDetails extends StatelessWidget {
                   itemCount: controller.carFeatures.length,
                   itemBuilder: (context, index) {
                     final carFeature = controller.carFeatures[index];
-                    return Obx(() {
-                      return CustomCheckboxWithText(
-                        text: carFeature.name,
-                        isChecked: carFeature.isActive.value,
-                        onValueChanged: (value) =>
-                            controller.onCarRenCheckBoxChanged(
-                          newValue: value,
-                          feature: carFeature,
-                        ),
-                      );
-                    });
+                    return Obx(
+                      () {
+                        return CustomCheckboxWithText(
+                          text: carFeature.name,
+                          isChecked: carFeature.isActive.value,
+                          onValueChanged: (value) =>
+                              AppFunctions.updateCheckboxValue(
+                            newValue: value,
+                            oldValue: carFeature.isActive,
+                          ),
+                        );
+                      },
+                    );
                   },
                 )
               ],
@@ -90,9 +96,9 @@ class CustomNewListingCarDetails extends StatelessWidget {
                         text: safetyFeature.name,
                         isChecked: safetyFeature.isActive.value,
                         onValueChanged: (value) =>
-                            controller.onCarRenCheckBoxChanged(
+                            AppFunctions.updateCheckboxValue(
                           newValue: value,
-                          feature: safetyFeature,
+                          oldValue: safetyFeature.isActive,
                         ),
                       );
                     });

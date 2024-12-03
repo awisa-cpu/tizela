@@ -92,33 +92,6 @@ class HostShorletController extends GetxController {
     houseRule.isActive.value = false;
   }
 
-  void onCheckInChanged(String value) => checkInTime.value = value;
-  void onCheckOutChanged(String value) => checkOutTime.value = value;
-  void onMinimumCheckInChanged(String value) =>
-      minimumCheckInTime.value = value;
-
-  void onAmenitiySelected(
-          {required bool? newValue, required RxBool oldValue}) =>
-      oldValue.value = newValue ?? false;
-
-  void incrementCount(RxInt itemCount) {
-    if (itemCount.value != 5) {
-      itemCount.value++;
-    }
-  }
-
-  void decrementCount(RxInt itemCount) {
-    if (itemCount.value > 0) {
-      itemCount.value--;
-    }
-  }
-
-  void onDateInDateSelected(DateTime date, DateTime selectedDay) =>
-      dateInFocusedDay.value = date;
-
-  void onDateOutDateSelected(DateTime date, DateTime selectedDay) =>
-      dateOutFocusedDay.value = date;
-
   @override
   void onInit() {
     super.onInit();
@@ -155,12 +128,6 @@ class HostShorletController extends GetxController {
         title: "oh snap",
         message: "image could not be selected",
       );
-    }
-  }
-
-  void updateTizelaTerms(bool? newValue) {
-    if (newValue != null) {
-      isTizelaTermsForPriceAcceptetd.value = newValue;
     }
   }
 

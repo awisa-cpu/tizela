@@ -10,6 +10,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widget
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_slider_indicators_page_view.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class HostNewListingCarRentalView extends StatelessWidget {
   const HostNewListingCarRentalView({super.key});
 
@@ -37,7 +39,11 @@ class HostNewListingCarRentalView extends StatelessWidget {
             child: PageView(
               controller: carRentalController.carRentalCreationPageController,
               onPageChanged: (newValue) =>
-                  carRentalController.onCurrentPageChanged(newValue),
+                  AppFunctions.onCurrentPageIndexChanged(
+                newPageIndex: newValue,
+                currentSelectedPageIndex:
+                    carRentalController.currentSelectedPageIndex,
+              ),
               children: const [
                 CustomNewListingCarRentalDescription(),
                 CustomNewListingCarRentalAddress(),

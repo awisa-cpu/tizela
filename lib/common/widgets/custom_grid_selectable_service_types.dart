@@ -10,18 +10,20 @@ class CustomGridSelectableServiceTypes extends StatelessWidget {
   final bool isThereSpaceAfterTitle, isThereSpaceAfterItems;
   final ItemBuilder itemBuilder;
   final int itemCount;
-  final double? mainAxisExtent,crossAxisSpacing;
+  final double? mainAxisExtent, crossAxisSpacing;
+  final double? titleSpacing;
 
-  const CustomGridSelectableServiceTypes({
-    super.key,
-    required this.title,
-    this.style,
-    this.isThereSpaceAfterTitle = true,
-    this.isThereSpaceAfterItems = true,
-    required this.itemBuilder,
-    required this.itemCount,
-    this.mainAxisExtent = 60, this.crossAxisSpacing
-  });
+  const CustomGridSelectableServiceTypes(
+      {super.key,
+      required this.title,
+      this.style,
+      this.isThereSpaceAfterTitle = true,
+      this.isThereSpaceAfterItems = true,
+      required this.itemBuilder,
+      required this.itemCount,
+      this.mainAxisExtent = 60,
+      this.crossAxisSpacing,
+      this.titleSpacing});
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +40,17 @@ class CustomGridSelectableServiceTypes extends StatelessWidget {
               ),
         ),
         isThereSpaceAfterTitle
-            ? const CustomHeight(height: 30)
+            ? CustomHeight(height: titleSpacing ?? 30)
             : const SizedBox.shrink(),
         GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: itemCount,
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 15,
-            mainAxisExtent:  mainAxisExtent,
-            crossAxisSpacing: crossAxisSpacing??0.0
-          ),
+              crossAxisCount: 2,
+              mainAxisSpacing: 15,
+              mainAxisExtent: mainAxisExtent,
+              crossAxisSpacing: crossAxisSpacing ?? 0.0),
           itemBuilder: itemBuilder,
         ),
         isThereSpaceAfterItems

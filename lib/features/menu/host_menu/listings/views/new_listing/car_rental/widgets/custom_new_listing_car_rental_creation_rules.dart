@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/host_car_rental_controller.dart';
 
 class CustomNewListingCarRentalCreationRules extends StatelessWidget {
@@ -39,17 +40,19 @@ class CustomNewListingCarRentalCreationRules extends StatelessWidget {
                   itemCount: controller.carPolicies.length,
                   itemBuilder: (context, index) {
                     final carRule = controller.carPolicies[index];
-                    return Obx(() {
-                      return CustomCheckboxWithText(
-                        text: carRule.name,
-                        isChecked: carRule.isActive.value,
-                        onValueChanged: (value) =>
-                            controller.onCarRenCheckBoxChanged(
-                          newValue: value,
-                          feature: carRule,
-                        ),
-                      );
-                    });
+                    return Obx(
+                      () {
+                        return CustomCheckboxWithText(
+                          text: carRule.name,
+                          isChecked: carRule.isActive.value,
+                          onValueChanged: (value) =>
+                              AppFunctions.updateCheckboxValue(
+                            newValue: value,
+                            oldValue: carRule.isActive,
+                          ),
+                        );
+                      },
+                    );
                   },
                 )
               ],
@@ -77,17 +80,19 @@ class CustomNewListingCarRentalCreationRules extends StatelessWidget {
                       itemCount: controller.driverPolicies.length,
                       itemBuilder: (context, index) {
                         final carRule = controller.driverPolicies[index];
-                        return Obx(() {
-                          return CustomCheckboxWithText(
-                            text: carRule.name,
-                            isChecked: carRule.isActive.value,
-                            onValueChanged: (value) =>
-                                controller.onCarRenCheckBoxChanged(
-                              newValue: value,
-                              feature: carRule,
-                            ),
-                          );
-                        });
+                        return Obx(
+                          () {
+                            return CustomCheckboxWithText(
+                              text: carRule.name,
+                              isChecked: carRule.isActive.value,
+                              onValueChanged: (value) =>
+                                  AppFunctions.updateCheckboxValue(
+                                newValue: value,
+                                oldValue: carRule.isActive,
+                              ),
+                            );
+                          },
+                        );
                       },
                     )
                   ],

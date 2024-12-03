@@ -5,6 +5,8 @@ import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_car_rental_controller.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class CustomNewListingCarRentalAvailabilityAndTime extends StatelessWidget {
   const CustomNewListingCarRentalAvailabilityAndTime({
     super.key,
@@ -41,7 +43,12 @@ class CustomNewListingCarRentalAvailabilityAndTime extends StatelessWidget {
                 focusedDay: controller.dateInFocusedDay.value,
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 30),
-                onDaySelected: controller.onDayInDateSelected,
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateInDateSelected(
+                  date1,
+                  date2,
+                  dateInFocusedDay: controller.dateInFocusedDay,
+                ),
                 selectedDayPredicate: (day) => isSameDay(
                   day,
                   controller.dateInFocusedDay.value,
@@ -68,7 +75,12 @@ class CustomNewListingCarRentalAvailabilityAndTime extends StatelessWidget {
                 focusedDay: controller.dateOutFocusedDay.value,
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 30),
-                onDaySelected: controller.onDayOutDateSelected,
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateOutDateSelected(
+                  date1,
+                  date2,
+                  dateOutFocusedDay: controller.dateOutFocusedDay,
+                ),
                 selectedDayPredicate: (day) => isSameDay(
                   day,
                   controller.dateOutFocusedDay.value,

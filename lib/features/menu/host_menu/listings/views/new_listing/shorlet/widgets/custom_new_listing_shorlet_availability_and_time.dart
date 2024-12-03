@@ -6,6 +6,7 @@ import 'package:tizela/common/widgets/custom_dropdown_form.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/data/local_database.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 import '../../../../controllers/host_shorlet_controller.dart';
 
@@ -45,7 +46,12 @@ class CustomNewListingShorletAvailabilityAndTime extends StatelessWidget {
                 focusedDay: controller.dateInFocusedDay.value,
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 30),
-                onDaySelected: controller.onDateInDateSelected,
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateInDateSelected(
+                  date1,
+                  date2,
+                  dateInFocusedDay: controller.dateInFocusedDay,
+                ),
                 selectedDayPredicate: (day) =>
                     isSameDay(day, controller.dateInFocusedDay.value),
               ),
@@ -70,7 +76,12 @@ class CustomNewListingShorletAvailabilityAndTime extends StatelessWidget {
                 focusedDay: controller.dateOutFocusedDay.value,
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 30),
-                onDaySelected: controller.onDateOutDateSelected,
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateOutDateSelected(
+                  date1,
+                  date2,
+                  dateOutFocusedDay: controller.dateOutFocusedDay,
+                ),
                 selectedDayPredicate: (day) =>
                     isSameDay(day, controller.dateOutFocusedDay.value),
               ),
@@ -96,11 +107,11 @@ class CustomNewListingShorletAvailabilityAndTime extends StatelessWidget {
                     () => CustomDropdownForm(
                       currentValue: controller.checkInTime.value,
                       items: LocalDatabase.checkInTimes,
-                      onChanged: (value) {
-                        if (value != null) {
-                          controller.onCheckInChanged(value);
-                        }
-                      },
+                      onChanged: (value) =>
+                          AppFunctions.updateCheckboxStringValue(
+                        newValue: value,
+                        oldValue: controller.checkInTime,
+                      ),
                     ),
                   ),
                 ),
@@ -108,11 +119,11 @@ class CustomNewListingShorletAvailabilityAndTime extends StatelessWidget {
                   () => CustomDropdownForm(
                     currentValue: controller.checkOutTime.value,
                     items: LocalDatabase.checkOutTimes,
-                    onChanged: (value) {
-                      if (value != null) {
-                        controller.onCheckOutChanged(value);
-                      }
-                    },
+                    onChanged: (value) =>
+                        AppFunctions.updateCheckboxStringValue(
+                      newValue: value,
+                      oldValue: controller.checkOutTime,
+                    ),
                   ),
                 ),
               ],
@@ -137,11 +148,11 @@ class CustomNewListingShorletAvailabilityAndTime extends StatelessWidget {
                   () => CustomDropdownForm(
                     currentValue: controller.minimumCheckInTime.value,
                     items: LocalDatabase.checkInPeriod,
-                    onChanged: (value) {
-                      if (value != null) {
-                        controller.onMinimumCheckInChanged(value);
-                      }
-                    },
+                    onChanged: (value) =>
+                        AppFunctions.updateCheckboxStringValue(
+                      newValue: value,
+                      oldValue: controller.minimumCheckInTime,
+                    ),
                   ),
                 ),
               ],
