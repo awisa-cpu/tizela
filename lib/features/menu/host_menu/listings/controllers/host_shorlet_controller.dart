@@ -28,9 +28,6 @@ class HostShorletController extends GetxController {
   final PageController shortletCreationPageController = PageController();
   RxInt currentPageSelected = 0.obs;
 
-  void onContinueToNextPage(int currentPageValue) =>
-      currentPageSelected.value = currentPageValue;
-
   final ShorletRepository shortletRepo = Get.put(ShorletRepository());
   final MediaServiceController mediaService = Get.put(MediaServiceController());
   final String _currentUserId = AuthRepository.instance.currentUser!.uid;

@@ -5,6 +5,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_rev
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_boat_cruise_buttons.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_listing_creation_cost_and_date.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
+import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../model/boat_cruise_model.dart';
 
 class CustomHostBoatCruiseDetails extends StatelessWidget {
@@ -58,7 +59,9 @@ class CustomHostBoatCruiseDetails extends StatelessWidget {
           CustomHostListingCreationCostAndDate(
             cost: boatCruise.boatFee.toString(),
             perWhat: "per hr",
-            dateTime: "May 15th-April 20th",
+            dateTime: AppFunctions.getDateRange(
+              availableDates: boatCruise.availableDates,
+            ),
           ),
 
           CustomHostBoatCruiseButtons(

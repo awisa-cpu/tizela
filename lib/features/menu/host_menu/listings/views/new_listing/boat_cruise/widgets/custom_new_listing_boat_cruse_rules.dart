@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_boat_cruise_controller.dart';
+import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 
 class CustomNewListingBoatCruseRules extends StatelessWidget {
   const CustomNewListingBoatCruseRules({super.key});
@@ -42,9 +43,9 @@ class CustomNewListingBoatCruseRules extends StatelessWidget {
                           text: boatPolicy.name,
                           isChecked: boatPolicy.isActive.value,
                           onValueChanged: (value) =>
-                              controller.onBoatCruiseCheckBoxChanged(
+                              AppFunctions.updateCheckboxValue(
                             newValue: value,
-                            boatFeature: boatPolicy,
+                            oldValue: boatPolicy.isActive,
                           ),
                         );
                       },
@@ -83,9 +84,9 @@ class CustomNewListingBoatCruseRules extends StatelessWidget {
                               text: boatSailorPolicy.name,
                               isChecked: boatSailorPolicy.isActive.value,
                               onValueChanged: (value) =>
-                                  controller.onBoatCruiseCheckBoxChanged(
+                                  AppFunctions.updateCheckboxValue(
                                 newValue: value,
-                                boatFeature: boatSailorPolicy,
+                                oldValue: boatSailorPolicy.isActive,
                               ),
                             );
                           },

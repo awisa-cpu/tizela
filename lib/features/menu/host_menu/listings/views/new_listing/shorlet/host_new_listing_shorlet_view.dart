@@ -9,6 +9,7 @@ import 'package:tizela/features/menu/host_menu/listings/views/new_listing/shorle
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/new_listing_imports.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_slider_indicators_page_view.dart';
 import 'package:tizela/setup/setup.dart';
+import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 import '../../../controllers/host_shorlet_controller.dart';
 
 class HostNewListingShorletView extends StatelessWidget {
@@ -33,11 +34,13 @@ class HostNewListingShorletView extends StatelessWidget {
             child: PageView(
               controller: hostShorletCon.shortletCreationPageController,
               onPageChanged: (newValue) =>
-                  hostShorletCon.onContinueToNextPage(newValue),
+                  AppFunctions.onCurrentPageIndexChanged(
+                newPageIndex: newValue,
+                currentSelectedPageIndex: hostShorletCon.currentPageSelected,
+              ),
               children: const [
-
                 //todo: review methods that should be replaced with the appfunction methods
-                
+
                 CustomNewListingShorletDescription(),
                 CustomNewListingShorletLocation(),
                 CustomNewListingShorletPriceSet(),

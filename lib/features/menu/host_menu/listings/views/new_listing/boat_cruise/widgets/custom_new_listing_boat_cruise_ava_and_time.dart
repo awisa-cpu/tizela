@@ -5,6 +5,8 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_boat_cruise_controller.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class CustomNewListingBoatCruiseAvaAndTime extends StatelessWidget {
   const CustomNewListingBoatCruiseAvaAndTime({super.key});
 
@@ -39,7 +41,12 @@ class CustomNewListingBoatCruiseAvaAndTime extends StatelessWidget {
                 focusedDay: controller.dateInFocused.value,
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 30),
-                onDaySelected: controller.onDayInDateChanged,
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateInDateSelected(
+                  date1,
+                  date2,
+                  dateInFocusedDay: controller.dateInFocused,
+                ),
                 selectedDayPredicate: (day) => isSameDay(
                   day,
                   controller.dateInFocused.value,
@@ -66,7 +73,12 @@ class CustomNewListingBoatCruiseAvaAndTime extends StatelessWidget {
                 focusedDay: controller.dateOutFocused.value,
                 firstDay: DateTime.now(),
                 lastDay: DateTime.utc(2030, 12, 30),
-                onDaySelected: controller.onDayOutDateChanged,
+                onDaySelected: (date1, date2) =>
+                    AppFunctions.onDateOutDateSelected(
+                  date1,
+                  date2,
+                  dateOutFocusedDay: controller.dateOutFocused,
+                ),
                 selectedDayPredicate: (day) => isSameDay(
                   day,
                   controller.dateOutFocused.value,

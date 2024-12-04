@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
-import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart';
 
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/edit_host_boat_cruise_controller.dart';
-import '../../../../model/boat_cruise_model.dart';
+import '../../widgets/custom_edit_view.dart';
 
-class EditBoatCruiseFeatures extends StatelessWidget {
+class EditBoatCruiseSpecialAmenities extends StatelessWidget {
   final BoatCruiseModel boatCruise;
-  const EditBoatCruiseFeatures({super.key, required this.boatCruise});
+  const EditBoatCruiseSpecialAmenities({super.key, required this.boatCruise});
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +23,24 @@ class EditBoatCruiseFeatures extends StatelessWidget {
           CustomColumn(
             children: [
               Text(
-                "Features",
+                "Special Amenities",
                 style: customTextStyle(
                   fontSize: 16,
                 ),
               ),
               CustomListview(
-                itemCount: boatCruise.boatAmenities.length,
+                itemCount: boatCruise.boatCruiseSpecialtyAmenities.length,
                 itemBuilder: (_, index) {
-                  final featureAmenity = boatCruise.boatAmenities[index];
+                  final specialAmenity =
+                      boatCruise.boatCruiseSpecialtyAmenities[index];
                   return Obx(
                     () => CustomCheckboxWithText(
-                      text: featureAmenity.name,
-                      isChecked: featureAmenity.isActive.value,
+                      text: specialAmenity.name,
+                      isChecked: specialAmenity.isActive.value,
                       onValueChanged: (value) =>
                           AppFunctions.updateCheckboxValue(
                         newValue: value,
-                        oldValue: featureAmenity.isActive,
+                        oldValue: specialAmenity.isActive,
                       ),
                     ),
                   );
@@ -49,10 +50,10 @@ class EditBoatCruiseFeatures extends StatelessWidget {
           ),
           Obx(
             () => CustomEleButton(
-              onPressed: () => controller.updateBoatCruiseFeatureAme(
+              onPressed: () => controller.updateBoatCruiseSpecialAmenity(
                 currentBoatCruise: boatCruise,
               ),
-              text: controller.isBoatFeatureAmenityUpdating.value
+              text: controller.isBoatSpecialAmenityUpdating.value
                   ? "update in progress..."
                   : "Save",
             ),

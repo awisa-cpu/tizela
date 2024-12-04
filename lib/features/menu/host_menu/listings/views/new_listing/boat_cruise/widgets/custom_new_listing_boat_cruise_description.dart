@@ -10,6 +10,8 @@ import 'package:tizela/common/widgets/custom_text_form_field.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_boat_cruise_controller.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/boat_cruise/widgets/custom_boat_type.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+
 class CustomNewListingBoatCruiseDescription extends StatelessWidget {
   const CustomNewListingBoatCruiseDescription({super.key});
 
@@ -45,7 +47,9 @@ class CustomNewListingBoatCruiseDescription extends StatelessWidget {
                 return CustomBoatType(
                   boatType: boatType,
                   isBoatSelected: isBoatTypeSelected,
-                  onTap: () => controller.onBoatTypeChanged(boatType: boatType),
+                  onTap: () => AppFunctions.onBoatTypeChanged(
+                      boatType: boatType,
+                      selectedBoatType: controller.selectedBoatType),
                 );
               });
             },

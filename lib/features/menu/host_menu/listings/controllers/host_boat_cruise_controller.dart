@@ -75,18 +75,6 @@ class HostBoatCruiseController extends GetxController {
     boatPriceController.dispose();
   }
 
-  void onPageViewChanged(int newPageIndex) =>
-      currentSelectedPageIndex.value = newPageIndex;
-
-  void onBoatTypeChanged({required BoatTypeModel boatType}) =>
-      selectedBoatType.value = boatType;
-
-  void onTizelaTermsAndConditionsChanged(bool? newValue) {
-    if (newValue != null) {
-      isTizelaTandCAccepted.value = newValue;
-    }
-  }
-
   String calculateEarningAfterServiceCharge() {
     final apartmentFee = double.tryParse(boatPriceController.text.trim());
     double finalPrice = 0.0;
@@ -99,30 +87,6 @@ class HostBoatCruiseController extends GetxController {
     final boatPrice = finalPrice - serviceCharge;
     boatFee = boatPrice;
     return boatPrice.toStringAsFixed(2);
-  }
-
-  void onDayInDateChanged(DateTime date, DateTime focusedDay) =>
-      dateInFocused.value = date;
-
-  void onDayOutDateChanged(DateTime date, DateTime focusedDay) =>
-      dateOutFocused.value = date;
-
-  void onBoatDetailIncrementCount(
-          {required BoatCruiseDetailsModel boatDetail}) =>
-      boatDetail.detailCount.value++;
-
-  void onBoatDetailDecrementCount(
-      {required BoatCruiseDetailsModel boatDetail}) {
-    if (boatDetail.detailCount.value > 0) {
-      boatDetail.detailCount.value--;
-    }
-  }
-
-  void onBoatCruiseCheckBoxChanged(
-      {bool? newValue, required BoatCruiseFeaturesModel boatFeature}) {
-    if (newValue != null) {
-      boatFeature.isActive.value = newValue;
-    }
   }
 
   void addBoatImages({required RxSet selectedImages}) async {

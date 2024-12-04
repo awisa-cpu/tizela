@@ -1,7 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:tizela/features/menu/host_menu/listings/model/address_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_details_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_features_model.dart';
+
 import 'boat_type_model.dart';
 
 class BoatCruiseModel {
@@ -196,5 +199,43 @@ class BoatCruiseModel {
     }
 
     return BoatCruiseModel.empty();
+  }
+
+  BoatCruiseModel copyWith({
+    String? uid,
+    String? userId,
+    String? name,
+    BoatTypeModel? boatType,
+    String? boatStory,
+    AddressModel? address,
+    double? boatFee,
+    double? ratingsCount,
+    List<DateTime>? availableDates,
+    List<BoatCruiseDetailsModel>? boatCruiseDetails,
+    List<BoatCruiseFeaturesModel>? boatAmenities,
+    List<BoatCruiseFeaturesModel>? boatSafetyFeatures,
+    List<BoatCruiseFeaturesModel>? boatCruiseSpecialtyAmenities,
+    List<BoatCruiseFeaturesModel>? boatPolicies,
+    List<BoatCruiseFeaturesModel>? boatSailorPolicies,
+    List<String>? boatImages,
+  }) {
+    return BoatCruiseModel(
+      uid: uid ?? this.uid,
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      boatType: boatType ?? this.boatType,
+      boatStory: boatStory ?? this.boatStory,
+      address: address ?? this.address,
+      boatFee: boatFee ?? this.boatFee,
+      ratingsCount: ratingsCount ?? this.ratingsCount,
+      availableDates: availableDates ?? this.availableDates,
+      boatCruiseDetails: boatCruiseDetails ?? this.boatCruiseDetails,
+      boatAmenities: boatAmenities ?? this.boatAmenities,
+      boatSafetyFeatures: boatSafetyFeatures ?? this.boatSafetyFeatures,
+      boatCruiseSpecialtyAmenities: boatCruiseSpecialtyAmenities ?? this.boatCruiseSpecialtyAmenities,
+      boatPolicies: boatPolicies ?? this.boatPolicies,
+      boatSailorPolicies: boatSailorPolicies ?? this.boatSailorPolicies,
+      boatImages: boatImages ?? this.boatImages,
+    );
   }
 }

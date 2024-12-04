@@ -4,6 +4,7 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_boat_cruise_controller.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../../utils/validators/app_validators.dart';
 import '../../../../../../../personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 import '../../widgets/custom_host_service_charge.dart';
@@ -51,13 +52,17 @@ class CustomNewListingBoatCruisePriceSet extends StatelessWidget {
                   //terms and conditions
                   Obx(
                     () => CustomCheckboxWithText(
-                        isChecked: controller.isTizelaTandCAccepted.value,
-                        isCheckBoxFirst: true,
-                        isSpaceBetween: false,
-                        activeColor: Colors.green,
-                        text: "I accept Tizela service charge of 12.5%",
-                        onValueChanged: (newValue) => controller
-                            .onTizelaTermsAndConditionsChanged(newValue)),
+                      isChecked: controller.isTizelaTandCAccepted.value,
+                      isCheckBoxFirst: true,
+                      isSpaceBetween: false,
+                      activeColor: Colors.green,
+                      text: "I accept Tizela service charge of 12.5%",
+                      onValueChanged: (newValue) =>
+                          AppFunctions.updateCheckboxValue(
+                        newValue: newValue,
+                        oldValue: controller.isTizelaTandCAccepted,
+                      ),
+                    ),
                   ),
 
                   //

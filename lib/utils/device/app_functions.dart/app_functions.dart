@@ -8,6 +8,7 @@ import '../../../data/services/alert_services.dart';
 import '../../../data/services/media_service.dart';
 import '../../../features/menu/host_menu/listings/model/apartment_house_rules_model.dart';
 import '../../../features/menu/host_menu/listings/model/app_file_model.dart';
+import '../../../features/menu/host_menu/listings/model/boat_type_model.dart';
 import '../../../features/menu/host_menu/listings/model/car_brand_model.dart';
 import '../../constants/app_colors.dart';
 import '../../formatters/app_date_formatter.dart';
@@ -41,6 +42,13 @@ class AppFunctions {
       currentCarYear.value = newValue;
     }
   }
+
+//boat cruise
+  static void onBoatTypeChanged({
+    required BoatTypeModel boatType,
+    required Rx<BoatTypeModel> selectedBoatType,
+  }) =>
+      selectedBoatType.value = boatType;
 
 //general
   static onCurrentPageIndexChanged(
@@ -211,9 +219,8 @@ class AppFunctions {
   }
 
   static String getCurrency() {
-    var format = NumberFormat.simpleCurrency(
-      locale: Platform.localeName,
-    );
+    var format =
+        NumberFormat.simpleCurrency(locale: Platform.localeName, name: "NGN");
     return format.currencySymbol;
   }
 }

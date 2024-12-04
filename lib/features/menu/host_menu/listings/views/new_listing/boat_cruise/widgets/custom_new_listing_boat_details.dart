@@ -4,6 +4,7 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widgets/custom_text_and_add_and_remove_buttons.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/host_boat_cruise_controller.dart';
 
 class CustomNewListingBoatDetails extends StatelessWidget {
@@ -30,18 +31,18 @@ class CustomNewListingBoatDetails extends StatelessWidget {
               itemCount: controller.boatDetails.length,
               itemBuilder: (context, index) {
                 final boatDetail = controller.boatDetails[index];
-                return Obx(() {
-                  return CustomTextAndAddAndRemoveButtons(
-                    text: boatDetail.name,
-                    count: boatDetail.detailCount.value.toString(),
-                    onRemove: () => controller.onBoatDetailDecrementCount(
-                      boatDetail: boatDetail,
-                    ),
-                    onAdd: () => controller.onBoatDetailIncrementCount(
-                      boatDetail: boatDetail,
-                    ),
-                  );
-                });
+                return Obx(
+                  () {
+                    return CustomTextAndAddAndRemoveButtons(
+                      text: boatDetail.name,
+                      count: boatDetail.detailCount.value.toString(),
+                      onRemove: () =>
+                          AppFunctions.decrementCount(boatDetail.detailCount),
+                      onAdd: () =>
+                          AppFunctions.incrementCount(boatDetail.detailCount),
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -58,17 +59,19 @@ class CustomNewListingBoatDetails extends StatelessWidget {
                   itemCount: controller.boatAmenities.length,
                   itemBuilder: (context, index) {
                     final boatAmenity = controller.boatAmenities[index];
-                    return Obx(() {
-                      return CustomCheckboxWithText(
-                        text: boatAmenity.name,
-                        isChecked: boatAmenity.isActive.value,
-                        onValueChanged: (value) =>
-                            controller.onBoatCruiseCheckBoxChanged(
-                          newValue: value,
-                          boatFeature: boatAmenity,
-                        ),
-                      );
-                    });
+                    return Obx(
+                      () {
+                        return CustomCheckboxWithText(
+                          text: boatAmenity.name,
+                          isChecked: boatAmenity.isActive.value,
+                          onValueChanged: (value) =>
+                              AppFunctions.updateCheckboxValue(
+                            newValue: value,
+                            oldValue: boatAmenity.isActive,
+                          ),
+                        );
+                      },
+                    );
                   },
                 )
               ],
@@ -82,22 +85,24 @@ class CustomNewListingBoatDetails extends StatelessWidget {
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),
-                Text("Safety", style: customTextStyle(fontSize: 16)),
+                Text("Safety Features", style: customTextStyle(fontSize: 16)),
                 CustomListview(
                   itemCount: controller.boatSafety.length,
                   itemBuilder: (context, index) {
                     final boatSafety = controller.boatSafety[index];
-                    return Obx(() {
-                      return CustomCheckboxWithText(
-                        text: boatSafety.name,
-                        isChecked: boatSafety.isActive.value,
-                        onValueChanged: (value) =>
-                            controller.onBoatCruiseCheckBoxChanged(
-                          newValue: value,
-                          boatFeature: boatSafety,
-                        ),
-                      );
-                    });
+                    return Obx(
+                      () {
+                        return CustomCheckboxWithText(
+                          text: boatSafety.name,
+                          isChecked: boatSafety.isActive.value,
+                          onValueChanged: (value) =>
+                              AppFunctions.updateCheckboxValue(
+                            newValue: value,
+                            oldValue: boatSafety.isActive,
+                          ),
+                        );
+                      },
+                    );
                   },
                 )
               ],
@@ -111,23 +116,25 @@ class CustomNewListingBoatDetails extends StatelessWidget {
               children: [
                 const CustomDivider(),
                 const CustomHeight(height: 13.5),
-                Text("Safety", style: customTextStyle(fontSize: 16)),
+                Text("Special Amenities", style: customTextStyle(fontSize: 16)),
                 CustomListview(
                   itemCount: controller.boatSpecialtyAmenities.length,
                   itemBuilder: (context, index) {
                     final boatSpecialtyAmenity =
                         controller.boatSpecialtyAmenities[index];
-                    return Obx(() {
-                      return CustomCheckboxWithText(
-                        text: boatSpecialtyAmenity.name,
-                        isChecked: boatSpecialtyAmenity.isActive.value,
-                        onValueChanged: (value) =>
-                            controller.onBoatCruiseCheckBoxChanged(
-                          newValue: value,
-                          boatFeature: boatSpecialtyAmenity,
-                        ),
-                      );
-                    });
+                    return Obx(
+                      () {
+                        return CustomCheckboxWithText(
+                          text: boatSpecialtyAmenity.name,
+                          isChecked: boatSpecialtyAmenity.isActive.value,
+                          onValueChanged: (value) =>
+                              AppFunctions.updateCheckboxValue(
+                            newValue: value,
+                            oldValue: boatSpecialtyAmenity.isActive,
+                          ),
+                        );
+                      },
+                    );
                   },
                 )
               ],

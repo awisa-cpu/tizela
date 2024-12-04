@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
+import '../../controllers/edit_host_boat_cruise_controller.dart';
 import '../../model/boat_cruise_model.dart';
 import '../edit_listing/boat_cruise/edit_host_boatcruise_details.dart';
 import '../edit_listing/boat_cruise/edit_host_boatcruise_priceset.dart';
@@ -13,18 +13,16 @@ class CustomHostBoatCruiseButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(EditHostBoatCruiseController());
+
+    //
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () {
-              // AppNagivator.pushRoute(
-              //   context,
-              //   (_) => const HostAvailabilitySetupView(),
-              // );
-            },
+            onTap: () {},
             child: Text(
               "Edit Availability",
               style: customTextStyle(
@@ -56,7 +54,7 @@ class CustomHostBoatCruiseButtons extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Get.to(
-                (_) => EditHostBoatcruiseDetails(
+                () => EditHostBoatcruiseDetails(
                   boatCruise: boatCruise,
                 ),
               );

@@ -12,6 +12,7 @@ import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widget
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_slider_indicators_page_view.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../controllers/host_boat_cruise_controller.dart';
 
 class HostNewListingBoatCruiseView extends StatelessWidget {
@@ -38,7 +39,11 @@ class HostNewListingBoatCruiseView extends StatelessWidget {
             child: PageView(
               controller: boatCruiseController.hostBoatCruisePageCon,
               onPageChanged: (newValue) =>
-                  boatCruiseController.onPageViewChanged(newValue),
+                  AppFunctions.onCurrentPageIndexChanged(
+                currentSelectedPageIndex:
+                    boatCruiseController.currentSelectedPageIndex,
+                newPageIndex: newValue,
+              ),
               children: const [
                 CustomNewListingBoatCruiseDescription(),
                 CustomNewListingBoatCruiseLocation(),
