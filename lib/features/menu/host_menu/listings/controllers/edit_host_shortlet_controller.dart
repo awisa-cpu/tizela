@@ -5,6 +5,7 @@ import 'package:tizela/data/repositories/shortlet_repository/shorlet_repository.
 import 'package:tizela/data/services/alert_services.dart';
 import 'package:tizela/data/services/app_loader_services.dart';
 import 'package:tizela/data/services/media_service.dart';
+import 'package:tizela/data/services/network_service.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/app_file_model.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/device/app_debugger/app_debugger.dart';
@@ -21,11 +22,13 @@ class EditHostShortletController extends GetxController {
   final GlobalKey<FormState> apartmentPriceKey = GlobalKey<FormState>();
   final GlobalKey<FormState> apartmentNameKey = GlobalKey<FormState>();
   late final TextEditingController apartmentPrice;
-  late final TextEditingController cautionPrice;
+  late final TextEditingController cautionPriceCon;
   late final TextEditingController shorletNameCon;
   late final TextEditingController shorletAnyStoryCon;
   late final TextEditingController shorletApartmentPriceCon;
-  late final TextEditingController shorletCautionFeeCon;
+  late final TextEditingController addressStreetNameCon;
+  late final TextEditingController addressHouseNumberCon;
+  late final TextEditingController addressPostalCodeCon;
   double shortletFee = 0.0;
   RxBool isTermsAccepted = false.obs;
   RxBool isShorletNameUpdating = false.obs;
@@ -41,6 +44,7 @@ class EditHostShortletController extends GetxController {
   RxBool isShorletSafetyFeaturesUpdating = false.obs;
   RxBool isShorletStandoutAmenitiesUpdating = false.obs;
   RxBool isShorletHouseRulesUpdating = false.obs;
+  RxBool isShorletAddressUpdating = false.obs;
   RxList<AppFileModel> selectedImages = <AppFileModel>[].obs;
   Rx<ApartmentTypeModel> selectedApartment = ApartmentTypeModel.empty().obs;
   final apartmentTypes = LocalDatabase.apartmentTypes;
@@ -49,38 +53,32 @@ class EditHostShortletController extends GetxController {
   RxString checkInValue = "Check-in time".obs;
   RxString checkOutValue = "Checkout time".obs;
   RxString minimumCheckInValue = "1 night".obs;
+  RxString currentStateValue = "Select a state".obs;
+  RxString currentStateLga = "Select your lga".obs;
 
   @override
   void onInit() {
     super.onInit();
     apartmentPrice = TextEditingController();
-    cautionPrice = TextEditingController();
+    cautionPriceCon = TextEditingController();
     shorletNameCon = TextEditingController();
     shorletAnyStoryCon = TextEditingController();
     shorletApartmentPriceCon = TextEditingController();
-    shorletCautionFeeCon = TextEditingController();
+    addressStreetNameCon = TextEditingController();
+    addressHouseNumberCon = TextEditingController();
+    addressPostalCodeCon = TextEditingController();
   }
 
   @override
   void onClose() {
     super.onClose();
     apartmentPrice.dispose();
-    cautionPrice.dispose();
+    cautionPriceCon.dispose();
     shorletNameCon.dispose();
     shorletApartmentPriceCon.dispose();
-    shorletCautionFeeCon.dispose();
-  }
-
-  void _resetResources() {
-    apartmentPrice.clear();
-    cautionPrice.clear();
-    shorletNameCon.clear();
-    apartmentPriceKey.currentState?.reset();
-    apartmentNameKey.currentState?.reset();
-    selectedApartment.value = ApartmentTypeModel.empty();
-    shorletAnyStoryCon.clear();
-    shorletCautionFeeCon.clear();
-    shorletApartmentPriceCon.clear();
+    addressStreetNameCon.dispose();
+    addressHouseNumberCon.dispose();
+    addressPostalCodeCon.dispose();
   }
 
   String calculateEarningAfterServiceCharge() {
@@ -97,6 +95,17 @@ class EditHostShortletController extends GetxController {
 
   void updateShorletPrice(ShortletModel shortlet) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       AppLoaderService.startLoader(loaderText: "Editing price...");
 
       if (!(apartmentPriceKey.currentState?.validate() ?? false)) {
@@ -106,19 +115,18 @@ class EditHostShortletController extends GetxController {
 
       final updatedCopy = shortlet.copyWith(
         apartmentPrice: shortletFee,
-        cautionFee: AppFunctions.getPriceFromController(cautionPrice),
+        cautionFee: AppFunctions.getPriceFromController(cautionPriceCon),
       );
 
       //
       await shortletRepo.editShorlet(shorlet: updatedCopy);
-      _resetResources();
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good",
         message: "shortlet price updated",
       );
-      AppNagivator.goBack(Get.context!);
-      //note: once line 82 is executed, the view that injects the dependency gets disposed of the nav stack and so is the controller
+      AppNagivator.goBack();
+      //note: once line 119 is executed, the view that injects the dependency gets disposed of the nav stack and so is the controller
     } catch (e) {
       AppLoaderService.stopLoader();
       AppDebugger.debugger(e);
@@ -126,11 +134,27 @@ class EditHostShortletController extends GetxController {
         title: "Oh snap",
         message: "Something went wrong editing price",
       );
+    } finally {
+      apartmentPriceKey.currentState?.reset();
+      cautionPriceCon.clear();
+      shortletFee = 0.0;
     }
   }
 
   void updateShortletName({required ShortletModel shorlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      //
       if (!(apartmentNameKey.currentState?.validate() ?? false)) {
         return;
       }
@@ -141,7 +165,6 @@ class EditHostShortletController extends GetxController {
       );
 
       await shortletRepo.editShorlet(shorlet: updatedShortlet);
-      _resetResources();
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -154,12 +177,26 @@ class EditHostShortletController extends GetxController {
         message: "apartment name not updated",
       );
     } finally {
+      apartmentNameKey.currentState?.reset();
+      shorletNameCon.clear();
       isShorletNameUpdating.value = false;
     }
   }
 
   void updateShortletImages({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
       //check
       if (selectedImages.isEmpty) {
         AlertServices.warningSnackBar(
@@ -182,7 +219,7 @@ class EditHostShortletController extends GetxController {
           "apartmentImages": FieldValue.arrayUnion(uploadedImages),
         },
       );
-      selectedImages.clear();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -195,6 +232,7 @@ class EditHostShortletController extends GetxController {
         message: "images not updated",
       );
     } finally {
+      selectedImages.clear();
       areImagesUpdating.value = false;
     }
   }
@@ -204,6 +242,17 @@ class EditHostShortletController extends GetxController {
 
   void updateApartmentType({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       //todo: work on this check mechanism
       if (selectedApartment.value == ApartmentTypeModel.empty()) {
         AlertServices.warningSnackBar(
@@ -220,7 +269,6 @@ class EditHostShortletController extends GetxController {
       );
 
       await shortletRepo.editShorlet(shorlet: updatedShorlet);
-      selectedApartment.value = ApartmentTypeModel.empty();
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -234,12 +282,25 @@ class EditHostShortletController extends GetxController {
         message: "Apartment type not updated",
       );
     } finally {
+      selectedApartment.value = ApartmentTypeModel.empty();
       isApartmentTypeUpdating.value = false;
     }
   }
 
   void updateShortletStory({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      //
       if (shorletAnyStoryCon.text.isEmpty) {
         return;
       }
@@ -262,46 +323,24 @@ class EditHostShortletController extends GetxController {
         message: "Shorlet story not updated",
       );
     } finally {
+      shorletAnyStoryCon.clear();
       isShorletStoryUpdating.value = false;
-    }
-  }
-
-  void updateShorletPriceAndCautionFee(
-      {required ShortletModel shortlet}) async {
-    try {
-      if (shorletApartmentPriceCon.text.isEmpty ||
-          shorletCautionFeeCon.text.isEmpty) {
-        return;
-      }
-      //
-      isShorletPricesUpdating.value = true;
-      final updatedShorlet = shortlet.copyWith(
-        apartmentPrice:
-            AppFunctions.getPriceFromController(shorletApartmentPriceCon),
-        cautionFee: AppFunctions.getPriceFromController(shorletCautionFeeCon),
-      );
-
-      await shortletRepo.editShorlet(shorlet: updatedShorlet);
-      _resetResources();
-      AppLoaderService.stopLoader();
-      AlertServices.successSnackBar(
-        title: "Good!",
-        message: "Shortlet prices updated",
-      );
-    } catch (e) {
-      AppDebugger.debugger(e);
-      AppLoaderService.stopLoader();
-      AlertServices.successSnackBar(
-        title: "Oh snap!",
-        message: "Shorlet prices not updated",
-      );
-    } finally {
-      isShorletPricesUpdating.value = false;
     }
   }
 
   void updateShortletAvailability({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       final firstDate = shortlet.availableDates[0];
       final secondDate = shortlet.availableDates[1];
       if (firstDate == dateInFocusedDay.value &&
@@ -319,10 +358,6 @@ class EditHostShortletController extends GetxController {
 
       await shortletRepo.editShorlet(shorlet: updatedShortlet);
 
-      //reset values
-      dateInFocusedDay.value = DateTime.now();
-      dateOutFocusedDay.value = DateTime.now();
-
       //
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
@@ -337,12 +372,27 @@ class EditHostShortletController extends GetxController {
         message: "Availability not updated",
       );
     } finally {
+      //reset values
+      dateInFocusedDay.value = DateTime.now();
+      dateOutFocusedDay.value = DateTime.now();
       isShorletAvailabilityUpdating.value = false;
     }
   }
 
   void updateShortletCheckInAndOutTime({required ShortletModel shorlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      //
       if (checkInValue.value == "Check-in time" ||
           checkOutValue.value == "Checkout time") {
         return;
@@ -355,10 +405,7 @@ class EditHostShortletController extends GetxController {
       );
 
       await shortletRepo.editShorlet(shorlet: updatedShortlet);
-      checkInValue.value = "Check-in time";
-      checkOutValue.value = "Checkout time";
-      checkInValue.refresh();
-      checkOutValue.refresh();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -371,6 +418,10 @@ class EditHostShortletController extends GetxController {
         message: "Checkin and out time  not updated",
       );
     } finally {
+      checkInValue.value = "Check-in time";
+      checkOutValue.value = "Checkout time";
+      checkInValue.refresh();
+      checkOutValue.refresh();
       isShorletCheckInOutTimeUpdating.value = false;
     }
   }
@@ -378,6 +429,21 @@ class EditHostShortletController extends GetxController {
   void updateShortletMinimumCheckInPeriod(
       {required ShortletModel shorlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      //
+      if (shorlet.minimumCheckInTime == minimumCheckInValue.value) {
+        return;
+      }
       isShorletMinimumCheckInPeriodUpdating = true.obs;
 
       //
@@ -386,8 +452,7 @@ class EditHostShortletController extends GetxController {
       );
 
       await shortletRepo.editShorlet(shorlet: updatedShortlet);
-      minimumCheckInValue.value = "1 night";
-      minimumCheckInValue.refresh();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -400,12 +465,27 @@ class EditHostShortletController extends GetxController {
         message: "Minimum checkin not updated",
       );
     } finally {
+      minimumCheckInValue.value = "1 night";
+      minimumCheckInValue.refresh();
       isShorletMinimumCheckInPeriodUpdating.value = false;
     }
   }
 
   void updateShortletApartmentDetails({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isShorletApartmentDetailsUpdating = true.obs;
 
       //
@@ -431,6 +511,19 @@ class EditHostShortletController extends GetxController {
 
   void updateShortletAmenities({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isShorletAmenitiesUpdating = true.obs;
 
       //
@@ -455,6 +548,19 @@ class EditHostShortletController extends GetxController {
 
   void updateShortletSafetyFeatures({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isShorletSafetyFeaturesUpdating = true.obs;
 
       //
@@ -481,6 +587,19 @@ class EditHostShortletController extends GetxController {
   void updateShortletStandoutAmenities(
       {required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isShorletStandoutAmenitiesUpdating = true.obs;
 
       //
@@ -506,6 +625,19 @@ class EditHostShortletController extends GetxController {
 
   void updateShortletHouseRules({required ShortletModel shortlet}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isShorletHouseRulesUpdating = true.obs;
 
       //
@@ -526,6 +658,72 @@ class EditHostShortletController extends GetxController {
       );
     } finally {
       isShorletHouseRulesUpdating.value = false;
+    }
+  }
+
+  void updateShorletAddress({required ShortletModel shortlet}) async {
+    try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      if (addressStreetNameCon.text.isEmpty &&
+          addressHouseNumberCon.text.isEmpty &&
+          addressPostalCodeCon.text.isEmpty &&
+          currentStateValue.value == "Select a state" &&
+          currentStateLga.value == "Select your lga") {
+        return;
+      }
+
+      isShorletAddressUpdating.value = true;
+
+      //
+      final updatedAddress = shortlet.address.copyWith(
+        houseNumber: addressHouseNumberCon.text.isNotEmpty
+            ? addressHouseNumberCon.text.trim()
+            : shortlet.address.houseNumber,
+        streetName: addressStreetNameCon.text.isNotEmpty
+            ? addressStreetNameCon.text.trim()
+            : shortlet.address.streetName,
+        postalCode: addressPostalCodeCon.text.isNotEmpty
+            ? addressPostalCodeCon.text.trim()
+            : shortlet.address.postalCode,
+        lga: currentStateLga.value != "Select a lga"
+            ? currentStateLga.value
+            : shortlet.address.lga,
+        state: currentStateValue.value != "Select a state"
+            ? currentStateValue.value
+            : shortlet.address.state,
+      );
+      final updatedShortlet = shortlet.copyWith(address: updatedAddress);
+
+      await shortletRepo.editShorlet(shorlet: updatedShortlet);
+
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Address updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Address not updated",
+      );
+    } finally {
+      addressStreetNameCon.clear();
+      addressHouseNumberCon.clear();
+      addressPostalCodeCon.clear();
+      currentStateLga.value = "Select a lga";
+      currentStateValue.value = "Select a state";
+      isShorletAddressUpdating.value = false;
     }
   }
 }

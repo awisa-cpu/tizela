@@ -17,12 +17,12 @@ class CustomAddOrRemoveButton extends StatelessWidget {
       onTap: onTap,
       child: CustomRoundedEdgedContainer(
         paddingNumber: 5,
-        borderColor: AppColors.appTextFadedColor.withOpacity(0.3),
+        borderColor: AppColors.appTextFadedColor.withValues(alpha: 0.3),
         borderWidth: 1.5,
         boxShape: BoxShape.circle,
         child: Icon(
           actionIndicator,
-          color: Colors.grey.withOpacity(0.85),
+          color: Colors.grey.withValues(alpha: 0.85),
         ),
       ),
     );

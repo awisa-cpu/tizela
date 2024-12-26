@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_header_sub_and_back_button.dart';
 import 'package:tizela/data/local_database.dart';
@@ -13,7 +13,7 @@ class PrivacyPolicyView extends StatelessWidget {
   Widget build(BuildContext context) {
     const privacyPolicies = LocalDatabase.privacyPolicies;
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
           vertical: kToolbarHeight,
           horizontal: 13.5,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
@@ -30,7 +30,7 @@ class _CustomShortletFilterState extends State<CustomShortletFilter> {
   String selectedApartmentImage = '';
   @override
   Widget build(BuildContext context) {
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         isMainAxisSize: false,
         children: [

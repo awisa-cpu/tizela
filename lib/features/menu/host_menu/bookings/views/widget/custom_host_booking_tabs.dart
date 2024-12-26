@@ -59,7 +59,6 @@ class CustomHostBookingTabs extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   AppNagivator.pushNamedRoute(
-                    context,
                     bookingSearchRoute,
                   );
                 },

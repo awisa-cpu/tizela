@@ -44,7 +44,7 @@ class CustomHostCarRentalDetails extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 Text(
-                  carRental.address.addressText,
+                  carRental.address.addressWithoutPostal,
                   style: customTextStyle(
                       fontSize: 12,
                       color: AppColors.appTextFadedColor,

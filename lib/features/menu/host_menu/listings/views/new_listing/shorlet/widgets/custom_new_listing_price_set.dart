@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_checkbox_with_text.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
@@ -23,7 +23,7 @@ class CustomNewListingShorletPriceSet extends StatelessWidget {
     final controller = HostShorletController.instance;
 
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(

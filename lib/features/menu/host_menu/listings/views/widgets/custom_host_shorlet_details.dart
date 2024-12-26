@@ -53,7 +53,7 @@ class CustomHostShorletDetails extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 Text(
-                  shortlet.address.addressText,
+                  shortlet.address.addressWithoutPostal,
                   style: customTextStyle(
                       fontSize: 12,
                       color: AppColors.appTextFadedColor,

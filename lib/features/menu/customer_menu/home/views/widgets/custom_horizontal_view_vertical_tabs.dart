@@ -20,7 +20,7 @@ class CustomHorizontalViewVerticalTabs extends StatelessWidget {
           return SingleDestinationPackage(destinationItem: destinationItem);
         },
         separatorBuilder: (_, __) => const SizedBox(
-          width: 15,
+          width: 16,
         ),
       ),
     );

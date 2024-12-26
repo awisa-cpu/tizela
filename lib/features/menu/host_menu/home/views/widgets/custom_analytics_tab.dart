@@ -18,7 +18,7 @@ class CustomAnalyticsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomRoundedEdgedContainer(
-      borderColor: AppColors.appTextFadedColor.withOpacity(0.4),
+      borderColor: AppColors.appTextFadedColor.withValues(alpha: 0.4),
       paddingNumber: 18,
       width: width,
       child: CustomColumn(

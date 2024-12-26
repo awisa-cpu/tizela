@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tizela/common/widgets/custom_network_image.dart';
+import 'package:tizela/utils/extensions/build_context_extensions.dart';
 
 class CustomDisplayClipImageWithoutSize extends StatelessWidget {
   const CustomDisplayClipImageWithoutSize({
@@ -11,11 +13,12 @@ class CustomDisplayClipImageWithoutSize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Image.asset(
-        imageUrl,
-        width: MediaQuery.of(context).size.width,
-        fit: BoxFit.contain,
+      borderRadius: BorderRadius.circular(15),
+      child: CustomCachedNetworkImage(
+        imageUrl: imageUrl,
+        imageHeigth: 260,
+        imageWidth: context.screenWidth(),
+        fit: BoxFit.cover,
       ),
     );
   }

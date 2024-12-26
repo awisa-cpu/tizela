@@ -6,7 +6,6 @@ import 'package:tizela/features/menu/customer_menu/home/model/car_details_model.
 import 'package:tizela/features/menu/customer_menu/home/model/car_rental_model_xxxxx.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/more_car_section_model.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/destination_model.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/holiday_service_model.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/more_house_section_model.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/reviews_model.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
@@ -24,24 +23,25 @@ import '../features/menu/host_menu/listings/model/boat_cruise_details_model.dart
 import '../features/menu/host_menu/listings/model/boat_cruise_features_model.dart';
 import '../features/menu/host_menu/listings/model/car_rental_details_model.dart';
 import '../features/menu/host_menu/listings/model/car_rental_features_model.dart';
+import '../features/menu/host_menu/listings/model/car_type_model.dart';
 import '../features/menu/host_menu/listings/model/id_type_model.dart';
+import '../features/menu/host_menu/listings/model/shortlet_type_model.dart';
 
 class LocalDatabase {
-  static List<ServiceTypeModel> stayType = [
-    ServiceTypeModel(name: "Ocean View", iconImage: ImagesText.oceanviewIcon),
-    ServiceTypeModel(name: "Pool", iconImage: ImagesText.poolIcon),
-    ServiceTypeModel(name: "Resort", iconImage: ImagesText.resortIcon),
-    ServiceTypeModel(name: "Spa", iconImage: ImagesText.spaIcon),
-    ServiceTypeModel(
-        name: "Pet Friendly", iconImage: ImagesText.petfriendlyIcon),
+  static List<ShortletTypeModel> shortletTypes = [
+    ShortletTypeModel(name: "Ocean View", imageUrl: ImagesText.oceanviewIcon),
+    ShortletTypeModel(name: "Pool", imageUrl: ImagesText.poolIcon),
+    ShortletTypeModel(name: "Resort", imageUrl: ImagesText.resortIcon),
+    ShortletTypeModel(name: "Spa", imageUrl: ImagesText.spaIcon),
+    ShortletTypeModel(
+        name: "Pet Friendly", imageUrl: ImagesText.petfriendlyIcon),
   ];
 
-  static List<ServiceTypeModel> carTypes = [
-    ServiceTypeModel(name: "Sedan", iconImage: ImagesText.sedanIcon),
-    ServiceTypeModel(name: "SUV", iconImage: ImagesText.suvIcon),
-    ServiceTypeModel(name: "Van", iconImage: ImagesText.vanIcon),
-    ServiceTypeModel(
-        name: "Convertible", iconImage: ImagesText.convertibleIcon),
+  static List<CarTypeModel> carTypes = [
+    CarTypeModel(name: "Sedan", imageUrl: ImagesText.sedanIcon),
+    CarTypeModel(name: "SUV", imageUrl: ImagesText.suvIcon),
+    CarTypeModel(name: "Van", imageUrl: ImagesText.vanIcon),
+    CarTypeModel(name: "Convertible", imageUrl: ImagesText.convertibleIcon),
   ];
 
   static List<BoatTypeModel> boatTypes = [

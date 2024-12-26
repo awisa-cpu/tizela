@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
 import '../../../data/services/alert_services.dart';
 import '../../../data/services/media_service.dart';
 import '../../../features/menu/host_menu/listings/model/apartment_house_rules_model.dart';
@@ -11,11 +9,13 @@ import '../../../features/menu/host_menu/listings/model/app_file_model.dart';
 import '../../../features/menu/host_menu/listings/model/boat_type_model.dart';
 import '../../../features/menu/host_menu/listings/model/car_brand_model.dart';
 import '../../constants/app_colors.dart';
+import '../../constants/images_texts.dart';
 import '../../formatters/app_date_formatter.dart';
 import '../app_debugger/app_debugger.dart';
 import '../app_device_services/app_device_services.dart';
 
 class AppFunctions {
+  //
   static double getPriceFromController(TextEditingController controller) {
     final price = double.tryParse(controller.text.trim());
 
@@ -27,6 +27,19 @@ class AppFunctions {
   }
 
 //car rental
+  static String getIconImageByAttributeName(String name) {
+    switch (name.toLowerCase()) {
+      case "luggages":
+        return ImagesText.holidayBagIcon;
+      case "passengers":
+        return ImagesText.acIcon;
+      case "seats":
+        return ImagesText.holidayBagIcon;
+      default:
+        return ImagesText.holidayBagIcon;
+    }
+  }
+
   static void onUpdateCarTypeSelected(
           {required String carType, required RxString selectedCarType}) =>
       selectedCarType.value = carType;
@@ -41,6 +54,24 @@ class AppFunctions {
     if (newValue != null) {
       currentCarYear.value = newValue;
     }
+  }
+
+  static void onCarLocationIntraStateMovement(
+      {required RxBool isIntraStateMovement,
+      required RxBool isInterStateMovement,
+      required RxBool isCarMovementOutsideState}) {
+    isIntraStateMovement.value = true;
+    isInterStateMovement.value = false;
+    isCarMovementOutsideState.value = false;
+  }
+
+  static void onCarLocationInterStateMovement(
+      {required RxBool isIntraStateMovement,
+      required RxBool isInterStateMovement,
+      required RxBool isCarMovementOutsideState}) {
+    isIntraStateMovement.value = false;
+    isInterStateMovement.value = true;
+    isCarMovementOutsideState.value = true;
   }
 
 //boat cruise
@@ -218,9 +249,11 @@ class AppFunctions {
     houseRule.isActive.value = false;
   }
 
-  static String getCurrency() {
-    var format =
-        NumberFormat.simpleCurrency(locale: Platform.localeName, name: "NGN");
-    return format.currencySymbol;
+  static String getNairaSymbol() {
+    // var format =
+    //     NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
+
+    // return format.currencySymbol;
+    return "₦";
   }
 }

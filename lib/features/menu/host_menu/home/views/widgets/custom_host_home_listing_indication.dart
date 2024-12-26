@@ -21,7 +21,7 @@ class CustomHostHomeListingIndication extends StatelessWidget {
       children: [
         //manage view for payment and booking type setting
         CustomRoundedEdgedContainer(
-          borderColor: AppColors.appTextFadedColor.withOpacity(0.4),
+          borderColor: AppColors.appTextFadedColor.withValues(alpha: 0.4),
           borderRadius: 10.0,
           child: CustomColumn(
             children: [
@@ -49,8 +49,7 @@ class CustomHostHomeListingIndication extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   AppNagivator.pushRoute(
-                    context,
-                    (_) => const PaymentDetailsView(),
+                  const PaymentDetailsView(),
                   );
                 },
                 child: CustomRoundedEdgedContainer(
@@ -78,8 +77,7 @@ class CustomHostHomeListingIndication extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   AppNagivator.pushRoute(
-                    context,
-                    (_) => const BookingTypeSettingView(),
+                  const BookingTypeSettingView(),
                   );
                 },
                 child: CustomRoundedEdgedContainer(
@@ -124,7 +122,7 @@ class CustomHostHomeListingIndication extends StatelessWidget {
 
             //car rental
             CustomListingTabButton(
-              borderColor: AppColors.appIconColor.withOpacity(0.3),
+              borderColor: AppColors.appIconColor.withValues(alpha: 0.3),
               bkGroundColor: AppColors.appIconColorBox,
               imageUrl: ImagesText.carIcon,
               mainText: "Car Rental",
@@ -136,8 +134,8 @@ class CustomHostHomeListingIndication extends StatelessWidget {
 
             //boat cruise
             CustomListingTabButton(
-              borderColor: const Color(0xFF0CF6B4).withOpacity(0.3),
-              bkGroundColor: const Color(0xFF0CF6B4).withOpacity(0.02),
+              borderColor: const Color(0xFF0CF6B4).withValues(alpha: 0.3),
+              bkGroundColor: const Color(0xFF0CF6B4).withValues(alpha: 0.02),
               imageUrl: ImagesText.shipIcon,
               mainText: "Boat Cruise",
               subText: "List “boat cruise” services to potential guest.",

@@ -12,14 +12,14 @@ class CustomInputDecoTheme {
         hintStyle: const TextStyle().copyWith(fontSize: 14, color: Colors.grey),
         errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
         floatingLabelStyle:
-            const TextStyle().copyWith(color: Colors.black.withOpacity(0.8)),
+            const TextStyle().copyWith(color: Colors.black.withValues(alpha: 0.8)),
         border: const OutlineInputBorder().copyWith(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.4)),
+          borderSide: BorderSide(width: 1, color: Colors.grey.withValues(alpha: 0.4)),
         ),
         enabledBorder: const OutlineInputBorder().copyWith(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.4)),
+          borderSide: BorderSide(width: 1, color: Colors.grey.withValues(alpha: 0.4)),
         ),
         focusedBorder: const OutlineInputBorder().copyWith(
           borderRadius: BorderRadius.circular(14),

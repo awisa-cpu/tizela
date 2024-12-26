@@ -5,6 +5,7 @@ import "package:tizela/data/repositories/auth_repository/auth_repository.dart";
 import "package:tizela/data/repositories/boat_cruise_repository/boat_cruise_repository.dart";
 import "package:tizela/data/services/alert_services.dart";
 import "package:tizela/data/services/app_loader_services.dart";
+import "package:tizela/data/services/network_service.dart";
 import "package:tizela/features/menu/host_menu/listings/model/app_file_model.dart";
 import "package:tizela/setup/app_navigator.dart";
 import "package:tizela/utils/device/app_debugger/app_debugger.dart";
@@ -23,6 +24,9 @@ class EditHostBoatCruiseController extends GetxController {
   late final TextEditingController editBoatFeeController;
   late final TextEditingController editBoatNameController;
   late final TextEditingController editBoatDescriptionController;
+  late final TextEditingController addressStreetNameCon;
+  late final TextEditingController addressHouseNumberCon;
+  late final TextEditingController addressPostalCodeCon;
   final GlobalKey<FormState> editBoatKey = GlobalKey<FormState>();
   final GlobalKey<FormState> editBoatNameKey = GlobalKey<FormState>();
   RxBool isTizelaTandCAccepted = false.obs;
@@ -36,12 +40,15 @@ class EditHostBoatCruiseController extends GetxController {
   RxBool isBoatPoliciesUpdating = false.obs;
   RxBool isBoatSailorPoliciesUpdating = false.obs;
   RxBool isBoatTypeAndDescriptionUpdating = false.obs;
+  RxBool isBoatAddressUpdating = false.obs;
   double boatFee = 0.0;
   RxList<AppFileModel> selectedImages = <AppFileModel>[].obs;
   Rx<DateTime> dateInFocusedDay = DateTime.now().obs;
   Rx<DateTime> dateOutFocusedDay = DateTime.now().obs;
   final boatTypes = LocalDatabase.boatTypes;
   Rx<BoatTypeModel> selectedBoatType = BoatTypeModel.empty().obs;
+  RxString currentStateValue = "Select a state".obs;
+  RxString currentStateLga = "Select your lga".obs;
 
   ///methods
 
@@ -51,6 +58,9 @@ class EditHostBoatCruiseController extends GetxController {
     editBoatFeeController = TextEditingController();
     editBoatNameController = TextEditingController();
     editBoatDescriptionController = TextEditingController();
+    addressStreetNameCon = TextEditingController();
+    addressHouseNumberCon = TextEditingController();
+    addressPostalCodeCon = TextEditingController();
   }
 
   @override
@@ -58,6 +68,9 @@ class EditHostBoatCruiseController extends GetxController {
     editBoatFeeController.dispose();
     editBoatNameController.dispose();
     editBoatDescriptionController.dispose();
+    addressStreetNameCon.dispose();
+    addressHouseNumberCon.dispose();
+    addressPostalCodeCon.dispose();
     super.dispose();
   }
 
@@ -79,6 +92,17 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruisePrice(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       AppLoaderService.startLoader(
         loaderText: "Updating boat fee, please wait...",
       );
@@ -102,14 +126,13 @@ class EditHostBoatCruiseController extends GetxController {
       );
 
       await boatCruiseRepo.editBoatCruise(boatCruise: updatedBoatCruise);
-      editBoatFeeController.clear();
-      editBoatKey.currentState?.reset();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
         message: "Boat price updated",
       );
-      AppNagivator.goBack(Get.context!);
+      AppNagivator.goBack();
     } catch (e) {
       AppDebugger.debugger(e);
       AppLoaderService.stopLoader();
@@ -117,12 +140,27 @@ class EditHostBoatCruiseController extends GetxController {
         title: "Oh snap!",
         message: "Boat price not  updated",
       );
+    } finally {
+      editBoatFeeController.clear();
+      editBoatKey.currentState?.reset();
+      boatFee = 0.0;
     }
   }
 
   void updateBoatCruiseName(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       if (!(editBoatNameKey.currentState?.validate() ?? false)) {
         return;
       }
@@ -133,8 +171,7 @@ class EditHostBoatCruiseController extends GetxController {
       );
 
       await boatCruiseRepo.editBoatCruise(boatCruise: updatedBoatCruise);
-      editBoatNameController.clear();
-      editBoatNameKey.currentState?.reset();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: 'Good!',
@@ -147,6 +184,8 @@ class EditHostBoatCruiseController extends GetxController {
         message: "Name not updated",
       );
     } finally {
+      editBoatNameController.clear();
+      editBoatNameKey.currentState?.reset();
       isBoatNameUpdating.value = false;
     }
   }
@@ -154,6 +193,17 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseImages(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       if (selectedImages.isEmpty) {
         AlertServices.warningSnackBar(
           title: 'warining',
@@ -178,9 +228,7 @@ class EditHostBoatCruiseController extends GetxController {
           "boatImages": FieldValue.arrayUnion(uploadedImages),
         },
       );
-      selectedImages.clear();
-      editBoatNameController.dispose();
-      editBoatNameKey.currentState?.reset();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: 'Good!',
@@ -193,6 +241,7 @@ class EditHostBoatCruiseController extends GetxController {
         message: "boat images not updated",
       );
     } finally {
+      selectedImages.clear();
       isBoatImagesUpdating.value = false;
     }
   }
@@ -200,6 +249,17 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseAvailability(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       final firstDate = currentBoatCruise.availableDates[0];
       final secondDate = currentBoatCruise.availableDates[1];
 
@@ -217,8 +277,7 @@ class EditHostBoatCruiseController extends GetxController {
 
       //
       await boatCruiseRepo.editBoatCruise(boatCruise: updateBoatCruise);
-      dateInFocusedDay.value = DateTime.now();
-      dateOutFocusedDay.value = DateTime.now();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: 'Good!',
@@ -233,6 +292,8 @@ class EditHostBoatCruiseController extends GetxController {
         message: "Availability not updated",
       );
     } finally {
+      dateInFocusedDay.value = DateTime.now();
+      dateOutFocusedDay.value = DateTime.now();
       isBoatAvailabilityUpdating.value = false;
     }
   }
@@ -240,6 +301,17 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseDetails(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       isBoatDetailsUpdating.value = true;
 
       final updatedBoatCruise = currentBoatCruise.copyWith(
@@ -266,6 +338,17 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseFeatureAme(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       isBoatFeatureAmenityUpdating.value = true;
 
       final updatedBoatCruise = currentBoatCruise.copyWith(
@@ -292,6 +375,17 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseSafetyFeature(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       isBoatSafetyFeatureUpdating.value = true;
 
       final updatedBoatCruise = currentBoatCruise.copyWith(
@@ -318,6 +412,19 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseSpecialAmenity(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isBoatSpecialAmenityUpdating.value = true;
 
       final updatedBoatCruise = currentBoatCruise.copyWith(
@@ -345,6 +452,18 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseBoatPolicies(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      //
       isBoatPoliciesUpdating.value = true;
 
       final updatedBoatCruise = currentBoatCruise.copyWith(
@@ -371,6 +490,19 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseSailorPolicies(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isBoatSailorPoliciesUpdating.value = true;
 
       final updatedBoatCruise = currentBoatCruise.copyWith(
@@ -397,6 +529,18 @@ class EditHostBoatCruiseController extends GetxController {
   void updateBoatCruiseTypeAndDescription(
       {required BoatCruiseModel currentBoatCruise}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      //
       if (editBoatDescriptionController.text.isEmpty &&
           selectedBoatType.value.boatName.isEmpty) {
         return;
@@ -425,7 +569,75 @@ class EditHostBoatCruiseController extends GetxController {
         message: "Boat  type/description not updated",
       );
     } finally {
+      editBoatDescriptionController.clear();
+      selectedBoatType.value = BoatTypeModel.empty();
       isBoatTypeAndDescriptionUpdating.value = false;
+    }
+  }
+
+  void updateBoatCruiseAddress({required BoatCruiseModel boatCruise}) async {
+    try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      if (addressStreetNameCon.text.isEmpty &&
+          addressHouseNumberCon.text.isEmpty &&
+          addressPostalCodeCon.text.isEmpty &&
+          currentStateValue.value == "Select a state" &&
+          currentStateLga.value == "Select your lga") {
+        return;
+      }
+
+      isBoatAddressUpdating.value = true;
+
+      //
+      final updatedAddress = boatCruise.address.copyWith(
+        houseNumber: addressHouseNumberCon.text.isNotEmpty
+            ? addressHouseNumberCon.text.trim()
+            : boatCruise.address.houseNumber,
+        streetName: addressStreetNameCon.text.isNotEmpty
+            ? addressStreetNameCon.text.trim()
+            : boatCruise.address.streetName,
+        postalCode: addressPostalCodeCon.text.isNotEmpty
+            ? addressPostalCodeCon.text.trim()
+            : boatCruise.address.postalCode,
+        lga: currentStateLga.value != "Select a lga"
+            ? currentStateLga.value
+            : boatCruise.address.lga,
+        state: currentStateValue.value != "Select a state"
+            ? currentStateValue.value
+            : boatCruise.address.state,
+      );
+      final updatedBoatCruise = boatCruise.copyWith(address: updatedAddress);
+
+      await boatCruiseRepo.editBoatCruise(boatCruise: updatedBoatCruise);
+
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Address updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Address not updated",
+      );
+    } finally {
+      addressStreetNameCon.clear();
+      addressHouseNumberCon.clear();
+      addressPostalCodeCon.clear();
+      currentStateLga.value = "Select a lga";
+      currentStateValue.value = "Select a state";
+      isBoatAddressUpdating.value = false;
     }
   }
 }

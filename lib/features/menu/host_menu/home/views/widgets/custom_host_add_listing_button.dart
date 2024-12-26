@@ -16,7 +16,7 @@ class CustomHostAddListingButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: CustomRoundedEdgedContainer(
-        borderColor: AppColors.appTextFadedColor.withOpacity(0.4),
+        borderColor: AppColors.appTextFadedColor.withValues(alpha: 0.4),
         borderRadius: 10.0,
         child: Row(
           children: [

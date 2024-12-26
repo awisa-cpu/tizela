@@ -59,7 +59,7 @@ class HostNewListingBoatCruiseView extends StatelessWidget {
       ),
       bottomNavigationBar: CustomNewListingCreationBNB(
         onSave: () => boatCruiseController.createNewBoatCruise(),
-        onExit: () => AppNagivator.goBack(context),
+        onExit: () => AppNagivator.goBack(),
       ),
     );
   }

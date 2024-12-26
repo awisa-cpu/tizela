@@ -22,7 +22,7 @@ class EditHostAvailabilitySetupView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(
                   top: kToolbarHeight, left: 20, right: 20),
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withValues(alpha: 0.5),
               height: context.screenHeight() * 0.40,
               child: const CustomColumn(
                 children: [
@@ -143,7 +143,7 @@ class _CustomAvailabilitySetupState extends State<CustomAvailabilitySetup> {
       });
   @override
   Widget build(BuildContext context) {
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           //date in
@@ -236,7 +236,7 @@ class CustomHostAvailabilitySetupCard extends StatelessWidget {
       showBorder: false,
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
+          color: Colors.grey.withValues(alpha: 0.2),
           spreadRadius: 5.0,
           blurRadius: 5.0,
           offset: const Offset(2, 2),

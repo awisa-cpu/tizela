@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
@@ -37,16 +37,16 @@ class _CustomSearchCarRentalViewState extends State<CustomSearchCarRentalView> {
             controllerText: "Enter Pick location",
             eleButtonText: "Continue",
             onEleButtonPressed: () =>
-                AppNagivator.pushNamedRoute(context, carRentalResultRoute),
+                AppNagivator.pushNamedRoute(carRentalResultRoute),
           ),
           CustomSearchLocation(
             locationText: "Drop-off location",
             controllerText: "Enter Pick location",
             eleButtonText: "Continue",
             onEleButtonPressed: () =>
-                AppNagivator.pushNamedRoute(context, carRentalResultRoute),
+                AppNagivator.pushNamedRoute(carRentalResultRoute),
           ),
-          CustomScrollLayoutWidget(
+          CustomScrollableLayoutWidget(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

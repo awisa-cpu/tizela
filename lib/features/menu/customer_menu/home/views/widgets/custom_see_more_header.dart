@@ -21,7 +21,7 @@ class CustomSeeMoreHeader extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          onPressed: () => AppNagivator.goBack(context),
+          onPressed: () => AppNagivator.goBack(),
           icon: const Icon(Icons.arrow_back_outlined),
         ),
         const CustomHeight(height: 20),

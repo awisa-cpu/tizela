@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_listview.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_empty_data_view.dart';
@@ -26,9 +26,9 @@ class _HostBookingsViewState extends State<HostBookingsView> {
   //color
   late Color shorletTextAndIconColor;
   Color carRentalTextAndIconColor =
-      AppColors.appTextFadedColor.withOpacity(0.8);
+      AppColors.appTextFadedColor.withValues(alpha: 0.8);
   Color boatCruiseTextAndIconColor =
-      AppColors.appTextFadedColor.withOpacity(0.8);
+      AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
   late Color shorletmainAndBorderColor;
   Color carRentalmainAndBorderColor = AppColors.appWhiteColor;
@@ -71,7 +71,7 @@ class _HostBookingsViewState extends State<HostBookingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: EdgeInsets.only(
           left: 13.5,
           top: context.appBarHeight(),
@@ -298,9 +298,9 @@ class _HostBookingsViewState extends State<HostBookingsView> {
 
         //
         carRentalTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         boatCruiseTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
         //
         carRentalmainAndBorderColor = AppColors.appWhiteColor;
@@ -316,13 +316,14 @@ class _HostBookingsViewState extends State<HostBookingsView> {
       isBoatCruiseSelected = false;
 
       if (isCarRentalSelected) {
-        shorletTextAndIconColor = AppColors.appTextFadedColor.withOpacity(0.8);
+        shorletTextAndIconColor =
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         shorletmainAndBorderColor = AppColors.appWhiteColor;
 
         //
         carRentalTextAndIconColor = AppColors.appWhiteColor;
         boatCruiseTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
         //
         carRentalmainAndBorderColor = AppColors.appMainColor;
@@ -338,12 +339,13 @@ class _HostBookingsViewState extends State<HostBookingsView> {
       isBoatCruiseSelected = true;
 
       if (isBoatCruiseSelected) {
-        shorletTextAndIconColor = AppColors.appTextFadedColor.withOpacity(0.8);
+        shorletTextAndIconColor =
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         shorletmainAndBorderColor = AppColors.appWhiteColor;
 
         //
         carRentalTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         boatCruiseTextAndIconColor = AppColors.appWhiteColor;
 
         //

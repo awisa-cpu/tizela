@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nigerian_states_and_lga/nigerian_states_and_lga.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
+import 'package:tizela/features/menu/host_menu/listings/controllers/edit_host_car_rental_controller.dart';
 
+import '../../../../../../../../common/widgets/custom_dropdown_form.dart';
 import '../../../../../../../../utils/constants/app_colors.dart';
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../model/car_rental_model.dart';
 import '../../widgets/custom_edit_view.dart';
 
-class EditCarRentalLocation extends StatefulWidget {
-  const EditCarRentalLocation({super.key});
+class EditCarRentalLocation extends StatelessWidget {
+  final CarRentalModel carRental;
+  const EditCarRentalLocation({super.key, required this.carRental});
 
-  @override
-  State<EditCarRentalLocation> createState() => _EditCarRentalLocationState();
-}
-
-class _EditCarRentalLocationState extends State<EditCarRentalLocation> {
-  bool onlyState = false, interState = false;
   @override
   Widget build(BuildContext context) {
+    final controller = EditHostCarRentalController.instance;
+
+    ///
     return CustomEditView(
       child: CustomColumn(
         children: [
@@ -23,13 +27,70 @@ class _EditCarRentalLocationState extends State<EditCarRentalLocation> {
             "Enter Car location",
             style: customTextStyle(fontSize: 16),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 15),
-            child: CustomTextFormField(
-              prefixIcon: Icon(Icons.location_on_outlined),
-              hintText: "Enter address",
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: CustomColumn(
+              children: [
+                CustomTextFormField(
+                  controller: controller.addressStreetNameCon,
+                  prefixIcon: const Icon(Icons.location_on_outlined),
+                  hintText: carRental.address.streetName,
+                ),
+                const CustomHeight(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFormField(
+                        controller: controller.addressHouseNumberCon,
+                        prefixIcon: const Icon(Icons.location_on_outlined),
+                        hintText: carRental.address.houseNumber,
+                      ),
+                    ),
+                    const CustomWidth(),
+                    Expanded(
+                      child: CustomTextFormField(
+                        controller: controller.addressPostalCodeCon,
+                        prefixIcon: const Icon(Icons.location_on_outlined),
+                        hintText: carRental.address.postalCode,
+                      ),
+                    ),
+                  ],
+                ),
+                const CustomHeight(),
+                //state
+                Obx(
+                  () => CustomDropdownForm(
+                    currentValue: controller.currentStateValue.value,
+                    items: NigerianStatesAndLGA.allStates,
+                    onChanged: (newState) =>
+                        AppFunctions.updateCheckboxStringValue(
+                      newValue: newState as String,
+                      oldValue: controller.currentStateValue,
+                    ),
+                  ),
+                ),
+                //lga
+                const CustomHeight(),
+                Obx(
+                  () => CustomDropdownForm(
+                    currentValue: controller.currentStateLga.value,
+                    items: NigerianStatesAndLGA.getStateLGAs(
+                      controller.currentStateValue.value != "Select a state"
+                          ? controller.currentStateValue.value
+                          : "FCT(Abuja)",
+                    ),
+                    onChanged: (newState) =>
+                        AppFunctions.updateCheckboxStringValue(
+                      newValue: newState as String,
+                      oldValue: controller.currentStateLga,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
+
+          //
           Text(
             "Car movement areas",
             style: customTextStyle(fontSize: 16),
@@ -48,30 +109,47 @@ class _EditCarRentalLocationState extends State<EditCarRentalLocation> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomCheckboxWithText(
-                  text: "Only Location State",
-                  isChecked: onlyState,
-                  isCheckBoxFirst: true,
-                  onValueChanged: (_) {
-                    onlyState = true;
-                    interState = false;
-                    setState(() {});
-                  },
+                Obx(
+                  () => CustomCheckboxWithText(
+                    text: "Only Location State",
+                    isChecked: controller.isIntraStateMovement.value,
+                    isCheckBoxFirst: true,
+                    onValueChanged: (_) =>
+                        AppFunctions.onCarLocationIntraStateMovement(
+                      isIntraStateMovement: controller.isIntraStateMovement,
+                      isInterStateMovement: controller.isInterStateMovement,
+                      isCarMovementOutsideState:
+                          controller.isCarMovementOutsideState,
+                    ),
+                  ),
                 ),
-                CustomCheckboxWithText(
-                  text: "Inter-State",
-                  isChecked: interState,
-                  isCheckBoxFirst: true,
-                  onValueChanged: (_) {
-                    onlyState = false;
-                    interState = true;
-                    setState(() {});
-                  },
+                Obx(
+                  () => CustomCheckboxWithText(
+                    text: "Inter-State",
+                    isChecked: controller.isInterStateMovement.value,
+                    isCheckBoxFirst: true,
+                    onValueChanged: (_) =>
+                        AppFunctions.onCarLocationInterStateMovement(
+                      isIntraStateMovement: controller.isIntraStateMovement,
+                      isInterStateMovement: controller.isInterStateMovement,
+                      isCarMovementOutsideState:
+                          controller.isCarMovementOutsideState,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          CustomEleButton(onPressed: () {}, text: "Save")
+          Obx(
+            () => CustomEleButton(
+              onPressed: () => controller.updateCarRentalAddress(
+                currentCarRental: carRental,
+              ),
+              text: controller.isCarRentalAddressUpdating.value
+                  ? "update in progress..."
+                  : "Save",
+            ),
+          )
         ],
       ),
     );

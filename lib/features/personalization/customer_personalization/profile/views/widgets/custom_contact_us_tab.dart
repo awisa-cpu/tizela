@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
@@ -21,7 +21,7 @@ class CustomContactUsTab extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: GestureDetector(
         onTap: onTap,
-        child: CustomScrollLayoutWidget(
+        child: CustomScrollableLayoutWidget(
           child: CustomColumn(
             children: [
               Material(
@@ -32,7 +32,7 @@ class CustomContactUsTab extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       offset: const Offset(1, 2),
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Colors.grey.withValues(alpha: 0.1),
                       spreadRadius: 7,
                       blurRadius: 5,
                     )

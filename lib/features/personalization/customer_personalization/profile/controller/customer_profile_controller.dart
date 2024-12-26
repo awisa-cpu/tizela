@@ -106,7 +106,7 @@ class CustomerProfileController extends GetxController {
         title: "Successful",
         message: "user info updated!",
       );
-      AppNagivator.goBack(Get.context!);
+      AppNagivator.goBack();
     } catch (e) {
       AppLoaderService.stopLoader();
       AlertServices.errorSnackBar(

@@ -110,37 +110,38 @@ class EditHostBoatcruiseDetails extends StatelessWidget {
             ),
           ),
 
-          //todo:location
+
+          //location
           CustomListingDetailsDisplayer(
             titleName: "Location",
             isJustText: false,
-            child: const CustomColumn(
+            child:  CustomColumn(
               children: [
                 CustomMainAndSubtextListingDetails(
                   attribute: "Address",
-                  value: "No 23 Kosoko road, Ojudu Berger",
+                  value: boatCruise.address.addressWithoutPostal ,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Local gov.t",
-                  value: "Ojudu",
+                  value: boatCruise.address.lga,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "State",
-                  value: "Lagos",
+                  value: boatCruise.address.state,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Postal code",
-                  value: "124876",
+                  value: boatCruise.address.postalCode??'',
                 ),
-                CustomMainAndSubtextListingDetails(
+               const  CustomMainAndSubtextListingDetails(
                   attribute: "Building details",
-                  value: "Flat 2",
+                  value: "",
                 ),
               ],
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditBoatCruiseLocation(),
+              child: EditBoatCruiseLocation(boatCruise: boatCruise,),
             ),
           ),
 

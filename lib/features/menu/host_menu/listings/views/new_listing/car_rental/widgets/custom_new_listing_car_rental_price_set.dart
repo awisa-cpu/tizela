@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_car_rental_controller.dart';
@@ -17,7 +17,7 @@ class CustomNewListingCarRentalPriceSet extends StatelessWidget {
   Widget build(BuildContext context) {
     final HostCarRentalController controller = HostCarRentalController.instance;
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(

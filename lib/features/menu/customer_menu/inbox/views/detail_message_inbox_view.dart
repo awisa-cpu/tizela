@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/features/menu/customer_menu/inbox/model/message_model.dart';
@@ -20,7 +20,7 @@ class DetailMessageInboxView extends StatelessWidget {
           style: customTextStyle(fontSize: 16),
         ),
       ),
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         child: CustomColumn(
           children: [
             Text(

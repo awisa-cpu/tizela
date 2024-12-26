@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/data/repositories/car_rental_repository/car_rental_repository.dart';
 import 'package:tizela/data/services/app_loader_services.dart';
+import 'package:tizela/data/services/network_service.dart';
 
 import '../../../../../data/local_database.dart';
 import '../../../../../data/services/alert_services.dart';
@@ -20,6 +21,9 @@ class EditHostCarRentalController extends GetxController {
   final CarRentalRepository carRentalRepo = CarRentalRepository.instance;
   late final TextEditingController carRentalPriceCon;
   late final TextEditingController carRentalNameCon;
+  late final TextEditingController addressStreetNameCon;
+  late final TextEditingController addressHouseNumberCon;
+  late final TextEditingController addressPostalCodeCon;
   final GlobalKey<FormState> carRentalPriceKey = GlobalKey<FormState>();
   RxBool isTizelaTandCAccepted = false.obs;
   RxBool isCarRentalNameUpdating = false.obs;
@@ -30,6 +34,7 @@ class EditHostCarRentalController extends GetxController {
   RxBool isCarRentalFeaturesUpdating = false.obs;
   RxBool isCarRentalSafetyFeaturesUpdating = false.obs;
   RxBool isCarRentalPoliciesUpdating = false.obs;
+  RxBool isCarRentalAddressUpdating = false.obs;
   RxBool isCarRentalDriverPoliciesUpdating = false.obs;
   double carRentalFee = 0.0;
   final RxList<AppFileModel> selectedImages = <AppFileModel>[].obs;
@@ -38,8 +43,13 @@ class EditHostCarRentalController extends GetxController {
   List<CarBrandModel> carModels = LocalDatabase.carBrandModels;
   Rx<CarBrandModel> selectedCarBrand = CarBrandModel.empty().obs;
   RxString selectedCarYear = "Car Year".obs;
+  RxString currentStateValue = "Select a state".obs;
+  RxString currentStateLga = "Select your lga".obs;
   Rx<DateTime> dateInSelected = DateTime.now().obs;
   Rx<DateTime> dateOutSelected = DateTime.now().obs;
+  RxBool isIntraStateMovement = false.obs;
+  RxBool isInterStateMovement = false.obs;
+  RxBool isCarMovementOutsideState = false.obs;
 
   ///methods
 
@@ -48,12 +58,18 @@ class EditHostCarRentalController extends GetxController {
     super.onInit();
     carRentalPriceCon = TextEditingController();
     carRentalNameCon = TextEditingController();
+    addressStreetNameCon = TextEditingController();
+    addressHouseNumberCon = TextEditingController();
+    addressPostalCodeCon = TextEditingController();
   }
 
   @override
   void dispose() {
     carRentalPriceCon.dispose();
     carRentalNameCon.dispose();
+    addressStreetNameCon.dispose();
+    addressHouseNumberCon.dispose();
+    addressPostalCodeCon.dispose();
     super.dispose();
   }
 
@@ -73,6 +89,19 @@ class EditHostCarRentalController extends GetxController {
 
   void updateCarRentalPrice({required CarRentalModel carRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       AppLoaderService.startLoader(
         loaderText: "Updating price, please wait...",
       );
@@ -94,13 +123,13 @@ class EditHostCarRentalController extends GetxController {
       final updatedCarRental = carRental.copyWith(carPrice: carRentalFee);
 
       await carRentalRepo.editCarRental(carRental: updatedCarRental);
-      carRentalPriceCon.clear();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Congrats",
         message: "Price successfully updated!",
       );
-      AppNagivator.goBack(Get.context!);
+      AppNagivator.goBack();
     } catch (e) {
       AppDebugger.debugger(e);
       AppLoaderService.stopLoader();
@@ -108,11 +137,28 @@ class EditHostCarRentalController extends GetxController {
         title: "Oh snap!",
         message: "Price not updated!",
       );
+    } finally {
+      carRentalPriceKey.currentState?.reset();
+      carRentalPriceCon.clear();
+      isTizelaTandCAccepted.value = false;
     }
   }
 
   void updateCarRentalName({required CarRentalModel carRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       if (carRentalNameCon.text.isEmpty) {
         return;
       }
@@ -124,7 +170,7 @@ class EditHostCarRentalController extends GetxController {
       );
 
       await carRentalRepo.editCarRental(carRental: updatedCarRental);
-      carRentalNameCon.clear();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good",
@@ -137,12 +183,25 @@ class EditHostCarRentalController extends GetxController {
         message: "car name  not updated",
       );
     } finally {
+      carRentalNameCon.clear();
       isCarRentalNameUpdating.value = false;
     }
   }
 
   void updateCarRentalPhotos({required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
       //
 
       if (selectedImages.isEmpty) {
@@ -167,8 +226,6 @@ class EditHostCarRentalController extends GetxController {
       );
 
       //
-      selectedImages.clear();
-      //
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -181,6 +238,8 @@ class EditHostCarRentalController extends GetxController {
         message: "Car images not updated",
       );
     } finally {
+      //
+      selectedImages.clear();
       isCarRentalPhotosUpdating.value = false;
     }
   }
@@ -188,6 +247,19 @@ class EditHostCarRentalController extends GetxController {
   void updateCarRentalTypeAndModelDetails(
       {required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       if (selectedCarType.value.isEmpty &&
           selectedCarYear.value.isEmpty &&
           selectedCarBrand.value.id.isEmpty) {
@@ -208,9 +280,7 @@ class EditHostCarRentalController extends GetxController {
       );
 
       await carRentalRepo.editCarRental(carRental: updatedCarRental);
-      selectedCarType.value = "";
-      selectedCarBrand.value = CarBrandModel.empty();
-      selectedCarYear.value = "";
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -223,6 +293,9 @@ class EditHostCarRentalController extends GetxController {
         message: "Car details not updated",
       );
     } finally {
+      selectedCarType.value = "";
+      selectedCarBrand.value = CarBrandModel.empty();
+      selectedCarYear.value = "";
       isCarRentalTypeAndDetailsUpdating.value = false;
     }
   }
@@ -230,6 +303,19 @@ class EditHostCarRentalController extends GetxController {
   void updateCarRentalDateSelected(
       {required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       final firstDate = currentCarRental.availableDates[0];
       final secondDate = currentCarRental.availableDates[1];
 
@@ -242,8 +328,7 @@ class EditHostCarRentalController extends GetxController {
       final updatedCarRental = currentCarRental.copyWith(
           availableDates: [dateInSelected.value, dateOutSelected.value]);
       await carRentalRepo.editCarRental(carRental: updatedCarRental);
-      dateInSelected.value = DateTime.now();
-      dateOutSelected.value = DateTime.now();
+
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Good!",
@@ -256,6 +341,8 @@ class EditHostCarRentalController extends GetxController {
         message: "Availability not updated",
       );
     } finally {
+      dateInSelected.value = DateTime.now();
+      dateOutSelected.value = DateTime.now();
       isCarRentalDatesUpdating.value = false;
     }
   }
@@ -263,6 +350,19 @@ class EditHostCarRentalController extends GetxController {
   void updateCarRentalDetails(
       {required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isCarRentalDetailsUpdating.value = true;
 
       final updatedCarRental = currentCarRental.copyWith(
@@ -289,6 +389,19 @@ class EditHostCarRentalController extends GetxController {
   void updateCarRentalFeatures(
       {required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isCarRentalFeaturesUpdating.value = true;
 
       final updatedCarRental = currentCarRental.copyWith(
@@ -315,6 +428,19 @@ class EditHostCarRentalController extends GetxController {
   void updateCarRentalSafetyFeatures(
       {required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isCarRentalSafetyFeaturesUpdating.value = true;
 
       final updatedCarRental = currentCarRental.copyWith(
@@ -340,6 +466,19 @@ class EditHostCarRentalController extends GetxController {
 
   void updateCarRentalPolicy({required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
+      //
       isCarRentalPoliciesUpdating.value = true;
 
       final updatedCarRental = currentCarRental.copyWith(
@@ -366,6 +505,17 @@ class EditHostCarRentalController extends GetxController {
   void updateCarRentalDriverPolicy(
       {required CarRentalModel currentCarRental}) async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       isCarRentalDriverPoliciesUpdating.value = true;
 
       final updatedCarRental = currentCarRental.copyWith(
@@ -386,6 +536,81 @@ class EditHostCarRentalController extends GetxController {
       );
     } finally {
       isCarRentalDriverPoliciesUpdating.value = false;
+    }
+  }
+
+  void updateCarRentalAddress(
+      {required CarRentalModel currentCarRental}) async {
+    try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+      if (addressStreetNameCon.text.isEmpty &&
+          addressHouseNumberCon.text.isEmpty &&
+          addressPostalCodeCon.text.isEmpty &&
+          currentStateValue.value == "Select a state" &&
+          currentStateLga.value == "Select your lga" &&
+          isInterStateMovement.value == false &&
+          isIntraStateMovement.value == false) {
+        return;
+      }
+
+      isCarRentalAddressUpdating.value = true;
+
+      //
+      final updatedAddress = currentCarRental.address.copyWith(
+        houseNumber: addressHouseNumberCon.text.isNotEmpty
+            ? addressHouseNumberCon.text.trim()
+            : currentCarRental.address.houseNumber,
+        streetName: addressStreetNameCon.text.isNotEmpty
+            ? addressStreetNameCon.text.trim()
+            : currentCarRental.address.streetName,
+        postalCode: addressPostalCodeCon.text.isNotEmpty
+            ? addressPostalCodeCon.text.trim()
+            : currentCarRental.address.postalCode,
+        lga: currentStateLga.value != "Select a lga"
+            ? currentStateLga.value
+            : currentCarRental.address.lga,
+        state: currentStateValue.value != "Select a state"
+            ? currentStateValue.value
+            : currentCarRental.address.state,
+      );
+      final updatedCarRental = currentCarRental.copyWith(
+        address: updatedAddress,
+        isCarMovementOutsideState: isCarMovementOutsideState.value,
+      );
+
+      await carRentalRepo.editCarRental(carRental: updatedCarRental);
+
+      AppLoaderService.stopLoader();
+      AlertServices.successSnackBar(
+        title: "Good!",
+        message: "Address updated",
+      );
+    } catch (e) {
+      AppDebugger.debugger(e);
+      AlertServices.errorSnackBar(
+        title: "Oh snap!",
+        message: "Address not updated",
+      );
+    } finally {
+      addressStreetNameCon.clear();
+      addressHouseNumberCon.clear();
+      addressPostalCodeCon.clear();
+      currentStateLga.value = "Select a lga";
+      currentStateValue.value = "Select a state";
+      isCarMovementOutsideState.value = false;
+      isIntraStateMovement.value = false;
+      isInterStateMovement.value = false;
+      isCarRentalAddressUpdating.value = false;
     }
   }
 }

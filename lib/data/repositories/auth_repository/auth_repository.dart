@@ -58,11 +58,9 @@ class AuthRepository extends GetxController {
 
         isUserFirstTime != true
             ? AppNagivator.pushNamedRoute(
-                Get.context!,
                 userSAcountTypeRoute,
               )
             : AppNagivator.pushNamedAndRemoveAll(
-                Get.context!,
                 onboardingRoute,
               );
         return;
@@ -181,10 +179,19 @@ class AuthRepository extends GetxController {
     }
   }
 
-  ///verify user email address
+  ///verify user email address after sign up
   Future<void> sendVerificationEmail() async {
     try {
       currentUser?.sendEmailVerification();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  ///send password set email to user's email address
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       rethrow;
     }

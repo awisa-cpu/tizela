@@ -19,7 +19,7 @@ class CustomFilterHeader extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () => AppNagivator.goBack(context),
+          onPressed: () => AppNagivator.goBack(),
           icon: const Icon(Icons.close),
         )
       ],

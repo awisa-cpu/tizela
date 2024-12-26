@@ -18,7 +18,7 @@ class CustomNewListingShorletVerification extends StatelessWidget {
     final controller = HostShorletController.instance;
 
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(

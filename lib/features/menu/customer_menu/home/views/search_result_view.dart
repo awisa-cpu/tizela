@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
@@ -41,7 +41,7 @@ class SearchResultView extends StatelessWidget {
           ],
         ),
       ),
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

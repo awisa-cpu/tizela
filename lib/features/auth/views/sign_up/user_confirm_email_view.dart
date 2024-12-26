@@ -6,7 +6,7 @@ import 'package:tizela/features/auth/views/sign_in/widgets/auth_header_texts.dar
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
-import '../../../../common/styles/custom_scroll_layout_widget.dart';
+import '../../../../common/styles/custom_scrollable_layout_widget.dart';
 
 class UserConfirmationEmailView extends StatelessWidget {
   const UserConfirmationEmailView({super.key});
@@ -14,7 +14,7 @@ class UserConfirmationEmailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -22,7 +22,7 @@ class UserConfirmationEmailView extends StatelessWidget {
               mainText: "Let's confirm your email ",
               subText1: "To ensure a seemless experience kindly click",
               subText2: "on the email we sent to your inbox.",
-              onPressedBackButton: () => AppNagivator.goBack(context),
+              onPressedBackButton: () => AppNagivator.goBack(),
             ),
             const CustomHeight(height: 20),
             TextFormField(
@@ -31,7 +31,6 @@ class UserConfirmationEmailView extends StatelessWidget {
             const CustomHeight(height: 20),
             CustomEleButton(
                 onPressed: () => AppNagivator.pushNamedRoute(
-                      context,
                       userSignInRoute,
                     ),
                 text: "Continue"),

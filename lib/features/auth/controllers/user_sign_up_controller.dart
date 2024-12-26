@@ -103,7 +103,6 @@ class UserSignUpController extends GetxController {
       //todo: go to verify email view from here and not login
       //navigate to login now
       AppNagivator.pushNamedRoute(
-        Get.context!,
         userSignInRoute,
       );
     } catch (e) {

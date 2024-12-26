@@ -74,7 +74,6 @@ class _SuccessViewState extends State<SuccessView> {
                 onPressed: widget.onPressed != null
                     ? widget.onPressed!
                     : () => AppNagivator.pushNamedRoute(
-                          context,
                           appMenuCustomerHomeRoute,
                         ),
                 text: widget.actionText ?? "Go to homepage",

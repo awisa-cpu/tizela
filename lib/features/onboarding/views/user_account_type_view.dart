@@ -81,12 +81,11 @@ class UserAccountTypeView extends StatelessWidget {
                   onPressed: () {
                     if (onBoardingController.isHostTapped.value) {
                       AppNagivator.pushRoute(
-                        context,
-                        (_) => const UserSignInCheckView(),
+                       const UserSignInCheckView(),
                       );
                     } else if (onBoardingController.isCustomerTapped.value) {
                       AppNagivator.pushNamedRoute(
-                          context, customerAuthTypeRoute);
+                          customerAuthTypeRoute);
                     }
                   },
                   text: 'Continue',

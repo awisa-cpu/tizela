@@ -1,4 +1,4 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart';
 import 'package:tizela/utils/enums/booking_status.dart';
 
@@ -19,7 +19,6 @@ class BoatCruiseBookingModel {
     required this.startTime,
     required this.endTime,
   });
-  
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -36,8 +35,10 @@ class BoatCruiseBookingModel {
   factory BoatCruiseBookingModel.fromJson(Map<String, dynamic> json) {
     return BoatCruiseBookingModel(
       uid: json['uid'] as String,
-      boatCruise: BoatCruiseModel.fromJson(json['boatCruise'] as Map<String,dynamic>),
-      status: BookingStatus.values.firstWhere((status)=> status.name ==json['status']),
+      boatCruise:
+          BoatCruiseModel.fromJson(json['boatCruise'] as Map<String, dynamic>),
+      status: BookingStatus.values
+          .firstWhere((status) => status.name == json['status']),
       dateToCruise: DateTime.parse(json['dateToCruise'] as String),
       passengerCount: json['passengerCount'] as String,
       startTime: json['startTime'] as String,
@@ -45,5 +46,35 @@ class BoatCruiseBookingModel {
     );
   }
 
+  factory BoatCruiseBookingModel.empty() {
+    return BoatCruiseBookingModel(
+      uid: '',
+      boatCruise: BoatCruiseModel.empty(),
+      status: BookingStatus.none,
+      dateToCruise: DateTime.now(),
+      passengerCount: "",
+      startTime: '',
+      endTime: '',
+    );
+  }
 
+  factory BoatCruiseBookingModel.froSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot) {
+    if (docSnapshot.exists) {
+      final docData = docSnapshot.data()!;
+      return BoatCruiseBookingModel(
+        uid: docSnapshot.id,
+        boatCruise: BoatCruiseModel.fromJson(docData['boatCruise']),
+        status: BookingStatus.values
+            .firstWhere((status) => status.name == docData['status']),
+        dateToCruise:
+            DateTime.tryParse(docData['dateToCruise']) ?? DateTime.now(),
+        passengerCount: docData['passengerCount'],
+        startTime: docData['startTime'],
+        endTime: docData['endTime'],
+      );
+    } else {
+      return BoatCruiseBookingModel.empty();
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_car_rental_controller.dart';
 
@@ -17,7 +17,7 @@ class CustomNewListingCarRentalAvailabilityAndTime extends StatelessWidget {
     final HostCarRentalController controller = HostCarRentalController.instance;
 
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(

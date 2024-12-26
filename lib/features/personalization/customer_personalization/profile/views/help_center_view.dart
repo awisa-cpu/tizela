@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_header_sub_and_back_button.dart';
@@ -42,7 +42,7 @@ class _HelpCenterViewState extends State<HelpCenterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
           vertical: kToolbarHeight,
           horizontal: 13.5,
@@ -173,9 +173,9 @@ class _CustomFaqServicesState extends State<CustomFaqServices> {
   //color
   late Color shorletTextAndIconColor;
   Color carRentalTextAndIconColor =
-      AppColors.appTextFadedColor.withOpacity(0.8);
+      AppColors.appTextFadedColor.withValues(alpha: 0.8);
   Color boatCruiseTextAndIconColor =
-      AppColors.appTextFadedColor.withOpacity(0.8);
+      AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
   late Color shorletmainAndBorderColor;
   Color carRentalmainAndBorderColor = AppColors.appWhiteColor;
@@ -298,9 +298,9 @@ class _CustomFaqServicesState extends State<CustomFaqServices> {
 
         //
         carRentalTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         boatCruiseTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
         //
         carRentalmainAndBorderColor = AppColors.appWhiteColor;
@@ -316,13 +316,14 @@ class _CustomFaqServicesState extends State<CustomFaqServices> {
       isBoatCruiseSelected = false;
 
       if (isCarRentalSelected) {
-        shorletTextAndIconColor = AppColors.appTextFadedColor.withOpacity(0.8);
+        shorletTextAndIconColor =
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         shorletmainAndBorderColor = AppColors.appWhiteColor;
 
         //
         carRentalTextAndIconColor = AppColors.appWhiteColor;
         boatCruiseTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
         //
         carRentalmainAndBorderColor = AppColors.appMainColor;
@@ -338,12 +339,13 @@ class _CustomFaqServicesState extends State<CustomFaqServices> {
       isBoatCruiseSelected = true;
 
       if (isBoatCruiseSelected) {
-        shorletTextAndIconColor = AppColors.appTextFadedColor.withOpacity(0.8);
+        shorletTextAndIconColor =
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         shorletmainAndBorderColor = AppColors.appWhiteColor;
 
         //
         carRentalTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         boatCruiseTextAndIconColor = AppColors.appWhiteColor;
 
         //

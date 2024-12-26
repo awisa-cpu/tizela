@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/data/local_database.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/search_result_view.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_car_rental_packages.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_tabs.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
@@ -32,14 +29,14 @@ class CarRentalSearchResult extends StatelessWidget {
             ),
           ),
           const CustomHeight(height: 14),
-          CustomTabs(
-            locations: LocalDatabase.carTypeNames,
-            overflow: TextOverflow.ellipsis,
-          ),
+          // CustomTabs(
+          //   locations: LocalDatabase.carTypeNames,
+          //   overflow: TextOverflow.ellipsis,
+          // ),
           const CustomHeight(height: 14),
-          CustomCarRentalPackages(
-            carRentals: LocalDatabase.carRentalPackages,
-          ),
+          // CustomCarRentalPackages(
+          //   carRentals: LocalDatabase.carRentalPackages,
+          // ),
         ],
       ),
       onTapFilter: () => _diplayCarRentalFilter(context),

@@ -16,7 +16,7 @@ class CustomNewListingCarRentalCreationRules extends StatelessWidget {
     final HostCarRentalController controller = HostCarRentalController.instance;
 
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(

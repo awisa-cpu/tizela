@@ -6,9 +6,10 @@ import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_text_form_field.dart';
 import 'package:tizela/features/auth/controllers/user_sign_in_controller.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
-import 'package:tizela/setup/app_navigator.dart';
 
 import '../../../../../utils/validators/app_validators.dart';
+import '../../sign_up/user_signup_view.dart';
+import '../user_forgot_password_view.dart';
 
 class UserSignInForm extends StatelessWidget {
   UserSignInForm({
@@ -21,6 +22,8 @@ class UserSignInForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = Get.put(UserSignInController());
+
+    //
     return Form(
       key: authController.signInFormKey,
       child: Column(
@@ -57,9 +60,8 @@ class UserSignInForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                onPressed: () => AppNagivator.pushNamedRoute(
-                  context,
-                  userForgotPasswordRoute,
+                onPressed: () => Get.to(
+                  () => const UserForgotPasswordView(),
                 ),
                 child: const Text("Forgot password?"),
               )
@@ -79,15 +81,14 @@ class UserSignInForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Already have an account? ",
+                "Don't have an account? ",
                 style: customTextStyle(
                   fontWeight: FontWeight.normal,
                 ),
               ),
               GestureDetector(
-                onTap: () => AppNagivator.pushNamedRoute(
-                  context,
-                  userSignUpRoute,
+                onTap: () => Get.to(
+                  () => const UserSignUpView(),
                 ),
                 child: const Text(
                   "Sign up",

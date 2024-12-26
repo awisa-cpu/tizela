@@ -35,9 +35,9 @@ class _HostListingsViewState extends State<HostListingsView> {
   //color
   late Color shorletTextAndIconColor;
   Color carRentalTextAndIconColor =
-      AppColors.appTextFadedColor.withOpacity(0.8);
+      AppColors.appTextFadedColor.withValues(alpha: 0.8);
   Color boatCruiseTextAndIconColor =
-      AppColors.appTextFadedColor.withOpacity(0.8);
+      AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
   late Color shorletmainAndBorderColor;
   Color carRentalmainAndBorderColor = AppColors.appWhiteColor;
@@ -62,7 +62,7 @@ class _HostListingsViewState extends State<HostListingsView> {
 
     //
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         child: CustomColumn(
           children: [
             const CustomHeight(height: 50),
@@ -177,7 +177,6 @@ class _HostListingsViewState extends State<HostListingsView> {
                     loaderWidget: const CustomHostDataShimmerListView(),
                   );
 
-
                   if (response != null) return response;
                   //there is data
 
@@ -223,9 +222,9 @@ class _HostListingsViewState extends State<HostListingsView> {
 
         //
         carRentalTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         boatCruiseTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
         //
         carRentalmainAndBorderColor = AppColors.appWhiteColor;
@@ -241,13 +240,14 @@ class _HostListingsViewState extends State<HostListingsView> {
       _isBoatCruiseSelected = false;
 
       if (_isCarRentalSelected) {
-        shorletTextAndIconColor = AppColors.appTextFadedColor.withOpacity(0.8);
+        shorletTextAndIconColor =
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         shorletmainAndBorderColor = AppColors.appWhiteColor;
 
         //
         carRentalTextAndIconColor = AppColors.appWhiteColor;
         boatCruiseTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
 
         //
         carRentalmainAndBorderColor = AppColors.appMainColor;
@@ -263,12 +263,13 @@ class _HostListingsViewState extends State<HostListingsView> {
       _isBoatCruiseSelected = true;
 
       if (_isBoatCruiseSelected) {
-        shorletTextAndIconColor = AppColors.appTextFadedColor.withOpacity(0.8);
+        shorletTextAndIconColor =
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         shorletmainAndBorderColor = AppColors.appWhiteColor;
 
         //
         carRentalTextAndIconColor =
-            AppColors.appTextFadedColor.withOpacity(0.8);
+            AppColors.appTextFadedColor.withValues(alpha: 0.8);
         boatCruiseTextAndIconColor = AppColors.appWhiteColor;
 
         //

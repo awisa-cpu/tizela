@@ -27,7 +27,7 @@ class CustomBookingTab extends StatelessWidget {
           color: tabColor,
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withValues( alpha: 0.3),
           ),
         ),
         child: Text(

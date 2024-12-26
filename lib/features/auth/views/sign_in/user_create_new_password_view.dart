@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_text_form_field.dart';
 import 'package:tizela/features/auth/views/sign_in/widgets/auth_header_texts.dart';
@@ -12,7 +12,7 @@ class UserCreateNewPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,7 +20,7 @@ class UserCreateNewPasswordView extends StatelessWidget {
               mainText: "Create a new password",
               subText1: "To ensure a seemless experience kindly enter the",
               subText2: "secured code we sent to your inbox.",
-              onPressedBackButton: () => AppNagivator.goBack(context),
+              onPressedBackButton: () => AppNagivator.goBack(),
             ),
             const CustomHeight(height: 35),
             const CustomTextFormField(labelText: "Password"),
@@ -29,7 +29,6 @@ class UserCreateNewPasswordView extends StatelessWidget {
             const CustomHeight(height: 40),
             CustomEleButton(
               onPressed: () => AppNagivator.pushNamedRoute(
-                context,
                 userSignInRoute,
               ),
               text: "Continue",

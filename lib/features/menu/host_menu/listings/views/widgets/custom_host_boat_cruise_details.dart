@@ -43,7 +43,7 @@ class CustomHostBoatCruiseDetails extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 Text(
-                  boatCruise.address.addressText,
+                  boatCruise.address.addressWithoutPostal,
                   style: customTextStyle(
                     fontSize: 12,
                     color: AppColors.appTextFadedColor,

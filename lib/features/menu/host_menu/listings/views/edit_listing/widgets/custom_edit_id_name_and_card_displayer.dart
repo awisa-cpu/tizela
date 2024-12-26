@@ -24,7 +24,7 @@ class CustomEditIdNameAndCardDisplayer extends StatelessWidget {
         CustomRoundedEdgedContainer(
           paddingNumber: 14,
           borderRadius: 10,
-          borderColor: Colors.grey.withOpacity(0.5),
+          borderColor: Colors.grey.withValues(alpha: 0.5),
           child: Stack(
             children: [
               Positioned(

@@ -9,7 +9,7 @@ import 'package:tizela/common/widgets/custom_divider.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_outlined_button.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_bookings_receipt_view.dart';
+import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_bookings/car_rental_bookings_receipt_view.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/car_rental_model_xxxxx.dart';
@@ -17,7 +17,6 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_ico
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
-import 'package:tizela/utils/constants/images_texts.dart';
 
 class CustomCarRentalBookingStatus extends StatelessWidget {
   final CarRentalModelxxxxxxxxxxx carRental;
@@ -80,7 +79,6 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CustomIconAndText(
-                        imageIcon: ImagesText.userIcon,
                         text: "4",
                         color: AppColors.appIconColorBox,
                         textStyle: customTextStyle(
@@ -91,7 +89,6 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                       ),
                       const CustomWidth(width: 5),
                       CustomIconAndText(
-                        imageIcon: ImagesText.holidayBagIcon,
                         text: "2",
                         color: AppColors.appIconColorBox,
                         textStyle: customTextStyle(
@@ -102,7 +99,6 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                       ),
                       const CustomWidth(width: 5),
                       CustomIconAndText(
-                        imageIcon: ImagesText.acIcon,
                         text: "AC",
                         color: AppColors.appIconColorBox,
                         textStyle: customTextStyle(
@@ -169,8 +165,7 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                     Expanded(
                       child: CustomEleButton(
                         onPressed: () => AppNagivator.pushRoute(
-                          context,
-                          (_) => const CarRentalBookingsReceiptView(),
+                        const CarRentalBookingsReceiptView(),
                         ),
                         text: "View E-Receipt",
                       ),
@@ -191,8 +186,7 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                     Expanded(
                       child: CustomOutlinedButton(
                         onTap: () => AppNagivator.pushRoute(
-                          context,
-                          (_) => const CarRentalBookingsReceiptView(),
+                        const CarRentalBookingsReceiptView(),
                         ),
                         actionText: "View E-Receipt",
                         style: Theme.of(context)

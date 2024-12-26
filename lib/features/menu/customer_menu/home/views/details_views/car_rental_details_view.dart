@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_favourite.dart';
+import 'package:tizela/common/widgets/custom_network_image.dart';
 import 'package:tizela/common/widgets/custom_share.dart';
 import 'package:tizela/data/local_database.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_bookings_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/car_details_model.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/car_rental_model_xxxxx.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/details_views/more_car_rental_images_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
-import 'package:tizela/utils/constants/images_texts.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
+import '../../../../host_menu/listings/model/car_rental_model.dart';
+import '../../../bookings/views/car_rental_bookings/car_rental_bookings_view.dart';
 import 'widgets/custom_first_section_car_rental_details_view.dart';
 import 'widgets/driver_service_panel.dart';
 import 'widgets/policy_tab.dart';
@@ -25,7 +23,7 @@ import 'widgets/safety_features_panel.dart';
 import 'widgets/vehicle_details_panel.dart';
 
 class CarRentalDetailsView extends StatefulWidget {
-  final CarRentalModelxxxxxxxxxxx carRental;
+  final CarRentalModel carRental;
   const CarRentalDetailsView({super.key, required this.carRental});
 
   @override
@@ -51,7 +49,7 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: EdgeInsets.zero,
         child: CustomColumn(
           isMainAxisSize: false,
@@ -59,26 +57,25 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
             //image and image qualities
             Stack(
               children: [
-                SizedBox(
-                  height: context.screenHeight() * 0.35,
-                  width: context.screenWidth(),
-                  child: Image.asset(
-                    widget.carRental.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
+                CustomCachedNetworkImage(
+                  imageUrl: widget.carRental.carImages.first,
+                  imageWidth: context.screenWidth(),
+                  imageHeigth: context.screenHeight() * 0.40,
+                  fit: BoxFit.cover,
                 ),
                 //back button
                 Positioned(
                   top: 40,
                   left: 10,
                   child: IconButton(
-                    onPressed: () => AppNagivator.goBack(context),
+                    onPressed: () => AppNagivator.goBack(),
                     icon: const Icon(
                       Icons.arrow_back_rounded,
                       color: AppColors.appWhiteColor,
                     ),
                   ),
                 ),
+                //favourite
                 Positioned(
                   right: 10,
                   top: 40,
@@ -86,6 +83,7 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                     onTap: () {},
                   ),
                 ),
+                //share
                 Positioned(
                   right: 60,
                   top: 40,
@@ -97,23 +95,21 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                   bottom: 10,
                   right: 10,
                   child: CustomIconAndText(
-                    imageIcon: ImagesText.galleryIcon,
                     text: "12",
-                    textStyle: const TextStyle(color: Colors.white),
-                    color: Colors.black.withOpacity(0.6),
                     onTap: () {
-                      AppNagivator.pushRoute(
-                        context,
-                        (context) => MoreCarRentalImagesView(
-                          carRental: widget.carRental,
-                        ),
-                      );
+                      // AppNagivator.pushRoute(
+                      //   MoreCarRentalImagesView(
+                      //     carRental: widget.carRental,
+                      //   ),
+                      // );
                     },
                   ),
                 )
               ],
             ),
-            CustomScrollLayoutWidget(
+
+            //section 2
+            CustomScrollableLayoutWidget(
               padding: const EdgeInsets.only(
                   top: 13.5, left: 13.5, right: 13.5, bottom: 35),
               child: CustomColumn(
@@ -122,12 +118,16 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                   CustomFirstSectionCarRentalDetailsView(
                     carRental: widget.carRental,
                   ),
-                  const CustomHeight(height: 30),
-                  const CustomDivider(),
-                  const CustomHeight(height: 30),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                    child: CustomDivider(),
+                  ),
+
+                  //todo: work with the model data
                   ExpansionPanelList(
                     elevation: 0,
-                    dividerColor: AppColors.appTextFadedColor.withOpacity(0.3),
+                    dividerColor:
+                        AppColors.appTextFadedColor.withValues(alpha: 0.3),
                     expansionCallback: (int panelIndex, bool isExpanded) {
                       setState(() {
                         carDetails[panelIndex].isExpanded = isExpanded;
@@ -156,14 +156,12 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        margin: const EdgeInsets.only(left: 30),
-        width: context.screenWidth() * 0.80,
+      floatingActionButton: SizedBox(
+        width: context.screenWidth() * 0.90,
         child: CustomEleButton(
             onPressed: () {
               AppNagivator.pushRoute(
-                context,
-                (context) => CarRentalBookingsView(carRental: widget.carRental),
+                CarRentalBookingsView(carRental: widget.carRental),
               );
             },
             text: "Book"),

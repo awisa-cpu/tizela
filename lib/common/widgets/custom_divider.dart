@@ -10,7 +10,7 @@ class CustomDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Divider(
       thickness: thickness,
-      color: AppColors.appTextFadedColor.withOpacity(opacityLevel),
+      color: AppColors.appTextFadedColor.withValues(alpha: opacityLevel),
     );
   }
 }

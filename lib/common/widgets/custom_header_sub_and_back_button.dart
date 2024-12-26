@@ -26,7 +26,7 @@ class CustomHeaderSubAndBackButton extends StatelessWidget {
         Row(
           children: [
             GestureDetector(
-              onTap: onTap ?? () => AppNagivator.goBack(context),
+              onTap: onTap ?? () => AppNagivator.goBack(),
               child: const Icon(Icons.arrow_back_rounded),
             ),
             const CustomWidth(width: 15),

@@ -24,7 +24,7 @@ class CustomBoatType extends StatelessWidget {
         alignment: Alignment.center,
         borderColor: isBoatSelected
             ? AppColors.appMainColor
-            : Colors.grey.withOpacity(0.5),
+            : Colors.grey.withValues(alpha: 0.5),
         child: CustomColumn(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

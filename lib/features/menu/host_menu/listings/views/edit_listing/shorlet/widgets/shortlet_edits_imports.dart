@@ -1,6 +1,5 @@
 export 'edit_shorlet_amenities_view.dart';
 export 'edit_shorlet_apartment_details.dart';
-export 'edit_shorlet_apartment_price.dart';
 export 'edit_shorlet_apartment_story.dart';
 export 'edit_shorlet_apartment_type_view.dart';
 export 'edit_shorlet_availability.dart';

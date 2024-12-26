@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
@@ -85,8 +85,7 @@ class HostProfileView extends StatelessWidget {
                       titleText: "Booking type setting",
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => AppNagivator.pushRoute(
-                        context,
-                        (_) => const BookingTypeSettingView(),
+                        const BookingTypeSettingView(),
                       ),
                     ),
                     const CustomDivider(),
@@ -94,8 +93,7 @@ class HostProfileView extends StatelessWidget {
                       titleText: "Payment",
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => AppNagivator.pushRoute(
-                        context,
-                        (_) => const PaymentDetailsView(),
+                        const PaymentDetailsView(),
                       ),
                     ),
                     const CustomDivider(),
@@ -103,8 +101,7 @@ class HostProfileView extends StatelessWidget {
                       titleText: "Change password",
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => AppNagivator.pushRoute(
-                        context,
-                        (_) => const ChangePasswordView(),
+                        const ChangePasswordView(),
                       ),
                     ),
                     const CustomDivider(),
@@ -112,8 +109,7 @@ class HostProfileView extends StatelessWidget {
                       titleText: "ID Verification",
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => AppNagivator.pushRoute(
-                        context,
-                        (_) => const IdVerificationView(),
+                        const IdVerificationView(),
                       ),
                     ),
                   ],
@@ -155,9 +151,7 @@ class HostProfileView extends StatelessWidget {
                         Expanded(
                           child: CustomSwitchButton(
                             value: false,
-                            onValueChanged: (value){
-                              
-                            },
+                            onValueChanged: (value) {},
                           ),
                         )
                       ],
@@ -166,22 +160,20 @@ class HostProfileView extends StatelessWidget {
                 ),
 
                 //
-                CustomScrollLayoutWidget(
+                CustomScrollableLayoutWidget(
                   child: CustomColumn(
                     children: [
                       CustomUserProfileListTile(
                         titleText: "Privacy policy",
                         onTap: () => AppNagivator.pushRoute(
-                          context,
-                          (_) => const PrivacyPolicyView(),
+                          const PrivacyPolicyView(),
                         ),
                       ),
                       const CustomDivider(),
                       CustomUserProfileListTile(
                         titleText: "Help center",
                         onTap: () => AppNagivator.pushRoute(
-                          context,
-                          (_) => const HelpCenterView(),
+                          const HelpCenterView(),
                         ),
                       ),
                       const CustomDivider(),
@@ -202,7 +194,7 @@ class HostProfileView extends StatelessWidget {
       isDismissible: false,
       context: context,
       builder: (context) {
-        return CustomScrollLayoutWidget(
+        return CustomScrollableLayoutWidget(
           padding: const EdgeInsets.only(
             bottom: 60,
             top: 13.5,
@@ -239,7 +231,7 @@ class HostProfileView extends StatelessWidget {
                   Expanded(
                     child: CustomOutlinedButton(
                       actionText: "Cancel",
-                      onTap: () => AppNagivator.goBack(context),
+                      onTap: () => AppNagivator.goBack(),
                     ),
                   ),
                   const CustomWidth(width: 15),

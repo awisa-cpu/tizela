@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/custom_shortlet_attributes.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_reviews.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../../../../../host_menu/listings/model/shorlet_model.dart';
+
 class CustomFirstShortletDetailsSection extends StatelessWidget {
-  final ShortletModelxxxxxxxxxxxxxxxx shortletItem;
+  final ShortletModel shortletItem;
   const CustomFirstShortletDetailsSection({
     super.key,
     required this.shortletItem,
@@ -22,28 +23,36 @@ class CustomFirstShortletDetailsSection extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          shortletItem.name,
+          shortletItem.apartmentName,
           style: customTextStyle(
             fontSize: 16,
             decoration: TextDecoration.underline,
           ),
         ),
-        const CustomHeight(height: 5),
-        Text(
-          "Studio Apartment",
-          style: customTextStyle(
+
+        //
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            shortletItem.apartmentType.name,
+            style: customTextStyle(
               fontSize: 12,
               color: AppColors.appTextFadedColor,
-              fontWeight: FontWeight.w300),
+              fontWeight: FontWeight.w300,
+            ),
+          ),
         ),
-        const CustomHeight(height: 5),
+
+        //
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(ImagesText.currentLocationIcon),
+            Image.asset(
+              ImagesText.currentLocationIcon,
+            ),
             const CustomWidth(width: 5),
             Text(
-              "Lagos Island",
+              "${shortletItem.address.state} state",
               style: customTextStyle(
                   fontSize: 12,
                   color: AppColors.appTextFadedColor,
@@ -51,17 +60,20 @@ class CustomFirstShortletDetailsSection extends StatelessWidget {
             )
           ],
         ),
-        const CustomHeight(height: 5),
 
         //reviews
-        const CustomReviews(
-          shouldShowReviewText: true,
-          reviewCount: 4.8,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: CustomReviews(
+            shouldShowReviewText: true,
+            reviewCount: shortletItem.ratingsCount,
+          ),
         ),
-        const CustomHeight(height: 5),
 
         //attributes
-        const CustomShortletAttributes(),
+        CustomShortletAttributes(
+          shortlet: shortletItem,
+        ),
         const CustomHeight(height: 10),
       ],
     );

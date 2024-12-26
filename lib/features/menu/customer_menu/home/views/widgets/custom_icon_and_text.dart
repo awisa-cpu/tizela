@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_width.dart';
+import 'package:tizela/utils/constants/images_texts.dart';
 
 class CustomIconAndText extends StatelessWidget {
-  final String imageIcon;
   final String text;
-  final Color color;
-  final TextStyle textStyle;
   final VoidCallback? onTap;
-  const CustomIconAndText(
-      {super.key,
-      required this.imageIcon,
-      required this.text,
-      required this.color,
-      required this.textStyle,
-      this.onTap});
+  final Color? color;
+  final TextStyle? textStyle;
+  final String? iconImage;
+  const CustomIconAndText({
+    super.key,
+    required this.text,
+    this.onTap,
+    this.color,
+    this.textStyle,
+    this.iconImage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +27,19 @@ class CustomIconAndText extends StatelessWidget {
         width: 70,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
         decoration: BoxDecoration(
-          color: color,
+          color: color ?? Colors.black.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              imageIcon,
+              iconImage ?? ImagesText.galleryIcon,
             ),
             const CustomWidth(width: 5),
             Text(
               text,
-              style: textStyle,
+              style: textStyle ?? const TextStyle(color: Colors.white),
             )
           ],
         ),

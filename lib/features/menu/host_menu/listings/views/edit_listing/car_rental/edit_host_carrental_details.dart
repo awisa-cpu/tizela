@@ -109,33 +109,39 @@ class EditHostCarrentalDetails extends StatelessWidget {
             ),
           ),
 
-          //todo: location
+          //location
           CustomListingDetailsDisplayer(
             titleName: "Location",
             isJustText: false,
-            child: const CustomColumn(
+            child: CustomColumn(
               children: [
                 CustomMainAndSubtextListingDetails(
                   attribute: "Address",
-                  value: "No 23 Kosoko road, Ojudu Berger",
+                  value: carRental.address.addressWithoutPostal,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Local gov.t",
-                  value: "Ojudu",
+                  value: carRental.address.lga,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "State",
-                  value: "Lagos",
+                  value: carRental.address.state,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Postal code",
-                  value: "124876",
+                  value: carRental.address.postalCode ?? "",
+                ),
+                CustomMainAndSubtextListingDetails(
+                  attribute: "Is car movement outside state?",
+                  value: carRental.isCarMovementOutsideState.toString(),
                 ),
               ],
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditCarRentalLocation(),
+              child: EditCarRentalLocation(
+                carRental: carRental,
+              ),
             ),
           ),
 

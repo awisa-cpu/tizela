@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_checkbox_with_text.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
@@ -23,7 +23,7 @@ class UserSignUpView extends StatelessWidget {
 
     //
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,7 +31,7 @@ class UserSignUpView extends StatelessWidget {
               mainText: "Add your details",
               subText1: "Make sure the information shared matches",
               subText2: "the details in your valid ID",
-              onPressedBackButton: () => AppNagivator.goBack(context),
+              onPressedBackButton: () => AppNagivator.goBack(),
             ),
             const CustomHeight(height: 30),
             Form(
@@ -70,7 +70,7 @@ class UserSignUpView extends StatelessWidget {
                     child: CustomRoundedEdgedContainer(
                       width: context.screenWidth(),
                       height: 60,
-                      borderColor: Colors.grey.withOpacity(0.5),
+                      borderColor: Colors.grey.withValues(alpha: 0.5),
                       child: Obx(
                         () => Text(
                           signUpCon.selectedDobString.value,

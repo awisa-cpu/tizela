@@ -12,17 +12,9 @@ class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      navigatorKey: AppNagivator.navigatorKey,
       title: 'Tizela',
       debugShowCheckedModeBanner: false,
-      // builder: (context, child) {
-      //   ErrorWidget.builder = (errorDetails) {
-      //     return AppErrorWidget(
-      //       errorDetails: errorDetails,
-      //     );
-      //   };
-
-      //   return child!;
-      // },
       theme: AppTheme.lightTheme,
       initialBinding: GeneralBindings(),
       routes: AppNagivator.routes(),

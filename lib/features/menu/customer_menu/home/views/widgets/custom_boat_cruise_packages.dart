@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/widgets/custom_listview.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/boat_cruise_model_xxxxx.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/boat_cruise_details_view.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/widgets/single_boat_cruise_package.dart';
+import 'package:tizela/features/menu/customer_menu/home/views/widgets/single_boat_cruise.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
+import '../../../../../../utils/shimmers & loaders/custom_shorlets_shimmer_list_view.dart';
+import '../../controller/customer_home_controller.dart';
+
 class CustomBoatCruisePackages extends StatelessWidget {
-  final List<BoatCruiseModelxxxxxxxx> boatCruise;
+  final List<BoatCruiseModel> boatCruise;
   const CustomBoatCruisePackages({
     super.key,
     required this.boatCruise,
@@ -14,21 +18,30 @@ class CustomBoatCruisePackages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomListview(
-      seperatedBuilderHeight: 25.0,
-      itemCount: boatCruise.length,
-      itemBuilder: (_, index) {
-        final boatCruiseItem = boatCruise[index];
+    final controller = CustomerHomeController.instance;
 
-        return SingleBoatCruisePackage(
-          onTap: () => AppNagivator.pushRoute(
-            context,
-            (context) => BoatCruiseDetailsView(
-              boatCruiseItem: boatCruiseItem,
-            ),
-          ),
-          boatCruse: boatCruiseItem,
-        );
+    //
+    return Obx(
+      () {
+        return controller.areBoatCruiseLoading.value
+            ? const CustomHostDataShimmerListView()
+            : CustomListview(
+                seperatedBuilderHeight: 30.0,
+                scrollDirection: Axis.vertical,
+                itemCount: boatCruise.length,
+                itemBuilder: (_, index) {
+                  final boatCruiseItem = boatCruise[index];
+
+                  return SingleBoatCruise(
+                    onTap: () => AppNagivator.pushRoute(
+                      BoatCruiseDetailsView(
+                        boatCruiseItem: boatCruiseItem,
+                      ),
+                    ),
+                    boatCruse: boatCruiseItem,
+                  );
+                },
+              );
       },
     );
   }

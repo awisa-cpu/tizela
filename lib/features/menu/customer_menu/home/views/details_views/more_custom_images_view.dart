@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/setup/app_navigator.dart';
@@ -22,7 +22,7 @@ class MoreCustomImagesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
           horizontal: 13.5,
           vertical: 25,
@@ -33,7 +33,7 @@ class MoreCustomImagesView extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: () => AppNagivator.goBack(context),
+                  onPressed: () => AppNagivator.goBack(),
                   icon: const Icon(Icons.arrow_back),
                 ),
                 const CustomWidth(width: 5),

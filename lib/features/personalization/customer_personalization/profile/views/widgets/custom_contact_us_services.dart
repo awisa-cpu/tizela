@@ -17,7 +17,7 @@ class CustomContactUsServices extends StatelessWidget {
           text: "Chat customer service",
           imageUrl: ImagesText.customerServiceLogo,
           onTap: () {
-            AppNagivator.pushNamedRoute(context, customerServiceRoute);
+            AppNagivator.pushNamedRoute( customerServiceRoute);
           },
         ),
         CustomContactUsTab(

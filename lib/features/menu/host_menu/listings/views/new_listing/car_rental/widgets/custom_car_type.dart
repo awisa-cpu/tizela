@@ -22,7 +22,7 @@ class CustomCarType extends StatelessWidget {
         borderRadius: 10,
         borderColor: isCarTypeSelected
             ? AppColors.appMainColor
-            : Colors.grey.withOpacity(0.5),
+            : Colors.grey.withValues(alpha: 0.5),
         child: Text(
           carType,
           style: customTextStyle(

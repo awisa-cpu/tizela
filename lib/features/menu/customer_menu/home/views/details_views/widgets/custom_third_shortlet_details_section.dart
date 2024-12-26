@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
-import 'package:tizela/utils/constants/images_texts.dart';
+
 
 class CustomThirdShortletDetailsSection extends StatelessWidget {
+  final String? story;
   const CustomThirdShortletDetailsSection({
-    super.key,
+    super.key, 
+    required this.story,
   });
 
   @override
@@ -24,7 +26,7 @@ class CustomThirdShortletDetailsSection extends StatelessWidget {
         ),
         const CustomHeight(height: 12),
         Text(
-          loremIpsum,
+          story??'',
           style: customTextStyle(
               fontSize: 12,
               color: AppColors.appTextFadedColor,

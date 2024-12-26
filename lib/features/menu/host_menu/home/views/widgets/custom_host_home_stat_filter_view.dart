@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
-import 'package:tizela/utils/constants/app_colors.dart';
-import 'package:tizela/utils/typdefes/custom_type_defs.dart';
+import 'package:tizela/common/widgets/custom_dropdown_form.dart';
 
 class CustomHostHomeStatFilterView extends StatelessWidget {
   final String title, dropdownvalue;
   final List<String> menuItems;
-  final OnValueChanged onItemChanged;
+  final ValueChanged onItemChanged;
   const CustomHostHomeStatFilterView({
     super.key,
     required this.title,
@@ -26,19 +25,9 @@ class CustomHostHomeStatFilterView extends StatelessWidget {
         ),
         const Spacer(),
         Expanded(
-          child: DropdownButtonFormField(
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: AppColors.appTextFadedColor))),
-            enableFeedback: false,
-            isExpanded: false,
-            elevation: 2,
-            value: dropdownvalue,
-            items: [...menuItems]
-                .map((filter) =>
-                    DropdownMenuItem(value: filter, child: Text(filter)))
-                .toList(),
+          child: CustomDropdownForm(
+            currentValue: dropdownvalue,
+            items: menuItems,
             onChanged: onItemChanged,
           ),
         )

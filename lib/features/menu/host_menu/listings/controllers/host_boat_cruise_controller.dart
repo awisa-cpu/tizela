@@ -4,6 +4,7 @@ import "package:tizela/data/local_database.dart";
 import "package:tizela/data/repositories/auth_repository/auth_repository.dart";
 import "package:tizela/data/services/alert_services.dart";
 import "package:tizela/data/services/app_loader_services.dart";
+import "package:tizela/data/services/network_service.dart";
 import "package:tizela/features/menu/host_menu/listings/model/address_model.dart";
 import "package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart";
 import "package:tizela/features/menu/host_menu/listings/model/boat_type_model.dart";
@@ -22,7 +23,7 @@ class HostBoatCruiseController extends GetxController {
 //variables
   final PageController hostBoatCruisePageCon = PageController();
   final MediaServiceController mediaService = MediaServiceController.instance;
-  final BoatCruiseRepository boatCruiseRepo = Get.put(BoatCruiseRepository());
+  final BoatCruiseRepository boatCruiseRepo = BoatCruiseRepository.instance;
   final String _currentUserId = AuthRepository.instance.currentUser!.uid;
 
   //
@@ -32,6 +33,9 @@ class HostBoatCruiseController extends GetxController {
   late TextEditingController boatStoryController;
   late TextEditingController boatAddressController;
   late TextEditingController boatPriceController;
+  late final TextEditingController addressStreetNameCon;
+  late final TextEditingController addressHouseNumberCon;
+  late final TextEditingController addressPostalCodeCon;
 
   //
   final GlobalKey<FormState> boatdescriptionKey = GlobalKey<FormState>();
@@ -39,8 +43,9 @@ class HostBoatCruiseController extends GetxController {
   final GlobalKey<FormState> boatPriceKey = GlobalKey<FormState>();
 
   //
+  RxString currentStateValue = "Select a state".obs;
+  RxString currentStateLga = "Select your lga".obs;
   RxBool isTizelaTandCAccepted = false.obs;
-  final double servicePerecent = 12.5;
   double boatFee = 0.0;
   Rx<DateTime> dateInFocused = DateTime.now().obs;
   Rx<DateTime> dateOutFocused = DateTime.now().obs;
@@ -64,6 +69,9 @@ class HostBoatCruiseController extends GetxController {
     boatStoryController = TextEditingController();
     boatAddressController = TextEditingController();
     boatPriceController = TextEditingController();
+    addressStreetNameCon = TextEditingController();
+    addressHouseNumberCon = TextEditingController();
+    addressPostalCodeCon = TextEditingController();
   }
 
   @override
@@ -73,6 +81,9 @@ class HostBoatCruiseController extends GetxController {
     boatStoryController.dispose();
     boatAddressController.dispose();
     boatPriceController.dispose();
+    addressStreetNameCon.dispose();
+    addressHouseNumberCon.dispose();
+    addressPostalCodeCon.dispose();
   }
 
   String calculateEarningAfterServiceCharge() {
@@ -83,7 +94,7 @@ class HostBoatCruiseController extends GetxController {
       finalPrice = apartmentFee;
     }
 
-    double serviceCharge = finalPrice * servicePerecent / 100;
+    double serviceCharge = finalPrice * 12.5 / 100;
     final boatPrice = finalPrice - serviceCharge;
     boatFee = boatPrice;
     return boatPrice.toStringAsFixed(2);
@@ -134,6 +145,17 @@ class HostBoatCruiseController extends GetxController {
 
   void createNewBoatCruise() async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
       AppLoaderService.startLoader(
         loaderText: "creating boat cruise, please wait...",
       );
@@ -143,13 +165,21 @@ class HostBoatCruiseController extends GetxController {
       //
       final uploadedImages = await _uploadImages();
 
+      final newAddress = AddressModel(
+        houseNumber: addressHouseNumberCon.text.trim(),
+        streetName: addressStreetNameCon.text.trim(),
+        postalCode: addressPostalCodeCon.text.trim(),
+        state: currentStateValue.value,
+        lga: currentStateLga.value,
+      );
+
       //
       final BoatCruiseModel newBoatCruise = BoatCruiseModel(
         userId: _currentUserId,
         name: boatNameController.text.trim(),
         boatStory: boatStoryController.text.trim(),
         boatType: selectedBoatType.value,
-        address: AddressModel(addressText: boatAddressController.text.trim()),
+        address: newAddress,
         boatFee: boatFee,
         ratingsCount: 0.0,
         availableDates: [dateInFocused.value, dateOutFocused.value],
@@ -169,7 +199,7 @@ class HostBoatCruiseController extends GetxController {
         title: "Successful",
         message: "biat cruise created!",
       );
-      AppNagivator.goBack(Get.context!);
+      AppNagivator.goBack();
     } catch (e) {
       AppLoaderService.stopLoader();
       AppDebugger.debugger(e);
@@ -198,10 +228,18 @@ class HostBoatCruiseController extends GetxController {
   }
 
   void _resetResources() {
+    currentStateLga.value = "Select your lga";
+    currentStateValue.value = "Select a state";
+    selectedBoatType.value = BoatTypeModel.empty();
+
+    //
     boatNameController.clear();
     boatStoryController.clear();
     boatAddressController.clear();
     boatPriceController.clear();
+    addressStreetNameCon.clear();
+    addressHouseNumberCon.clear();
+    addressPostalCodeCon.clear();
 
     //
     boatdescriptionKey.currentState?.reset();

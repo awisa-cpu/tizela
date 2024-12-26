@@ -8,6 +8,8 @@ import 'package:tizela/features/menu/host_menu/listings/model/apartment_detail_m
 import 'package:tizela/features/menu/host_menu/listings/model/apartment_house_rules_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/id_type_model.dart';
 
+import '../../../../../utils/enums/booking_type.dart';
+
 class ShortletModel {
   String? uid;
   final String userId;
@@ -29,6 +31,7 @@ class ShortletModel {
   String thumbImage;
   List<String> apartmentImages;
   IdTypeModel idType;
+  BookingType bookingType;
 
   ShortletModel({
     this.uid,
@@ -52,6 +55,7 @@ class ShortletModel {
     required this.thumbImage,
     required this.apartmentImages,
     required this.idType,
+    required this.bookingType,
   });
 
   Map<String, dynamic> toJson() {
@@ -79,6 +83,7 @@ class ShortletModel {
       'thumbImage': thumbImage,
       'apartmentImages': apartmentImages,
       'idType': idType.toJson(),
+      'bookingType':bookingType.name,
     };
   }
 
@@ -120,6 +125,7 @@ class ShortletModel {
       thumbImage: json['thumbImage'] as String,
       apartmentImages: List.from(json['apartmentImages']),
       idType: IdTypeModel.fromJson(json['idType']),
+      bookingType: BookingType.values.firstWhere((type)=>type.name == json['bookingType'])
     );
   }
 
@@ -145,6 +151,7 @@ class ShortletModel {
       thumbImage: '',
       apartmentImages: [],
       idType: IdTypeModel.empty(),
+      bookingType: BookingType.none,
     );
   }
 
@@ -188,6 +195,7 @@ class ShortletModel {
         thumbImage: data['thumbImage'] as String,
         apartmentImages: List.from(data['apartmentImages'] as List),
         idType: IdTypeModel.fromJson(data['idType'] as Map<String, dynamic>),
+        bookingType: BookingType.values.firstWhere((type)=>type.name==data['bookingType'])
       );
     }
     return ShortletModel.empty();
@@ -215,6 +223,7 @@ class ShortletModel {
     String? thumbImage,
     List<String>? apartmentImages,
     IdTypeModel? idType,
+    BookingType? bookingType,
   }) {
     return ShortletModel(
       uid: uid ?? this.uid,
@@ -238,6 +247,7 @@ class ShortletModel {
       thumbImage: thumbImage ?? this.thumbImage,
       apartmentImages: apartmentImages ?? this.apartmentImages,
       idType: idType ?? this.idType,
+      bookingType: bookingType??this.bookingType,
     );
   }
 }

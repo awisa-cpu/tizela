@@ -26,7 +26,7 @@ class CustomReviewTab extends StatelessWidget {
       width: context.screenWidth() * 0.34,
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.withOpacity(0.22),
+          color: Colors.grey.withValues(alpha: 0.22),
           spreadRadius: 4.0,
           blurRadius: 7.0,
           offset: const Offset(2, 1),
@@ -44,7 +44,7 @@ class CustomReviewTab extends StatelessWidget {
             unratedColor: AppColors.appTextFadedColor,
             itemBuilder: (context, index) => Icon(
               Icons.star_rounded,
-              color: Colors.orange.withOpacity(0.6),
+              color: Colors.orange.withValues(alpha: 0.6),
             ),
             itemCount: 5,
             itemSize: 30.0,

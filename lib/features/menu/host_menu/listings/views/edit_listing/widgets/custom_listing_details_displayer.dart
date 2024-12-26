@@ -29,7 +29,7 @@ class CustomListingDetailsDisplayer extends StatelessWidget {
     return CustomRoundedEdgedContainer(
       margin: EdgeInsets.only(top: marginNumber ?? 20),
       color: AppColors.appWhiteColor,
-      borderColor: Colors.grey.withOpacity(0.15),
+      borderColor: Colors.grey.withValues(alpha: 0.15),
       child: CustomColumn(
         children: [
           Row(

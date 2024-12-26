@@ -9,7 +9,7 @@ class CustomEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       padding: const EdgeInsets.only(
         top: 13.5,
         right: 13.5,
@@ -21,7 +21,7 @@ class CustomEditView extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: () => AppNagivator.goBack(context),
+              onPressed: () => AppNagivator.goBack(),
               icon: const Icon(Icons.close),
             ),
           ),

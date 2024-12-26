@@ -13,7 +13,7 @@ class CustomBookingSummaryTab extends StatelessWidget {
       boxShadow: [
         BoxShadow(
           offset: const Offset(1, 2),
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           spreadRadius: 7,
           blurRadius: 5,
         )

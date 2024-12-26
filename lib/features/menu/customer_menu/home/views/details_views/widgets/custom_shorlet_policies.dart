@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/custom_shorlet_policy_tab.dart';
+import '../../../../../host_menu/listings/model/shorlet_model.dart';
 
 class CustomShorletPolicies extends StatelessWidget {
+  final ShortletModel shortlet;
   const CustomShorletPolicies({
     super.key,
+    required this.shortlet,
   });
 
   @override
@@ -20,20 +23,17 @@ class CustomShorletPolicies extends StatelessWidget {
           ),
         ),
         const CustomHeight(height: 12),
-        const CustomShortPolicyTab(
-          policyMainText: "Check out:",
-          subText: "Check out before 10:00 AM",
-        ),
-        const CustomHeight(height: 12),
-        const CustomShortPolicyTab(
-          policyMainText: "Pets:",
-          subText: "No pets allowed",
-        ),
-        const CustomHeight(height: 12),
-        const CustomShortPolicyTab(
-          policyMainText: "Children and extra beds:",
-          subText: "Children are welcomed",
-        ),
+        ...shortlet.houseRules.map(
+          (rule) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: CustomShortPolicyTab(
+                policyMainText: rule.name,
+                subText: rule.isActive.value ? rule.yesText : rule.noText,
+              ),
+            );
+          },
+        )
       ],
     );
   }

@@ -43,8 +43,7 @@ class CustomShortletBookingsSummaryForm extends StatelessWidget {
           const CustomHeight(height: 20),
           CustomEleButton(
             onPressed: () => AppNagivator.pushRoute(
-              context,
-              (_) => const SuccessView(
+            const SuccessView(
                   mainText: "Booking successful",
                   subText:
                       "Thank you for your bookings, we will get back to you as soon as possible"),

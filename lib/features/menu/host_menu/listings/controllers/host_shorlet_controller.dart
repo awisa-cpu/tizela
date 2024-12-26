@@ -5,6 +5,7 @@ import 'package:tizela/data/local_database.dart';
 import 'package:tizela/data/repositories/shortlet_repository/shorlet_repository.dart';
 import 'package:tizela/data/services/alert_services.dart';
 import 'package:tizela/data/services/app_loader_services.dart';
+import 'package:tizela/data/services/network_service.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/apartment_type_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/address_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/apartment_detail_model.dart';
@@ -16,10 +17,10 @@ import '../../../../../data/services/media_service.dart';
 import '../../../../../setup/app_navigator.dart';
 import '../../../../../utils/device/app_debugger/app_debugger.dart';
 import '../../../../../utils/device/app_device_services/app_device_services.dart';
+import '../../../../../utils/enums/booking_type.dart';
 import '../model/apartment_amenities_model.dart';
 import '../model/apartment_house_rules_model.dart';
 import '../model/id_type_model.dart';
-import 'dart:developer';
 
 class HostShorletController extends GetxController {
   static HostShorletController get instance => Get.find();
@@ -28,7 +29,7 @@ class HostShorletController extends GetxController {
   final PageController shortletCreationPageController = PageController();
   RxInt currentPageSelected = 0.obs;
 
-  final ShorletRepository shortletRepo = Get.put(ShorletRepository());
+  final ShorletRepository shortletRepo = ShorletRepository.instance;
   final MediaServiceController mediaService = Get.put(MediaServiceController());
   final String _currentUserId = AuthRepository.instance.currentUser!.uid;
 
@@ -41,9 +42,13 @@ class HostShorletController extends GetxController {
   final apartmentTypes = LocalDatabase.apartmentTypes;
   final double servicePerecent = 12.5;
   double shorletFee = 0.0;
+  RxString currentStateValue = "Select a state".obs;
+  RxString currentStateLga = "Select your lga".obs;
   late final TextEditingController apartmentNameCon;
   late final TextEditingController apartmentStoryCon;
-  late final TextEditingController addressCon;
+  late final TextEditingController addressStreetNameCon;
+  late final TextEditingController addressHouseNumberCon;
+  late final TextEditingController addressPostalCodeCon;
   late final TextEditingController apartmentPriceCon;
   late final TextEditingController apartmentCautionFeeCon;
 
@@ -94,9 +99,23 @@ class HostShorletController extends GetxController {
     super.onInit();
     apartmentNameCon = TextEditingController();
     apartmentStoryCon = TextEditingController();
-    addressCon = TextEditingController();
     apartmentPriceCon = TextEditingController();
     apartmentCautionFeeCon = TextEditingController();
+    addressStreetNameCon = TextEditingController();
+    addressHouseNumberCon = TextEditingController();
+    addressPostalCodeCon = TextEditingController();
+  }
+
+  @override
+  void onClose() {
+    apartmentNameCon = TextEditingController();
+    apartmentStoryCon = TextEditingController();
+    apartmentPriceCon = TextEditingController();
+    apartmentCautionFeeCon = TextEditingController();
+    addressStreetNameCon = TextEditingController();
+    addressHouseNumberCon = TextEditingController();
+    addressPostalCodeCon = TextEditingController();
+    super.onClose();
   }
 
   void addImages({required RxSet<AppFileModel> imagesSelected}) async {
@@ -194,6 +213,18 @@ class HostShorletController extends GetxController {
   //create a new listing
   void createNewShortletListing() async {
     try {
+      //check for network connection
+      final isConnected =
+          await NetworkServiceController.instance.isInternetConnected();
+
+      if (!isConnected) {
+        AlertServices.errorSnackBar(
+          title: "Oh snap!",
+          message: "No internet",
+        );
+        return;
+      }
+
       //show loader
       AppLoaderService.startLoader(
         loaderText: "Creating shorlet, please wait...",
@@ -213,12 +244,20 @@ class HostShorletController extends GetxController {
       //upload all images
       List<String> uploadedImages = await _uploadImages();
 
+      final newAddress = AddressModel(
+        houseNumber: addressHouseNumberCon.text.trim(),
+        streetName: addressStreetNameCon.text.trim(),
+        postalCode: addressPostalCodeCon.text.trim(),
+        state: currentStateValue.value,
+        lga: currentStateLga.value,
+      );
+
       final newShortlet = ShortletModel(
         userId: _currentUserId,
         apartmentType: selectedApartType.value,
         apartmentName: apartmentNameCon.text.trim(),
         anyStory: apartmentStoryCon.text.trim(),
-        address: AddressModel(addressText: addressCon.text.trim()),
+        address: newAddress,
         apartmentPrice: AppFunctions.getPriceFromController(apartmentPriceCon),
         cautionFee: shorletFee,
         ratingsCount: 0.0,
@@ -234,13 +273,14 @@ class HostShorletController extends GetxController {
         thumbImage: uploadedImages.first,
         apartmentImages: uploadedImages,
         idType: selectedIdType.value,
+        bookingType: BookingType.instant,//todo: work on this
       );
 
       await shortletRepo.createNewShorlet(shorlet: newShortlet);
       _resetResourses();
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(title: "New shorlet created!");
-      AppNagivator.goBack(Get.context!);
+      AppNagivator.goBack();
     } catch (e) {
       AppDebugger.debugger(e);
       AppLoaderService.stopLoader();
@@ -254,7 +294,9 @@ class HostShorletController extends GetxController {
   void _resetResourses() {
     apartmentNameCon.clear();
     apartmentStoryCon.clear();
-    addressCon.clear();
+    addressStreetNameCon.clear();
+    addressHouseNumberCon.clear();
+    addressPostalCodeCon.clear();
     apartmentPriceCon.clear();
     apartmentCautionFeeCon.clear();
     //
@@ -273,6 +315,10 @@ class HostShorletController extends GetxController {
     checkInTime.value = "Check-in time";
     checkOutTime.value = "Checkout time";
     minimumCheckInTime.value = "1 night";
+    currentStateLga.value = "Select your lga";
+    currentStateValue.value = "Select a state";
+
+    //
     livingRoomImagesSelected = <AppFileModel>{}.obs;
     bedImagesSelected = <AppFileModel>{}.obs;
     bathroomImagesSelected = <AppFileModel>{}.obs;
@@ -319,7 +365,7 @@ class HostShorletController extends GetxController {
 
       return shortlets;
     } catch (e) {
-      log(e.toString());
+      AppDebugger.debugger(e);
       AlertServices.errorSnackBar(
         title: "Oh snap",
         message: "error fetching shortlets",

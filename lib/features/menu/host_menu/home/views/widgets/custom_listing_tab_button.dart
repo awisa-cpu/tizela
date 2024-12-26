@@ -54,7 +54,7 @@ class CustomListingTabButton extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: onTap,
             child: const Icon(Icons.chevron_right_outlined),
           )
         ],

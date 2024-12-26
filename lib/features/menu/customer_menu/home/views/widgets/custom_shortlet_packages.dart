@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/widgets/custom_listview.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/shortlet_details_view.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/widgets/single_shorlet_package.dart';
+import 'package:tizela/features/menu/customer_menu/home/views/widgets/single_shorlet.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
 import 'package:tizela/setup/app_navigator.dart';
+import 'package:tizela/utils/shimmers%20&%20loaders/custom_shorlets_shimmer_list_view.dart';
 
-class CustomShorletPackages extends StatelessWidget {
-  final List<ShortletModelxxxxxxxxxxxxxxxx> shortletPackages;
-  const CustomShorletPackages({
+import '../../controller/customer_home_controller.dart';
+
+class CustomShortletPackages extends StatelessWidget {
+  final List<ShortletModel> shortlets;
+  const CustomShortletPackages({
     super.key,
-    required this.shortletPackages,
+    required this.shortlets,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CustomListview(
-      itemCount: shortletPackages.length,
-      seperatedBuilderHeight: 25.0,
-      itemBuilder: (_, index) {
-        final shorletItem = shortletPackages[index];
+    final controller = CustomerHomeController.instance;
 
-        return SingleShortletPackage(
-          onTap: () => AppNagivator.pushRoute(
-            context,
-            (context) => ShortletDetailsView(
-              shortLetItem: shorletItem,
-            ),
-          ),
-          shortlet: shorletItem,
-        );
+    //
+    return Obx(
+      () {
+        return controller.areShortletsLoading.value
+            ? const CustomHostDataShimmerListView()
+            : CustomListview(
+                itemCount: shortlets.length,
+                seperatedBuilderHeight: 30.0,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (_, index) {
+                  final shorletItem = shortlets[index];
+
+                  return SingleShortlet(
+                    onTap: () => AppNagivator.pushRoute(
+                      ShortletDetailsView(
+                        shortLetItem: shorletItem,
+                      ),
+                    ),
+                    shortlet: shorletItem,
+                  );
+                },
+              );
       },
     );
   }

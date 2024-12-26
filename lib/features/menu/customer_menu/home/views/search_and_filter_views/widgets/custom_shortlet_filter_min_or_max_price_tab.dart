@@ -17,7 +17,7 @@ class CustomShortletFilterMinOrMaxPriceTab extends StatelessWidget {
       height: 50,
       width: 150,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withOpacity(0.4)),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
           borderRadius: BorderRadius.circular(5),
           color: AppColors.appWhiteColor),
       child: Text(

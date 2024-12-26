@@ -23,6 +23,7 @@ class CarRentalModel {
   List<CarRentalFeaturesModel> carPolicies;
   List<CarRentalFeaturesModel> driverPolicies;
   List<String> carImages;
+  bool isCarMovementOutsideState;
 
   CarRentalModel({
     this.uid,
@@ -41,6 +42,7 @@ class CarRentalModel {
     required this.carPolicies,
     required this.driverPolicies,
     required this.carImages,
+    required this.isCarMovementOutsideState,
   });
 
   Map<String, dynamic> toJson() {
@@ -60,6 +62,7 @@ class CarRentalModel {
       'carPolicies': carPolicies.map((x) => x.toJson()).toList(),
       'driverPolicies': driverPolicies.map((x) => x.toJson()).toList(),
       'carImages': carImages,
+      "isCarMovementOutsideState": isCarMovementOutsideState
     };
   }
 
@@ -81,6 +84,7 @@ class CarRentalModel {
       carPolicies: [],
       driverPolicies: [],
       carImages: [],
+      isCarMovementOutsideState: false,
     );
   }
   factory CarRentalModel.fromJson(Map<String, dynamic> json) {
@@ -118,6 +122,7 @@ class CarRentalModel {
       carImages: List<String>.from(
         (json['carImages'] as List<String>),
       ),
+      isCarMovementOutsideState: json['isCarMovementOutsideState'] as bool,
     );
   }
 
@@ -155,6 +160,7 @@ class CarRentalModel {
             .map((x) => CarRentalFeaturesModel.fromJson(x))
             .toList(),
         carImages: List.from(data['carImages'] as List),
+        isCarMovementOutsideState: data['isCarMovementOutsideState'] as bool,
       );
     }
 
@@ -178,24 +184,26 @@ class CarRentalModel {
     List<CarRentalFeaturesModel>? carPolicies,
     List<CarRentalFeaturesModel>? driverPolicies,
     List<String>? carImages,
+    bool? isCarMovementOutsideState,
   }) {
     return CarRentalModel(
-      uid: uid ?? this.uid,
-      userId: userId ?? this.userId,
-      carType: carType ?? this.carType,
-      carName: carName ?? this.carName,
-      carYear: carYear ?? this.carYear,
-      carBrand: carBrand ?? this.carBrand,
-      address: address ?? this.address,
-      carPrice: carPrice ?? this.carPrice,
-      ratingsCount: ratingsCount ?? this.ratingsCount,
-      availableDates: availableDates ?? this.availableDates,
-      carRentalDetails: carRentalDetails ?? this.carRentalDetails,
-      carRentalFeatures: carRentalFeatures ?? this.carRentalFeatures,
-      safetyFeatures: safetyFeatures ?? this.safetyFeatures,
-      carPolicies: carPolicies ?? this.carPolicies,
-      driverPolicies: driverPolicies ?? this.driverPolicies,
-      carImages: carImages ?? this.carImages,
-    );
+        uid: uid ?? this.uid,
+        userId: userId ?? this.userId,
+        carType: carType ?? this.carType,
+        carName: carName ?? this.carName,
+        carYear: carYear ?? this.carYear,
+        carBrand: carBrand ?? this.carBrand,
+        address: address ?? this.address,
+        carPrice: carPrice ?? this.carPrice,
+        ratingsCount: ratingsCount ?? this.ratingsCount,
+        availableDates: availableDates ?? this.availableDates,
+        carRentalDetails: carRentalDetails ?? this.carRentalDetails,
+        carRentalFeatures: carRentalFeatures ?? this.carRentalFeatures,
+        safetyFeatures: safetyFeatures ?? this.safetyFeatures,
+        carPolicies: carPolicies ?? this.carPolicies,
+        driverPolicies: driverPolicies ?? this.driverPolicies,
+        carImages: carImages ?? this.carImages,
+        isCarMovementOutsideState:
+            isCarMovementOutsideState ?? this.isCarMovementOutsideState);
   }
 }

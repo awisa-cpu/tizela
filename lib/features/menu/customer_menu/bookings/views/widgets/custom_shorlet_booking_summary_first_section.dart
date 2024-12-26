@@ -6,7 +6,7 @@ import 'package:tizela/common/widgets/custom_display_clip_image_with_size.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_display_cost.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
@@ -16,7 +16,7 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
     required this.shortlet,
   });
 
-  final ShortletModelxxxxxxxxxxxxxxxx shortlet;
+  final ShortletModel shortlet;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
       boxShadow: [
         BoxShadow(
           offset: const Offset(1, 2),
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           spreadRadius: 7,
           blurRadius: 5,
         )
@@ -34,14 +34,14 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
       child: Row(
         children: [
           CustomDisplayClipImageWithSize(
-            imageUrl: shortlet.imageUrl,
+            imageUrl: shortlet.apartmentImages.first,
           ),
           const CustomWidth(width: 10),
           CustomColumn(
             children: [
               //name
               Text(
-                shortlet.name,
+                shortlet.apartmentName,
                 style: customTextStyle(
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -64,7 +64,7 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
 
               const CustomHeight(height: 5),
               //cost
-              CustomDisplayCost(cost: shortlet.cost, perWhat: " hr"),
+              CustomDisplayCost(cost: shortlet.apartmentPrice.toString(), perWhat: " hr"),
             ],
           )
         ],

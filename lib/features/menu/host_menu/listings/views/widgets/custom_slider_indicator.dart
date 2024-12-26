@@ -19,7 +19,7 @@ class CustomSliderIndicator extends StatelessWidget {
       decoration: BoxDecoration(
         color: initialValue == currentPageIndex
             ? AppColors.appMainColor
-            : Colors.grey.withOpacity(0.3),
+            : Colors.grey.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(5),
       ),
     );

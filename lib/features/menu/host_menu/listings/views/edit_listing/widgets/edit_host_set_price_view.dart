@@ -19,7 +19,7 @@ class _EditHostSetupPriceState extends State<EditHostSetupPrice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: EdgeInsets.only(
           top: context.appBarHeight(),
           bottom: 13.5,
@@ -31,7 +31,7 @@ class _EditHostSetupPriceState extends State<EditHostSetupPrice> {
             CustomHeaderSubAndBackButton(
               headerText: "Set price",
               subText: "You can change price at anytime",
-              onTap: () => AppNagivator.goBack(context),
+              onTap: () => AppNagivator.goBack(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -43,7 +43,6 @@ class _EditHostSetupPriceState extends State<EditHostSetupPrice> {
                   ),
                   const CustomHeight(),
                   widget.formWidget,
-               
                 ],
               ),
             ),

@@ -15,7 +15,8 @@ class CustomFilterTab extends StatelessWidget {
     this.marginValue,
     this.child,
     this.padding,
-    this.alignment, this.onTap,
+    this.alignment,
+    this.onTap,  this.fontSize,
   });
 
   final double? borderRadius;
@@ -25,6 +26,7 @@ class CustomFilterTab extends StatelessWidget {
   final Widget? child;
   final Alignment? alignment;
   final VoidCallback? onTap;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +41,15 @@ class CustomFilterTab extends StatelessWidget {
         decoration: BoxDecoration(
             color: color ?? AppColors.appWhiteColor,
             borderRadius: BorderRadius.circular(borderRadius ?? 23),
-            border:
-                Border.all(color: borderColor ?? Colors.grey.withOpacity(0.5))),
+            border: Border.all(
+                color: borderColor ?? Colors.grey.withValues(alpha: 0.5))),
         child: child ??
             Text(
               text ?? '',
-              style: customTextStyle(
+              style:  customTextStyle(
                   color: textColor ?? AppColors.appTextFadedColor,
                   fontWeight: FontWeight.normal,
-                  fontSize: 14),
+                  fontSize: fontSize?? 14),
             ),
       ),
     );

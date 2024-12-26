@@ -45,7 +45,7 @@ class EditHostShorletPricesset extends StatelessWidget {
                 const CustomHeight(),
                 CustomTextFormField(
                   hintText: "#${shortlet.cautionFee}",
-                  controller: controller.cautionPrice,
+                  controller: controller.cautionPriceCon,
                   validator: (value) => AppValidators.validatePriceField(
                     value,
                     fieldName: "apartment price",

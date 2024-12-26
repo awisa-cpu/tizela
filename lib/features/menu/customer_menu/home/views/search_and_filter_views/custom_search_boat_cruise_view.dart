@@ -22,7 +22,6 @@ class CustomSearchBoatCruiseView extends StatelessWidget {
         controllerText: "Enter location / boat type",
         eleButtonText: "Continue",
         onEleButtonPressed: () => AppNagivator.pushNamedRoute(
-          context,
           boatCruiseResultRoute,
         ),
       ),

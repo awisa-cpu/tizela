@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
@@ -17,7 +17,7 @@ class CustomBoatCruiseFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           const CustomFilterHeader(),
@@ -31,18 +31,26 @@ class CustomBoatCruiseFilter extends StatelessWidget {
             ),
           ),
           const CustomHeight(height: 15),
-          CustomFilterSortBy(text: "By ratings", isChecked: false,onValueChanged: (value) {
-            
-          },),
-          CustomFilterSortBy(text: "By reviews",isChecked: false,onValueChanged: (value) {
-            
-          },),
-          CustomFilterSortBy(text: "From expensive to cheap",isChecked: false,onValueChanged: (value) {
-            
-          },),
-          CustomFilterSortBy(text: "From cheap to expensive",isChecked: false,onValueChanged: (value) {
-            
-          },),
+          CustomFilterSortBy(
+            text: "By ratings",
+            isChecked: false,
+            onValueChanged: (value) {},
+          ),
+          CustomFilterSortBy(
+            text: "By reviews",
+            isChecked: false,
+            onValueChanged: (value) {},
+          ),
+          CustomFilterSortBy(
+            text: "From expensive to cheap",
+            isChecked: false,
+            onValueChanged: (value) {},
+          ),
+          CustomFilterSortBy(
+            text: "From cheap to expensive",
+            isChecked: false,
+            onValueChanged: (value) {},
+          ),
           const CustomHeight(height: 15),
           const CustomFilterPriceRange(
             subText: "You will be charged per hour for boat",

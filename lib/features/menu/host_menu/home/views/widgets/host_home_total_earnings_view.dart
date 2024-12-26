@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_empty_data_view.dart';
@@ -28,7 +28,7 @@ class _HostHomeTotalEarningsViewState extends State<HostHomeTotalEarningsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
           vertical: kToolbarHeight,
           horizontal: 13.5,
@@ -97,7 +97,7 @@ class CustomHostTotalEarningsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomRoundedEdgedContainer(
-      borderColor: AppColors.appTextFadedColor.withOpacity(0.5),
+      borderColor: AppColors.appTextFadedColor.withValues(alpha: 0.5),
       alignment: Alignment.center,
       width: context.screenWidth(),
       child: Column(
@@ -133,9 +133,7 @@ class CustomHostEarningsTransactionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-    CustomRoundedEdgedContainer(
+    return CustomRoundedEdgedContainer(
       margin: const EdgeInsets.symmetric(vertical: 15),
       paddingNumber: 0.0,
       showBorder: false,

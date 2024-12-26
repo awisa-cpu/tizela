@@ -13,7 +13,7 @@ class CustomSwitchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Switch(
-      inactiveTrackColor: Colors.grey.withOpacity(0.32),
+      inactiveTrackColor: Colors.grey.withValues(alpha:0.32),
       inactiveThumbColor: AppColors.appWhiteColor,
       trackOutlineColor: const WidgetStatePropertyAll(Colors.white),
       value: value,

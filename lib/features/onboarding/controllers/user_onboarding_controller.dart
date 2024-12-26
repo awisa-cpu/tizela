@@ -51,7 +51,6 @@ class UserOnboardingController extends GetxController {
   void onOnboardingBeginTap() async {
     await userStorage.write("userFirstTime", false);
     AppNagivator.pushNamedRoute(
-      Get.context!,
       userSAcountTypeRoute,
     );
   }

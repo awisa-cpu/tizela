@@ -55,13 +55,7 @@ class CustomImageDisplayer extends StatelessWidget {
           errorWidget: (context, url, error) => const Icon(Icons.error_outline),
         );
 
-      default:
-        return Image.asset(
-          imageUrl!,
-          width: size,
-          height: size,
-          fit: fit ?? BoxFit.contain,
-        );
+     
     }
   }
 }

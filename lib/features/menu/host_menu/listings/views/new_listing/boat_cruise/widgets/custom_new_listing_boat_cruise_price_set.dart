@@ -17,7 +17,7 @@ class CustomNewListingBoatCruisePriceSet extends StatelessWidget {
     final controller = HostBoatCruiseController.instance;
 
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(

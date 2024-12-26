@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
+import 'package:tizela/common/widgets/custom_dropdown_form.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
+import 'package:nigerian_states_and_lga/nigerian_states_and_lga.dart';
 
+import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../../utils/validators/app_validators.dart';
 import '../../../../controllers/host_shorlet_controller.dart';
 
@@ -18,7 +22,7 @@ class CustomNewListingShorletLocation extends StatelessWidget {
     final controller = HostShorletController.instance;
 
     //
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(
@@ -27,6 +31,7 @@ class CustomNewListingShorletLocation extends StatelessWidget {
                 "Your address is only shared with guests after \nthey've made a reservation.",
             onTap: () {},
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Form(
@@ -34,18 +39,72 @@ class CustomNewListingShorletLocation extends StatelessWidget {
               child: CustomColumn(
                 children: [
                   CustomTextFormField(
-                    controller: controller.addressCon,
+                    controller: controller.addressStreetNameCon,
                     prefixIcon: const Icon(Icons.location_on_outlined),
-                    hintText: "Enter Address",
+                    hintText: "Street name",
                     validator: (address) => AppValidators.validateTextField(
                         address,
-                        fieldName: "Address"),
+                        fieldName: "Street name"),
                   ),
-                  const CustomHeight()
+                  const CustomHeight(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextFormField(
+                          controller: controller.addressHouseNumberCon,
+                          prefixIcon: const Icon(Icons.location_on_outlined),
+                          hintText: "House Number",
+                          validator: (address) =>
+                              AppValidators.validateTextField(address,
+                                  fieldName: "House number"),
+                        ),
+                      ),
+                      const CustomWidth(),
+                      Expanded(
+                        child: CustomTextFormField(
+                          controller: controller.addressPostalCodeCon,
+                          prefixIcon: const Icon(Icons.location_on_outlined),
+                          hintText: "Postal code",
+                        ),
+                      ),
+                    ],
+                  ),
+                  const CustomHeight(),
+                  //state
+                  Obx(
+                    () => CustomDropdownForm(
+                      currentValue: controller.currentStateValue.value,
+                      items: NigerianStatesAndLGA.allStates,
+                      onChanged: (newState) =>
+                          AppFunctions.updateCheckboxStringValue(
+                        newValue: newState as String,
+                        oldValue: controller.currentStateValue,
+                      ),
+                    ),
+                  ),
+                  //lga
+                  const CustomHeight(),
+                  Obx(
+                    () => CustomDropdownForm(
+                      currentValue: controller.currentStateLga.value,
+                      items: NigerianStatesAndLGA.getStateLGAs(
+                        controller.currentStateValue.value != "Select a state"
+                            ? controller.currentStateValue.value
+                            : "FCT(Abuja)",
+                      ),
+                      onChanged: (newState) =>
+                          AppFunctions.updateCheckboxStringValue(
+                        newValue: newState as String,
+                        oldValue: controller.currentStateLga,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
           ),
+
+          //
           Row(
             children: [
               const Icon(
@@ -77,7 +136,7 @@ class CustomNewListingLocationAddressConfirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollLayoutWidget(
+    return CustomScrollableLayoutWidget(
       child: CustomColumn(
         children: [
           CustomHeaderSubAndBackButton(
@@ -88,7 +147,7 @@ class CustomNewListingLocationAddressConfirmation extends StatelessWidget {
           ),
           CustomRoundedEdgedContainer(
             borderRadius: 10.0,
-            borderColor: Colors.grey.withOpacity(0.5),
+            borderColor: Colors.grey.withValues(alpha: 0.5),
             margin: const EdgeInsets.symmetric(vertical: 26),
             child: CustomColumn(
               children: [

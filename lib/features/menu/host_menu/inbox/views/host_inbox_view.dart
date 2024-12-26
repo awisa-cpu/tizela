@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
@@ -43,7 +43,7 @@ class HostInboxView extends StatelessWidget {
         ],
         tabBarView: TabBarView(
           children: [
-            CustomScrollLayoutWidget(
+            CustomScrollableLayoutWidget(
               padding:
                   const EdgeInsets.symmetric(horizontal: 5, vertical: 13.5),
               child: CustomColumn(

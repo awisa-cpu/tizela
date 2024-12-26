@@ -27,7 +27,7 @@ class CustomHostCarRentalOrBoatCruiseBookingsTab extends StatelessWidget {
       child: CustomRoundedEdgedContainer(
         boxShadow: [
           BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               blurRadius: 5.0,
               spreadRadius: 6.0,
               offset: const Offset(2, 2))

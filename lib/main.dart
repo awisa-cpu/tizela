@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -9,6 +8,7 @@ import 'package:tizela/setup/root_app.dart';
 
 import 'data/repositories/auth_repository/auth_repository.dart';
 import 'data/repositories/user_repo/app_user_repository.dart';
+import 'utils/device/app_debugger/app_debugger.dart';
 import 'utils/device/app_device_services/app_device_services.dart';
 
 void main() async {
@@ -29,7 +29,7 @@ Future<void> _initializeFirebase() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (e) {
-    log(e.toString());
+    AppDebugger.debugger(e);
   }
 }
 
@@ -37,7 +37,7 @@ Future<void> _initGetStorage() async {
   try {
     await GetStorage.init();
   } catch (e) {
-    log(e.toString());
+    AppDebugger.debugger(e);
   }
 }
 
@@ -47,6 +47,6 @@ void _registerDependencies() {
     Get.put(AuthRepository());
     AppDeviceServices.updateSystemOverLayStyle();
   } catch (e) {
-    log(e.toString());
+    AppDebugger.debugger(e);
   }
 }

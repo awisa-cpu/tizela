@@ -10,7 +10,6 @@ import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../utils/enums/image_type.dart';
-import '../../../../../../personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 
 import '../widgets/custom_image_displayer.dart';
 import '../widgets/custom_main_and_subtext_listing_details.dart';
@@ -41,7 +40,7 @@ class EditHostShorletDetails extends StatelessWidget {
         .where((rule) => rule.isActive.value == true)
         .toList();
 
-        //
+    //
     return HostListingDetailsView(
       onSearchTap: () {},
       child: CustomColumn(
@@ -114,76 +113,36 @@ class EditHostShorletDetails extends StatelessWidget {
             ),
           ),
 
-          //todo: localtion to be addressed
           CustomListingDetailsDisplayer(
             titleName: "Location",
             isJustText: false,
-            child: const CustomColumn(
+            child: CustomColumn(
               children: [
                 CustomMainAndSubtextListingDetails(
                   attribute: "Address",
-                  value: "No 23 Kosoko road, Ojudu Berger",
+                  value: shortlet.address.addressWithoutPostal,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Local gov.t",
-                  value: "Ojudu",
+                  value: shortlet.address.lga,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "State",
-                  value: "Lagos",
+                  value: shortlet.address.state,
                 ),
                 CustomMainAndSubtextListingDetails(
                   attribute: "Postal code",
-                  value: "124876",
+                  value: shortlet.address.postalCode ?? '',
                 ),
-                CustomMainAndSubtextListingDetails(
+                const CustomMainAndSubtextListingDetails(
                   attribute: "Building details",
-                  value: "Flat 2",
+                  value: '',
                 ),
               ],
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: const EditShorletLocationView(),
-            ),
-          ),
-
-          //apartment fee
-          CustomListingDetailsDisplayer(
-            titleName: "Apartment fee",
-            isJustText: false,
-            child: CustomColumn(
-              children: [
-                Text(
-                  "Set Apartment Price",
-                  style: customTextStyle(
-                      fontSize: 14, fontWeight: FontWeight.normal),
-                ),
-                const CustomHeight(),
-                CustomTextFormField(
-                  hintText: "#${shortlet.apartmentPrice}",
-                ),
-                const CustomInfoNotificationWithText(
-                  text: "per night",
-                ),
-                const CustomHeight(height: 25),
-                Text(
-                  "Set Caution fee",
-                  style: customTextStyle(
-                      fontSize: 14, fontWeight: FontWeight.normal),
-                ),
-                const CustomHeight(),
-                CustomTextFormField(
-                  hintText: "#${shortlet.cautionFee}",
-                ),
-                const CustomInfoNotificationWithText(
-                  text: "Refundable to customers after check-out",
-                ),
-              ],
-            ),
-            onEditTap: () => AppFunctions.diplayEditSheet(
-              context: context,
-              child: EditShorletApartmentPrice(
+              child: EditShorletLocationView(
                 shortlet: shortlet,
               ),
             ),
@@ -401,7 +360,9 @@ class EditHostShorletDetails extends StatelessWidget {
             ),
             onEditTap: () => AppFunctions.diplayEditSheet(
               context: context,
-              child: EditShorletHouseRulesView(shortlet: shortlet,),
+              child: EditShorletHouseRulesView(
+                shortlet: shortlet,
+              ),
             ),
           ),
 

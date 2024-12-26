@@ -9,7 +9,7 @@ import 'package:tizela/common/widgets/custom_divider.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_outlined_button.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/shorlet_bookings_receipt_view.dart';
+import 'package:tizela/features/menu/customer_menu/bookings/views/shortlet_bookings/shorlet_bookings_receipt_view.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
 import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
@@ -136,8 +136,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
                     Expanded(
                       child: CustomEleButton(
                         onPressed: () => AppNagivator.pushRoute(
-                          context,
-                          (_) => const ShorletBookingsReceiptView(),
+                       const ShorletBookingsReceiptView(),
                         ),
                         text: "View E-Receipt",
                       ),
@@ -158,8 +157,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
                     Expanded(
                       child: CustomOutlinedButton(
                         onTap: () => AppNagivator.pushRoute(
-                          context,
-                          (_) => const ShorletBookingsReceiptView(),
+                         const ShorletBookingsReceiptView(),
                         ),
                         actionText: "View E-Receipt",
                         style: Theme.of(context)

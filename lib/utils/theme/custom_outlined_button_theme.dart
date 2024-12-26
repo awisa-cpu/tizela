@@ -10,7 +10,8 @@ class CustomOutlinedButttonTheme {
       disabledBackgroundColor: Colors.grey,
       disabledForegroundColor: Colors.grey,
       foregroundColor: AppColors.appBlackColor,
-      side: BorderSide(color: AppColors.appTextFadedColor.withOpacity(0.4)),
+      side:
+          BorderSide(color: AppColors.appTextFadedColor.withValues(alpha: 0.4)),
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textStyle: const TextStyle(color: AppColors.appWhiteColor),

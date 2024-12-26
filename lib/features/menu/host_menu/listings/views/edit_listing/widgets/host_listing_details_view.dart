@@ -17,7 +17,7 @@ class HostListingDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: EdgeInsets.symmetric(
           vertical: AppDeviceServices.getAppBarHeight(context),
           horizontal: 13.5,

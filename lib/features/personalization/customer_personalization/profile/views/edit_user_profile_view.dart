@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_header_sub_and_back_button.dart';
@@ -24,7 +24,7 @@ class EditUserProfileView extends StatelessWidget {
 
     //
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
           vertical: kToolbarHeight,
           horizontal: 13.5,
@@ -39,7 +39,7 @@ class EditUserProfileView extends StatelessWidget {
                   headerText: "Profile details",
                   subText: "kindly edit your profile details.",
                   onTap: () {
-                    AppNagivator.goBack(context);
+                    AppNagivator.goBack();
                     userProfileCon.resetResources();
                   },
                 ),
@@ -69,10 +69,10 @@ class EditUserProfileView extends StatelessWidget {
                         child: CustomRoundedEdgedContainer(
                           width: context.screenWidth(),
                           height: 60,
-                          borderColor: Colors.grey.withOpacity(0.5),
+                          borderColor: Colors.grey.withValues(alpha: 0.5),
                           child: Obx(() {
                             return Text(
-                             userProfileCon.selectedUserDob.value,
+                              userProfileCon.selectedUserDob.value,
                               style: const TextStyle()
                                   .copyWith(fontSize: 14, color: Colors.grey),
                             );

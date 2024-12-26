@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_header_sub_and_back_button.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
@@ -19,8 +19,8 @@ class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
   bool isInstantHostTapped = false;
   bool isApproveDeclineTapped = false;
 
-  Color? instantBorderColor = Colors.grey.withOpacity(0.5);
-  Color? approveDeclineBorderColor = Colors.grey.withOpacity(0.5);
+  Color? instantBorderColor = Colors.grey.withValues(alpha: 0.5);
+  Color? approveDeclineBorderColor = Colors.grey.withValues(alpha: 0.5);
 
   double instantBorderWidth = 1.0;
   double approveDeclineBorderWidth = 1.0;
@@ -28,7 +28,7 @@ class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollLayoutWidget(
+      body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
           vertical: kToolbarHeight,
           horizontal: 13.5,
@@ -45,7 +45,7 @@ class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
                 ),
                 //
                 const CustomHeight(height: 30),
-                CustomScrollLayoutWidget(
+                CustomScrollableLayoutWidget(
                   child: CustomColumn(
                     children: [
                       CustomHostBookingTypeButton(
@@ -88,7 +88,7 @@ class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
         instantBorderColor = AppColors.appMainColor;
         instantBorderWidth = 2.0;
 
-        approveDeclineBorderColor = Colors.grey.withOpacity(0.5);
+        approveDeclineBorderColor = Colors.grey.withValues(alpha: 0.5);
         approveDeclineBorderWidth = 1.0;
       }
     });
@@ -101,7 +101,7 @@ class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
 
       //
       if (isApproveDeclineTapped) {
-        instantBorderColor = Colors.grey.withOpacity(0.5);
+        instantBorderColor = Colors.grey.withValues(alpha: 0.5);
         instantBorderWidth = 1.0;
 
         approveDeclineBorderColor = AppColors.appMainColor;

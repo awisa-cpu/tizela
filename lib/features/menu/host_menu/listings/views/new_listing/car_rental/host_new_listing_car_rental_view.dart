@@ -59,7 +59,7 @@ class HostNewListingCarRentalView extends StatelessWidget {
       ),
       bottomNavigationBar: CustomNewListingCreationBNB(
         onSave: carRentalController.createNewCarRental,
-        onExit: () => AppNagivator.goBack(context),
+        onExit: () => AppNagivator.goBack(),
       ),
     );
   }

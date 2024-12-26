@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scroll_layout_widget.dart';
+import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
@@ -69,11 +69,10 @@ class _CustomSearchStayViewState extends State<CustomSearchStayView> {
             controllerText: "Enter Pick location",
             eleButtonText: "Continue",
             onEleButtonPressed: () => AppNagivator.pushNamedRoute(
-              context,
               shortletResultRoute,
             ),
           ),
-          CustomScrollLayoutWidget(
+          CustomScrollableLayoutWidget(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -163,7 +162,6 @@ class _CustomSearchStayViewState extends State<CustomSearchStayView> {
                 const CustomHeight(height: 10),
                 CustomEleButton(
                   onPressed: () => AppNagivator.pushNamedRoute(
-                    context,
                     shortletResultRoute,
                   ),
                   text: "Continue",
@@ -171,7 +169,7 @@ class _CustomSearchStayViewState extends State<CustomSearchStayView> {
               ],
             ),
           ),
-          CustomScrollLayoutWidget(
+          CustomScrollableLayoutWidget(
             child: Column(
               children: [
                 CustomGuestOptions(
@@ -210,7 +208,6 @@ class _CustomSearchStayViewState extends State<CustomSearchStayView> {
                 ),
                 CustomEleButton(
                   onPressed: () => AppNagivator.pushNamedRoute(
-                    context,
                     shortletResultRoute,
                   ),
                   text: "Continue",

@@ -22,7 +22,7 @@ class MoreSectionTab extends StatelessWidget {
         decoration: BoxDecoration(
             color: AppColors.appMainColor,
             borderRadius: BorderRadius.circular(25),
-            border: Border.all(color: Colors.grey.withOpacity(0.3))),
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.3))),
         child: Text(
           "${serviceModel.name} (${serviceModel.count})",
           style: customTextStyle(

@@ -57,7 +57,7 @@ class CustomerAuthenticationTypeView extends StatelessWidget {
                 imageIcon: ImagesText.messageIcon,
                 linkText: 'Continue with Email',
                 onTap: () =>
-                  AppNagivator.pushNamedRoute(context, userSignInRoute),
+                  AppNagivator.pushNamedRoute( userSignInRoute),
                 
               ),
 

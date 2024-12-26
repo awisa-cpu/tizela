@@ -26,7 +26,7 @@ class CustomSingleCarBrand extends StatelessWidget {
           border: Border.all(
             color: isSelected
                 ? AppColors.appMainColor
-                : Colors.grey.withOpacity(0.4),
+                : Colors.grey.withValues(alpha: 0.4),
           ),
         ),
         width: 70,
