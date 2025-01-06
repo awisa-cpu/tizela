@@ -31,6 +31,22 @@ class ShorletRepository extends GetxController {
     }
   }
 
+  Future<List<ShortletModel>> fetchFavouritesShortlets(
+      {required List<String> ids}) async {
+    try {
+      final query = await database
+          .collection(shorletCollection)
+          .where(FieldPath.documentId, whereIn: ids)
+          .get();
+
+      return query.docs
+          .map((s) => ShortletModel.fromDocReference(docSnapshot: s))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<ShortletModel>> fetchAllShorlets() async {
     try {
       final querySnapshot = await database.collection(shorletCollection).get();
@@ -47,7 +63,6 @@ class ShorletRepository extends GetxController {
 
   Stream<List<ShortletModel>> fetchHostShorlets({required String uid}) {
     try {
-     
       final streamData = database
           .collection(shorletCollection)
           .where("userId", isEqualTo: uid)

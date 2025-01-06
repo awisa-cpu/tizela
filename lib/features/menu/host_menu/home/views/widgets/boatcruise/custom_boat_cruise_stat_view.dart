@@ -7,8 +7,8 @@ import 'package:tizela/features/menu/host_menu/home/views/widgets/host_home_tota
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 
-import '../../../../../../../utils/shimmers & loaders/app_stream_loaders.dart';
-import '../../../../../../../utils/shimmers & loaders/custom_stat_shimmer_effect.dart';
+import '../../../../../../../utils/loaders/app_stream_loaders.dart';
+import '../../../../../../../utils/shimmers/custom_stat_shimmer_effect.dart';
 import '../../../controllers/host_boat_cruise_home_controller.dart';
 
 class CustomBoatCruiseStatView extends StatelessWidget {

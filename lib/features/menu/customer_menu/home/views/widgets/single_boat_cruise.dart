@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_display_clip_image_without_size.dart';
@@ -9,6 +10,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_rev
 import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../host_menu/listings/model/boat_cruise_model.dart';
+import '../../../favourite/controller/custom_boat_cruise_favourite_controller.dart';
 
 class SingleBoatCruise extends StatelessWidget {
   const SingleBoatCruise({
@@ -22,6 +24,9 @@ class SingleBoatCruise extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favCon = CustomBoatCruiseFavouriteController.instance;
+
+    //
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -38,8 +43,12 @@ class SingleBoatCruise extends StatelessWidget {
               Positioned(
                 right: 10,
                 top: 10,
-                child: CustomFavourite(
-                  onTap: () {},
+                child: Obx(
+                  () => CustomFavourite(
+                    onTap: () => favCon.addOrRemoveFromBoatFavourites(
+                        boatCruiseId: boatCruse.uid!),
+                    color: favCon.isAdded(boatCruse.uid!) ? Colors.red : null,
+                  ),
                 ),
               ),
               Positioned(

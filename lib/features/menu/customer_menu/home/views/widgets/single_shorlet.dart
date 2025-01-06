@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_display_cost.dart';
@@ -10,6 +11,7 @@ import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../../../common/widgets/custom_display_clip_image_without_size.dart';
 import '../../../../../../utils/constants/images_texts.dart';
+import '../../../favourite/controller/customer_shortlet_favourite_controller.dart';
 
 class SingleShortlet extends StatelessWidget {
   const SingleShortlet({
@@ -23,6 +25,10 @@ class SingleShortlet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CustomShortletFavouriteController controller =
+        CustomShortletFavouriteController.instance;
+
+    //
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -37,8 +43,14 @@ class SingleShortlet extends StatelessWidget {
               Positioned(
                 right: 10,
                 top: 10,
-                child: CustomFavourite(
-                  onTap: () {},
+                child: Obx(
+                  () => CustomFavourite(
+                    onTap: () => controller.addOrRemoveFromShortletFavourites(
+                      shortletId: shortlet.uid!,
+                    ),
+                    color:
+                        controller.isAdded(shortlet.uid!) ? Colors.red : null,
+                  ),
                 ),
               ),
               Positioned(

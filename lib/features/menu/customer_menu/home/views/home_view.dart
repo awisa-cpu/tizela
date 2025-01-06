@@ -10,8 +10,11 @@ import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import '../../../../../common/styles/custom_text_style.dart';
 import '../../../../../common/widgets/custom_section_header.dart';
-import '../../../../../utils/shimmers & loaders/app_custom_shimmer.dart';
+import '../../../../../utils/shimmers/app_custom_shimmer.dart';
 import '../../../../personalization/customer_personalization/profile/controller/customer_profile_controller.dart';
+import '../../favourite/controller/custom_boat_cruise_favourite_controller.dart';
+import '../../favourite/controller/custom_car_rental_favourite_controller.dart';
+import '../../favourite/controller/customer_shortlet_favourite_controller.dart';
 import '../controller/customer_home_controller.dart';
 import 'search_and_filter_views/custom_search_boat_cruise_view.dart';
 import 'search_and_filter_views/custom_search_car_rental_view.dart';
@@ -31,6 +34,9 @@ class HomeView extends StatelessWidget {
     final userProfileController = CustomerProfileController.instance;
     Get.put(CustomerHomeController());
     final controller = CustomerHomeController.instance;
+    Get.put(CustomCarRentalFavouriteController());
+    Get.put(CustomBoatCruiseFavouriteController());
+        Get.put(CustomShortletFavouriteController());
     //
     return Scaffold(
       body: CustomScrollableLayoutWidget(

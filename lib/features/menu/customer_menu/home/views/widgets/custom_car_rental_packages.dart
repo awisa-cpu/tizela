@@ -5,7 +5,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/details_views/car_
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/single_car_rental.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
-import '../../../../../../utils/shimmers & loaders/custom_shorlets_shimmer_list_view.dart';
+import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
 import '../../../../host_menu/listings/model/car_rental_model.dart';
 import '../../controller/customer_home_controller.dart';
 

@@ -6,9 +6,9 @@ import 'package:tizela/features/menu/host_menu/home/views/widgets/custom_host_ho
 import 'package:tizela/features/menu/host_menu/home/views/widgets/host_home_total_earnings_view.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
-import 'package:tizela/utils/shimmers%20&%20loaders/custom_stat_shimmer_effect.dart';
+import 'package:tizela/utils/shimmers/custom_stat_shimmer_effect.dart';
 
-import '../../../../../../../utils/shimmers & loaders/app_stream_loaders.dart';
+import '../../../../../../../utils/loaders/app_stream_loaders.dart';
 import '../../../controllers/host_shortlet_home_controller.dart';
 
 class CustomShortletHomeStatView extends StatelessWidget {

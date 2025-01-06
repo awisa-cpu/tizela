@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_display_clip_image_without_size.dart';
@@ -10,6 +11,7 @@ import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../host_menu/listings/model/car_rental_model.dart';
+import '../../../favourite/controller/custom_car_rental_favourite_controller.dart';
 
 class SingleCarRental extends StatelessWidget {
   const SingleCarRental({
@@ -23,6 +25,9 @@ class SingleCarRental extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favController = CustomCarRentalFavouriteController.instance;
+
+    //
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -37,8 +42,15 @@ class SingleCarRental extends StatelessWidget {
               Positioned(
                 right: 10,
                 top: 10,
-                child: CustomFavourite(
-                  onTap: () {},
+                child: Obx(
+                  () => CustomFavourite(
+                    onTap: () =>
+                        favController.addOrRemoveFromCarRentalFavourites(
+                            carRentalId: carRental.uid!),
+                    color: favController.isAdded(carRentalId: carRental.uid!)
+                        ? Colors.red
+                        : null,
+                  ),
                 ),
               ),
               Positioned(
@@ -77,15 +89,14 @@ class SingleCarRental extends StatelessWidget {
               //attributes
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
-                child: 
-                Row(
+                child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: carRental.carRentalDetails.map(
                       (attribute) {
                         return CustomIconAndText(
                           text: attribute.detailCount.value.toString(),
-                          iconImage:
-                             AppFunctions. getIconImageByAttributeName(attribute.name),
+                          iconImage: AppFunctions.getIconImageByAttributeName(
+                              attribute.name),
                           color: AppColors.appIconColorBox,
                           textStyle: customTextStyle(
                             fontSize: 14,
@@ -109,6 +120,4 @@ class SingleCarRental extends StatelessWidget {
       ),
     );
   }
-
- 
 }

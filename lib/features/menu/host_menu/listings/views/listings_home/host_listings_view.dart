@@ -13,8 +13,8 @@ import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_hos
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import 'package:get/get.dart';
-import 'package:tizela/utils/shimmers%20&%20loaders/custom_shorlets_shimmer_list_view.dart';
-import '../../../../../../utils/shimmers & loaders/app_stream_loaders.dart';
+import '../../../../../../utils/loaders/app_stream_loaders.dart';
+import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
 import '../new_listing/boat_cruise/host_new_listing_boat_cruise_view.dart';
 import '../new_listing/car_rental/host_new_listing_car_rental_view.dart';
 import '../new_listing/shorlet/host_new_listing_shorlet_view.dart';

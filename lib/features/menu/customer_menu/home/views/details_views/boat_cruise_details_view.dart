@@ -87,6 +87,7 @@ class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
                   top: 40,
                   child: CustomFavourite(
                     onTap: () {},
+                     color: Colors.grey.withValues(alpha: 0.5),
                   ),
                 ),
 

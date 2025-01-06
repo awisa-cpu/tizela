@@ -33,6 +33,24 @@ class CarRentalRepository extends GetxController {
     }
   }
 
+  Future<List<CarRentalModel>> fetchFavouritesCarRental(
+      {required List<String> ids}) async {
+    try {
+      final query = await database
+          .collection(carRentalCollection)
+          .where(
+            FieldPath.documentId,
+            whereIn: ids,
+          )
+          .get();
+      return query.docs
+          .map((value) => CarRentalModel.fromDocSnapshot(docSnapshot: value))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<CarRentalModel>> fetchAllCarRentals() async {
     try {
       final querySnapshot =

@@ -6,7 +6,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/single_boa
 import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
-import '../../../../../../utils/shimmers & loaders/custom_shorlets_shimmer_list_view.dart';
+import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
 import '../../controller/customer_home_controller.dart';
 
 class CustomBoatCruisePackages extends StatelessWidget {

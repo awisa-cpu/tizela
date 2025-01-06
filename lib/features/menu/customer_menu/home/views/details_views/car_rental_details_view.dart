@@ -81,6 +81,7 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                   top: 40,
                   child: CustomFavourite(
                     onTap: () {},
+                     color: Colors.grey.withValues(alpha: 0.5),
                   ),
                 ),
                 //share

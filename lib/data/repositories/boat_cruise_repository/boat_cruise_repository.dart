@@ -37,6 +37,24 @@ class BoatCruiseRepository extends GetxController {
     }
   }
 
+  Future<List<BoatCruiseModel>> fetchFavouritesBoatCruise(
+      {required List<String> ids}) async {
+    try {
+      final query = await database
+          .collection(boatCruiseCollection)
+          .where(FieldPath.documentId, whereIn: ids)
+          .get();
+
+      final boatCruiseList = query.docs
+          .map((qds) => BoatCruiseModel.fromDocSnapshot(docSnapshot: qds))
+          .toList();
+
+      return boatCruiseList;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<BoatCruiseModel>> fetchAllBoatCruise() async {
     try {
       final querySnapshot =

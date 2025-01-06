@@ -76,6 +76,7 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
                   top: 40,
                   child: CustomFavourite(
                     onTap: () {},
+                     color: Colors.grey.withValues(alpha: 0.5),
                   ),
                 ),
                 //share

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
-import 'package:tizela/utils/shimmers%20&%20loaders/app_custom_shimmer.dart';
+
+import 'app_custom_shimmer.dart';
 
 class CustomStatShimmerEffect extends StatelessWidget {
   const CustomStatShimmerEffect({
