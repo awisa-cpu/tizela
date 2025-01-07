@@ -6,7 +6,7 @@ import 'package:tizela/features/menu/host_menu/listings/controllers/edit_host_sh
 import '../../../../../../../../common/styles/custom_height.dart';
 import '../../../../../../../../common/styles/custom_text_style.dart';
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 import '../../../new_listing/shorlet/widgets/custom_new_listing_shorlet_house_rules.dart';
 import '../../widgets/custom_edit_view.dart';
 

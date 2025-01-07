@@ -6,7 +6,7 @@ import 'package:tizela/common/widgets/custom_display_cost.dart';
 import 'package:tizela/common/widgets/custom_favourite.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_reviews.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../../../common/widgets/custom_display_clip_image_without_size.dart';

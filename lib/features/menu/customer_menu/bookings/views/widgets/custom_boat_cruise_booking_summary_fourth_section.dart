@@ -33,13 +33,13 @@ class CustomBoatCruiseBookingSummaryFourthSection extends StatelessWidget {
           const CustomHeight(height: 20),
           const CustomContainerBookingSummary(
             target: "Start time",
-            location: "7:00AM",
+            targetValue: "7:00AM",
             shouldExpand: false,
           ),
           const CustomHeight(height: 10),
           const CustomContainerBookingSummary(
             target: "End time",
-            location: "8:00AM",
+            targetValue: "8:00AM",
             shouldExpand: false,
           ),
         ],

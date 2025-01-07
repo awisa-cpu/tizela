@@ -4,18 +4,19 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
 
 class CustomShorletBookingSummaryThirdSection extends StatelessWidget {
+  final String guestNunber;
   const CustomShorletBookingSummaryThirdSection({
-    super.key,
+    super.key, required this.guestNunber,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const CustomBookingSummaryTab(
+    return  CustomBookingSummaryTab(
       child: CustomColumn(
         children: [
           CustomContainerBookingSummary(
             target: "No of Guest",
-            location: "2",
+            targetValue: guestNunber,
             shouldExpand: false,
           ),
         ],

@@ -6,7 +6,7 @@ import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widge
 import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 
 import '../../../../controllers/edit_host_shortlet_controller.dart';
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 
 class EditShorletStandoutAmenities extends StatelessWidget {
   final ShortletModel shortlet;

@@ -7,6 +7,7 @@ import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
 import '../../../../../common/styles/custom_scrollable_layout_widget.dart';
+import '../../../../../common/widgets/custom_empty_data_view.dart';
 import '../../../../../utils/loaders/app_future_loaders.dart';
 import '../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
 import '../../home/views/widgets/single_boat_cruise.dart';
@@ -58,6 +59,10 @@ class FavouriteView extends StatelessWidget {
                         AppFutureLoaders.checkMultiFutureState(
                       snapshot: snapshot,
                       loaderWidget: const CustomHostDataShimmerListView(),
+                      nothingFoundWidget: const CustomEmptyDataView(
+                        mainText: "No favourites shortlets to rent",
+                        subText: "",
+                      ),
                     );
 
                     if (widgetToDisplay != null) {
@@ -87,6 +92,10 @@ class FavouriteView extends StatelessWidget {
                         AppFutureLoaders.checkMultiFutureState(
                       snapshot: snapshot,
                       loaderWidget: const CustomHostDataShimmerListView(),
+                      nothingFoundWidget: const CustomEmptyDataView(
+                        mainText: "No favourites cars to rent",
+                        subText: "",
+                      ),
                     );
 
                     if (widgetToDisplay != null) {
@@ -116,6 +125,10 @@ class FavouriteView extends StatelessWidget {
                         AppFutureLoaders.checkMultiFutureState(
                       snapshot: snapshot,
                       loaderWidget: const CustomHostDataShimmerListView(),
+                      nothingFoundWidget: const CustomEmptyDataView(
+                        mainText: "No favourites boats to rent",
+                        subText: "",
+                      ),
                     );
 
                     if (widgetToDisplay != null) {

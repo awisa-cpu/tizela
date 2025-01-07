@@ -4,7 +4,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_ico
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_shorlet_details.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 
-import '../../model/shorlet_model.dart';
+import '../../model/shortlet_model.dart';
 
 class CustomHostSingleShorlet extends StatelessWidget {
   final ShortletModel shorlet;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_favourite.dart';
@@ -12,7 +13,9 @@ import '../../../../../../setup/app_navigator.dart';
 import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../../../utils/enums/booking_type.dart';
-import '../../../../host_menu/listings/model/shorlet_model.dart';
+import '../../../../host_menu/listings/model/shortlet_model.dart';
+import '../../../bookings/views/shortlet_bookings/shortlet_bookings_summary_view.dart';
+import '../../../favourite/controller/customer_shortlet_favourite_controller.dart';
 import 'widgets/custom_first_shorlet_details_section.dart';
 import 'widgets/custom_map_view_section.dart';
 import 'widgets/custom_shorlet_policies.dart';
@@ -43,17 +46,21 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    final CustomShortletFavouriteController controller =
+        CustomShortletFavouriteController.instance;
+
+    //
     return Scaffold(
       body: CustomScrollableLayoutWidget(
         padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //image and image qualities
+            //section 1: Image and image qualities
             Stack(
               children: [
                 CustomCachedNetworkImage(
-                  imageUrl: widget.shortLetItem.apartmentImages.first,
+                  networkImageUrl: widget.shortLetItem.apartmentImages.first,
                   imageHeigth: context.screenHeight() * 0.40,
                   imageWidth: context.screenWidth(),
                   fit: BoxFit.cover,
@@ -74,9 +81,15 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
                 Positioned(
                   right: 10,
                   top: 40,
-                  child: CustomFavourite(
-                    onTap: () {},
-                     color: Colors.grey.withValues(alpha: 0.5),
+                  child: Obx(
+                    () => CustomFavourite(
+                      onTap: () => controller.addOrRemoveFromShortletFavourites(
+                        shortletId: widget.shortLetItem.uid!,
+                      ),
+                      color: controller.isAdded(widget.shortLetItem.uid!)
+                          ? Colors.red
+                          : null,
+                    ),
                   ),
                 ),
                 //share
@@ -162,11 +175,11 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
             ),
             ElevatedButton(
               onPressed: () {
-                // AppNagivator.pushRoute(
-                //   ShorletBookingsSummaryView(
-                //     shortlet: widget.shortLetItem,
-                //   ),
-                // );
+                AppNagivator.pushRoute(
+                  ShorletBookingsSummaryView(
+                    shortlet: widget.shortLetItem,
+                  ),
+                );
               },
               child: Text(
                 widget.shortLetItem.bookingType == BookingType.instant

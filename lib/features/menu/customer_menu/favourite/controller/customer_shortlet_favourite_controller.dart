@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:tizela/data/repositories/shortlet_repository/shorlet_repository.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/data/repositories/shortlet_repository/shortlet_repository.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 
 import '../../../../../data/services/alert_services.dart';
 import '../../../../../data/services/app_local_data_storage_service.dart';
@@ -44,7 +44,7 @@ class CustomShortletFavouriteController extends GetxController {
 
   //fetch saved favourites from server with their ids
   Future<List<ShortletModel>> fetchShortletsFavouritesWithIds() async {
-    return ShorletRepository.instance
+    return ShortletRepository.instance
         .fetchFavouritesShortlets(ids: _favouritesShortlets);
   }
 }

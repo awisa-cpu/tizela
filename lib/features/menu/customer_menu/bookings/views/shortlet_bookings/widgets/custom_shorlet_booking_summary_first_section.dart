@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
-import 'package:tizela/common/widgets/custom_display_clip_image_with_size.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_display_cost.dart';
+import 'package:tizela/common/widgets/custom_network_image.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
@@ -33,11 +32,12 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
       borderRadius: 12,
       child: Row(
         children: [
-          CustomDisplayClipImageWithSize(
-            imageUrl: shortlet.apartmentImages.first,
+          CustomCachedNetworkImage(
+            networkImageUrl: shortlet.apartmentImages.first,
           ),
           const CustomWidth(width: 10),
           CustomColumn(
+            spacing: 5,
             children: [
               //name
               Text(
@@ -46,14 +46,13 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const CustomHeight(height: 5),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(ImagesText.currentLocationIcon),
                   const CustomWidth(width: 5),
                   Text(
-                    "Lagos Island",
+                    "${shortlet.address.state} Island",
                     style: customTextStyle(
                         fontSize: 12,
                         color: AppColors.appTextFadedColor,
@@ -62,9 +61,12 @@ class CustomShorletBookingSummaryFirstSection extends StatelessWidget {
                 ],
               ),
 
-              const CustomHeight(height: 5),
               //cost
-              CustomDisplayCost(cost: shortlet.apartmentPrice.toString(), perWhat: " hr"),
+              CustomDisplayCost(
+                cost: shortlet.apartmentPrice.toString(),
+                perWhat: " hr",
+                costFontWeight: FontWeight.bold,
+              ),
             ],
           )
         ],

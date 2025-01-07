@@ -36,7 +36,7 @@ class CustomCarRentalBookingsFirstSection extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: CustomCachedNetworkImage(
-              imageUrl: carRental.carImages.first,
+              networkImageUrl: carRental.carImages.first,
               imageWidth: 110,
               imageHeigth: 100,
               fit: BoxFit.cover,

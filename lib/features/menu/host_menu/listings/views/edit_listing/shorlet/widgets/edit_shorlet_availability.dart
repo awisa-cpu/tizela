@@ -4,7 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/edit_host_shortlet_controller.dart';
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 import '../../widgets/custom_edit_view.dart';
 
 class EditShorletAvailability extends StatelessWidget {

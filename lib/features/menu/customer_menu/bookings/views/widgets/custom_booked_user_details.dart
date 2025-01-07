@@ -21,13 +21,13 @@ class CustomBookedUserDetails extends StatelessWidget {
         children: [
           const CustomContainerBookingSummary(
             target: "Name",
-            location: "Asuquo Godwin",
+            targetValue: "Asuquo Godwin",
             shouldExpand: false,
           ),
           const CustomHeight(height: 13.5),
           const CustomContainerBookingSummary(
             target: "Email",
-            location: "godwinasuguo@gmail.com",
+            targetValue: "godwinasuguo@gmail.com",
             shouldExpand: false,
           ),
           const CustomHeight(height: 13.5),

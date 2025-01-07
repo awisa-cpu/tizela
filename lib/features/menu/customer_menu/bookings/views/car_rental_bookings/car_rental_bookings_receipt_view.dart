@@ -39,19 +39,19 @@ class CarRentalBookingsReceiptView extends StatelessWidget {
                 children: [
                   CustomContainerBookingSummary(
                     target: "Date",
-                    location: "Dec 27th, 2024",
+                    targetValue: "Dec 27th, 2024",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 13.5),
                   CustomContainerBookingSummary(
                     target: "Pickup",
-                    location: "Lorem ipsum cadet range something",
+                    targetValue: "Lorem ipsum cadet range something",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 13.5),
                   CustomContainerBookingSummary(
                     target: "Drop-off",
-                    location: "Lorem ipsum cadet range something",
+                    targetValue: "Lorem ipsum cadet range something",
                     shouldExpand: false,
                   ),
                 ],
@@ -63,13 +63,13 @@ class CarRentalBookingsReceiptView extends StatelessWidget {
                 children: [
                   CustomContainerBookingSummary(
                     target: "Duration(12 hours)",
-                    location: "#600,000",
+                    targetValue: "#600,000",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 20),
                   CustomContainerBookingSummary(
                     target: "Service fee",
-                    location: "#10,600",
+                    targetValue: "#10,600",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 20),
@@ -77,7 +77,7 @@ class CarRentalBookingsReceiptView extends StatelessWidget {
                   SizedBox(height: 20),
                   CustomContainerBookingSummary(
                     target: "Total",
-                    location: "#610,600",
+                    targetValue: "#610,600",
                     shouldExpand: false,
                   ),
                 ],

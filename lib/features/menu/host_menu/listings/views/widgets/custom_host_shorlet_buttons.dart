@@ -6,7 +6,7 @@ import 'package:tizela/utils/constants/app_colors.dart';
 import '../../controllers/edit_host_shortlet_controller.dart';
 import '../edit_listing/shorlet/edit_host_shorlet_details.dart';
 import '../edit_listing/shorlet/edit_host_shorlet_pricesset.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 
 class CustomHostShorletButtons extends StatelessWidget {
   final ShortletModel shortlet;

@@ -4,7 +4,7 @@ import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_outlined_button.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 
-import '../../../../../host_menu/listings/model/shorlet_model.dart';
+import '../../../../../host_menu/listings/model/shortlet_model.dart';
 
 class CustomSecondShortletDetailsSection extends StatelessWidget {
   final ShortletModel shortlet;

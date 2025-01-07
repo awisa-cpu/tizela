@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 
 import '../../../../../data/repositories/auth_repository/auth_repository.dart';
-import '../../../../../data/repositories/shortlet_repository/shorlet_repository.dart';
+import '../../../../../data/repositories/shortlet_repository/shortlet_repository.dart';
 import '../../../../../data/services/alert_services.dart';
 import '../../../../../utils/device/app_debugger/app_debugger.dart';
-import '../../listings/model/shorlet_model.dart';
+import '../../listings/model/shortlet_model.dart';
 
 class HostShortletHomeController extends GetxController {
   static HostShortletHomeController get instance => Get.find();
 
   //variables
 
-  final ShorletRepository shortletRepo = Get.put(ShorletRepository());
+  final ShortletRepository shortletRepo = Get.put(ShortletRepository());
   final String? _currentUserId = AuthRepository.instance.currentUser?.uid;
   RxBool showShortletAvailabilityConfirmation = true.obs;
 
@@ -25,7 +25,7 @@ class HostShortletHomeController extends GetxController {
   }
 
   //total listings by the host
- Stream<List<ShortletModel>>? getShortletTotalListings() {
+  Stream<List<ShortletModel>>? getShortletTotalListings() {
     try {
       if (_currentUserId == null) {
         return null;
@@ -44,9 +44,7 @@ class HostShortletHomeController extends GetxController {
   }
 
   //total bookings of this shorlet by customers
-  Future getShortletBookings() async{
-    
-  }
+  Future getShortletBookings() async {}
 
   //total earnings from bookings made by customers
 

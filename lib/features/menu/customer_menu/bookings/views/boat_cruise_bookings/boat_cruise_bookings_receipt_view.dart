@@ -39,25 +39,25 @@ class BoatCruiseBookingsReceiptView extends StatelessWidget {
                 children: [
                   CustomContainerBookingSummary(
                     target: "Date",
-                    location: "Dec 27th, 2024",
+                    targetValue: "Dec 27th, 2024",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 13.5),
                   CustomContainerBookingSummary(
                     target: "Start time",
-                    location: "7:00AM",
+                    targetValue: "7:00AM",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 13.5),
                   CustomContainerBookingSummary(
                     target: "End time",
-                    location: "8:00AM",
+                    targetValue: "8:00AM",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 13.5),
                   CustomContainerBookingSummary(
                     target: "Passengers",
-                    location: "2",
+                    targetValue: "2",
                     shouldExpand: false,
                   ),
                 ],
@@ -69,13 +69,13 @@ class BoatCruiseBookingsReceiptView extends StatelessWidget {
                 children: [
                   CustomContainerBookingSummary(
                     target: "Cost",
-                    location: "#180,000",
+                    targetValue: "#180,000",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 20),
                   CustomContainerBookingSummary(
                     target: "Service fee",
-                    location: "#10,600",
+                    targetValue: "#10,600",
                     shouldExpand: false,
                   ),
                   SizedBox(height: 20),
@@ -83,7 +83,7 @@ class BoatCruiseBookingsReceiptView extends StatelessWidget {
                   SizedBox(height: 20),
                   CustomContainerBookingSummary(
                     target: "Total",
-                    location: "#190,600",
+                    targetValue: "#190,600",
                     shouldExpand: false,
                   ),
                 ],

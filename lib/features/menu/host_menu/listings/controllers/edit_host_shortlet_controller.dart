@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tizela/data/repositories/shortlet_repository/shorlet_repository.dart';
+import 'package:tizela/data/repositories/shortlet_repository/shortlet_repository.dart';
 import 'package:tizela/data/services/alert_services.dart';
 import 'package:tizela/data/services/app_loader_services.dart';
 import 'package:tizela/data/services/media_service.dart';
@@ -12,12 +12,12 @@ import 'package:tizela/utils/device/app_debugger/app_debugger.dart';
 import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../data/local_database.dart';
 import '../../../customer_menu/home/model/apartment_type_model.dart';
-import '../model/shorlet_model.dart';
+import '../model/shortlet_model.dart';
 
 class EditHostShortletController extends GetxController {
   static EditHostShortletController get instance => Get.find();
 
-  final ShorletRepository shortletRepo = ShorletRepository.instance;
+  final ShortletRepository shortletRepo = ShortletRepository.instance;
   final MediaServiceController mediaService = MediaServiceController.instance;
   final GlobalKey<FormState> apartmentPriceKey = GlobalKey<FormState>();
   final GlobalKey<FormState> apartmentNameKey = GlobalKey<FormState>();

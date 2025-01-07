@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tizela/data/repositories/shortlet_repository/shorlet_repository.dart';
+import 'package:tizela/data/repositories/shortlet_repository/shortlet_repository.dart';
 
 import '../../../../../data/repositories/boat_cruise_repository/boat_cruise_repository.dart';
 import '../../../../../data/repositories/car_rental_repository/car_rental_repository.dart';
@@ -8,12 +8,12 @@ import '../../../../../utils/constants/app_colors.dart';
 import '../../../../../utils/device/app_debugger/app_debugger.dart';
 import '../../../host_menu/listings/model/boat_cruise_model.dart';
 import '../../../host_menu/listings/model/car_rental_model.dart';
-import '../../../host_menu/listings/model/shorlet_model.dart';
+import '../../../host_menu/listings/model/shortlet_model.dart';
 
 class CustomerHomeController extends GetxController {
   //variables
   static CustomerHomeController get instance => Get.find();
-  final ShorletRepository shorletRepository = Get.put(ShorletRepository());
+  final ShortletRepository shorletRepository = Get.put(ShortletRepository());
   final CarRentalRepository carRentalRepository =
       Get.put(CarRentalRepository());
   final BoatCruiseRepository boatCruiseRepository =

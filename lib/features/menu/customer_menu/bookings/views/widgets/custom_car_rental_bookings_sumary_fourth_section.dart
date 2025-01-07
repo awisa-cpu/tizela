@@ -33,7 +33,7 @@ class CustomCarRentalBookingsSumaryFourthSection extends StatelessWidget {
           const CustomHeight(height: 20),
           const CustomContainerBookingSummary(
             target: "Booking time",
-            location: "12hours",
+            targetValue: "12hours",
             shouldExpand: false,
           ),
         ],

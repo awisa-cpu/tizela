@@ -5,7 +5,7 @@ import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 
 class EditHostAvailabilitySetupView extends StatelessWidget {
   final ShortletModel shorlet;

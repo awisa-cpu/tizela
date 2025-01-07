@@ -8,7 +8,7 @@ import '../../../../../../../utils/device/app_functions.dart/app_functions.dart'
 import '../../../../../../personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 import '../../new_listing/widgets/custom_host_service_charge.dart';
 import '../widgets/edit_host_set_price_view.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 
 class EditHostShorletPricesset extends StatelessWidget {
   final ShortletModel shortlet;

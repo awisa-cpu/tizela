@@ -5,7 +5,7 @@ import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/edit_host_shortlet_controller.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 
 class EditShorletApartmentStory extends StatelessWidget {
   final ShortletModel shortlet;

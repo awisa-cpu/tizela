@@ -6,7 +6,7 @@ import 'package:tizela/features/menu/host_menu/listings/controllers/edit_host_sh
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 import 'package:tizela/utils/validators/app_validators.dart';
 
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 
 class EditShorletNameView extends StatelessWidget {
   final ShortletModel shortlet;

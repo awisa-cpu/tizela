@@ -4,11 +4,11 @@ import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 
 class CustomContainerBookingSummary extends StatelessWidget {
-  final String target, location;
+  final String target, targetValue;
   final bool shouldExpand;
   const CustomContainerBookingSummary({
     super.key,
-    required this.location,
+    required this.targetValue,
     required this.target,
     this.shouldExpand = true,
   });
@@ -29,7 +29,7 @@ class CustomContainerBookingSummary extends StatelessWidget {
         shouldExpand
             ? Expanded(
                 child: Text(
-                  location,
+                  targetValue,
                   style: customTextStyle(
                     fontSize: 14,
                     overflow: TextOverflow.ellipsis,
@@ -37,7 +37,7 @@ class CustomContainerBookingSummary extends StatelessWidget {
                 ),
               )
             : Text(
-                location,
+                targetValue,
                 style: customTextStyle(
                   fontSize: 14,
                   overflow: TextOverflow.ellipsis,

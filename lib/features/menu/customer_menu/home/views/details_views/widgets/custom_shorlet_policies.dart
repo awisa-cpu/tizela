@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/custom_shorlet_policy_tab.dart';
-import '../../../../../host_menu/listings/model/shorlet_model.dart';
+import '../../../../../host_menu/listings/model/shortlet_model.dart';
 
 class CustomShorletPolicies extends StatelessWidget {
   final ShortletModel shortlet;

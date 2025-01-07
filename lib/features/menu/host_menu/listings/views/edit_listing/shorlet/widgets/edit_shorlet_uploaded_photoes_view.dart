@@ -7,7 +7,7 @@ import 'package:tizela/features/menu/host_menu/listings/views/new_listing/widget
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../../../../utils/enums/image_type.dart';
 import '../../../../controllers/edit_host_shortlet_controller.dart';
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 import '../../widgets/custom_image_displayer.dart';
 
 class EditShorletUploadedPhotoesView extends StatelessWidget {

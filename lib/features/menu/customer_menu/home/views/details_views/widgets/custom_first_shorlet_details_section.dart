@@ -7,7 +7,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_rev
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
-import '../../../../../host_menu/listings/model/shorlet_model.dart';
+import '../../../../../host_menu/listings/model/shortlet_model.dart';
 
 class CustomFirstShortletDetailsSection extends StatelessWidget {
   final ShortletModel shortletItem;

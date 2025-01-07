@@ -9,7 +9,7 @@ import '../../../../../../../../common/widgets/custom_dropdown_form.dart';
 import '../../../../../../../../data/local_database.dart';
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/edit_host_shortlet_controller.dart';
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 
 class EditShorletMinimumCheckinPeriod extends StatelessWidget {
   final ShortletModel shortlet;

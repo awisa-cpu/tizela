@@ -58,7 +58,7 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
             Stack(
               children: [
                 CustomCachedNetworkImage(
-                  imageUrl: widget.carRental.carImages.first,
+                  networkImageUrl: widget.carRental.carImages.first,
                   imageWidth: context.screenWidth(),
                   imageHeigth: context.screenHeight() * 0.40,
                   fit: BoxFit.cover,
@@ -81,7 +81,7 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                   top: 40,
                   child: CustomFavourite(
                     onTap: () {},
-                     color: Colors.grey.withValues(alpha: 0.5),
+                    color: Colors.grey.withValues(alpha: 0.5),
                   ),
                 ),
                 //share

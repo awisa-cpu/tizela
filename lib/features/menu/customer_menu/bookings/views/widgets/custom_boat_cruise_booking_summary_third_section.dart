@@ -33,7 +33,7 @@ class CustomBoatCruiseBookingSummaryThirdSection extends StatelessWidget {
           const CustomHeight(height: 20),
           const CustomContainerBookingSummary(
             target: "Passengers",
-            location: "2",
+            targetValue: "2",
             shouldExpand: false,
           ),
         ],

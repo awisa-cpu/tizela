@@ -7,26 +7,29 @@ import 'package:tizela/utils/constants/images_texts.dart';
 class CustomEmptyDataView extends StatelessWidget {
   final String mainText, subText;
   final double screenHeight;
+  final String? imageUrl;
   const CustomEmptyDataView({
     super.key,
     required this.mainText,
     required this.subText,
     this.screenHeight = 0.60,
+    this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-    SizedBox(
+    return SizedBox(
       height: context.screenHeight() * screenHeight,
-      //todo: review this design and it implications
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(ImagesText.bookingsImage),
+            Image.asset(
+              imageUrl ?? ImagesText.bookingsImage,
+              width: 150,
+              height: 140,
+            ),
             const CustomHeight(height: 13),
             Text(
               mainText,

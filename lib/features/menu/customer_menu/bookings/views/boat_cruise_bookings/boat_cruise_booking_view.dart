@@ -165,7 +165,7 @@ class CustomBoatCruseBookingFirstSection extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: CustomCachedNetworkImage(
-              imageUrl: boatCruise.boatImages.first,
+              networkImageUrl: boatCruise.boatImages.first,
               imageWidth: 110,
               imageHeigth: 100,
               fit: BoxFit.cover,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_reviews.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_listing_creation_cost_and_date.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/widgets/custom_host_shorlet_buttons.dart';
 import 'package:tizela/utils/constants/app_colors.dart';

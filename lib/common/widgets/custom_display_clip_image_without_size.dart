@@ -15,7 +15,7 @@ class CustomDisplayClipImageWithoutSize extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: CustomCachedNetworkImage(
-        imageUrl: imageUrl,
+        networkImageUrl: imageUrl,
         imageHeigth: 260,
         imageWidth: context.screenWidth(),
         fit: BoxFit.cover,

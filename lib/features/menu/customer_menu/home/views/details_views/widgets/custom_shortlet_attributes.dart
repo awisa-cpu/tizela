@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/custom_shortlet_varied_attribute.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
-import '../../../../../host_menu/listings/model/shorlet_model.dart';
+import '../../../../../host_menu/listings/model/shortlet_model.dart';
 
 class CustomShortletAttributes extends StatelessWidget {
   final ShortletModel shortlet;

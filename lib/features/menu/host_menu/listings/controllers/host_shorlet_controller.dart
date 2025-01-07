@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/data/local_database.dart';
-import 'package:tizela/data/repositories/shortlet_repository/shorlet_repository.dart';
+import 'package:tizela/data/repositories/shortlet_repository/shortlet_repository.dart';
 import 'package:tizela/data/services/alert_services.dart';
 import 'package:tizela/data/services/app_loader_services.dart';
 import 'package:tizela/data/services/network_service.dart';
@@ -10,7 +10,7 @@ import 'package:tizela/features/menu/customer_menu/home/model/apartment_type_mod
 import 'package:tizela/features/menu/host_menu/listings/model/address_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/apartment_detail_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/app_file_model.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../data/repositories/auth_repository/auth_repository.dart';
 import '../../../../../data/services/media_service.dart';
@@ -29,7 +29,7 @@ class HostShorletController extends GetxController {
   final PageController shortletCreationPageController = PageController();
   RxInt currentPageSelected = 0.obs;
 
-  final ShorletRepository shortletRepo = ShorletRepository.instance;
+  final ShortletRepository shortletRepo = ShortletRepository.instance;
   final MediaServiceController mediaService = Get.put(MediaServiceController());
   final String _currentUserId = AuthRepository.instance.currentUser!.uid;
 
@@ -273,7 +273,7 @@ class HostShorletController extends GetxController {
         thumbImage: uploadedImages.first,
         apartmentImages: uploadedImages,
         idType: selectedIdType.value,
-        bookingType: BookingType.instant,//todo: work on this
+        bookingType: BookingType.instant, //todo: work on this
       );
 
       await shortletRepo.createNewShorlet(shorlet: newShortlet);

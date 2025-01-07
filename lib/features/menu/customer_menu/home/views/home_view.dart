@@ -29,14 +29,19 @@ import 'widgets/custom_home_search_bar.dart';
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final userProfileController = CustomerProfileController.instance;
+  void _initControllers() {
     Get.put(CustomerHomeController());
-    final controller = CustomerHomeController.instance;
     Get.put(CustomCarRentalFavouriteController());
     Get.put(CustomBoatCruiseFavouriteController());
-        Get.put(CustomShortletFavouriteController());
+    Get.put(CustomShortletFavouriteController());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _initControllers();
+    final controller = CustomerHomeController.instance;
+    final userProfileController = CustomerProfileController.instance;
+
     //
     return Scaffold(
       body: CustomScrollableLayoutWidget(

@@ -6,7 +6,7 @@ import 'package:tizela/common/widgets/widgets.dart';
 import '../../../../../../../../common/widgets/custom_grid_selectable_service_types.dart';
 import '../../../../../../customer_menu/home/views/search_and_filter_views/widgets/custom_apartment_type.dart';
 import '../../../../controllers/edit_host_shortlet_controller.dart';
-import '../../../../model/shorlet_model.dart';
+import '../../../../model/shortlet_model.dart';
 import '../../widgets/custom_edit_view.dart';
 
 class EditShorletApartmentTypeView extends StatelessWidget {

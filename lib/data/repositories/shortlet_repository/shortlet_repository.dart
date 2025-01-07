@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:tizela/features/menu/host_menu/listings/model/shorlet_model.dart';
+import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 
 ///interact with the shorlet collection of the database
-class ShorletRepository extends GetxController {
-  static ShorletRepository get instance => Get.find();
+class ShortletRepository extends GetxController {
+  static ShortletRepository get instance => Get.find();
 
   ///variables
   final FirebaseFirestore database = FirebaseFirestore.instance;

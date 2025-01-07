@@ -63,7 +63,7 @@ class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
             Stack(
               children: [
                 CustomCachedNetworkImage(
-                  imageUrl: widget.boatCruiseItem.boatImages.first,
+                  networkImageUrl: widget.boatCruiseItem.boatImages.first,
                   fit: BoxFit.cover,
                   imageWidth: context.screenWidth(),
                   imageHeigth: context.screenHeight() * 0.40,
@@ -87,7 +87,7 @@ class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
                   top: 40,
                   child: CustomFavourite(
                     onTap: () {},
-                     color: Colors.grey.withValues(alpha: 0.5),
+                    color: Colors.grey.withValues(alpha: 0.5),
                   ),
                 ),
 
