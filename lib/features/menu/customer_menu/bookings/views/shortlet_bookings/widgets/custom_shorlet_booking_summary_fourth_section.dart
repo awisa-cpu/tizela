@@ -9,6 +9,7 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../../host_menu/listings/model/shortlet_model.dart';
+import '../../../controller/shortlet_booking_summary_controller.dart';
 
 class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
   final ShortletModel shortletModel;
@@ -19,13 +20,16 @@ class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final controller = ShortletBookingSummaryController.instance;
+
+      //
     return CustomBookingSummaryTab(
       child: CustomColumn(
         spacing: 20,
         children: [
           CustomContainerBookingSummary(
-            target: "Amount(${getNumberOfDays()})",
-            targetValue: "#${calculateCostByDays()}",
+            target: "Amount(${controller.getNumberOfDays(shortletModel: shortletModel)})",
+            targetValue: "#${controller.calculateCostByDays(shortletModel: shortletModel)}",
             shouldExpand: false,
           ),
           Row(
@@ -71,7 +75,7 @@ class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
               ),
               const CustomWidth(width: 5),
               Text(
-                "#${calculateFinalCost()}",
+                "#${controller.calculateFinalCost(shortletModel: shortletModel)}",
                 style: customTextStyle(
                   fontSize: 14,
                   color: AppColors.appMainColor,
@@ -84,33 +88,4 @@ class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
     );
   }
 
-  String getNumberOfDays({bool shouldreturnOnlyvalue = false}) {
-    final day = shortletModel.availableDates[1]
-        .difference(shortletModel.availableDates[0]);
-    if (shouldreturnOnlyvalue) {
-      if (day.inDays <= 0) {
-        return "0";
-      } else {
-        return day.inDays.toString();
-      }
-    }
-    if (day.inDays <= 0) {
-      return "0 days";
-    }
-    return "${day.inDays.toString()} days";
-  }
-
-  double calculateCostByDays() {
-    final daysValue =
-        double.tryParse(getNumberOfDays(shouldreturnOnlyvalue: true)) ?? 1.0;
-    final totalCost = daysValue * shortletModel.apartmentPrice;
-
-    return totalCost;
-  }
-
-  int calculateFinalCost() {
-    final finalCost =
-        (calculateCostByDays() + shortletModel.cautionFee).round();
-    return finalCost;
-  }
 }

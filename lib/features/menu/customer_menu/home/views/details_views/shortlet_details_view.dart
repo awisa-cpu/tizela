@@ -175,11 +175,14 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
             ),
             ElevatedButton(
               onPressed: () {
-                AppNagivator.pushRoute(
-                  ShorletBookingsSummaryView(
-                    shortlet: widget.shortLetItem,
-                  ),
-                );
+                if (widget.shortLetItem.bookingType == BookingType.instant) {
+                  AppNagivator.pushRoute(
+                    ShorletBookingsSummaryView(
+                      shortlet: widget.shortLetItem,
+                    ),
+                  );
+                  return;
+                }
               },
               child: Text(
                 widget.shortLetItem.bookingType == BookingType.instant

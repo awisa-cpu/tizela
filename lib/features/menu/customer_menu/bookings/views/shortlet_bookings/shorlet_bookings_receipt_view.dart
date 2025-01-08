@@ -6,7 +6,6 @@ import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booked_user_details.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_summary_tab.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/shortlet_bookings/widgets/custom_shorlet_booking_summary_fourth_section.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
