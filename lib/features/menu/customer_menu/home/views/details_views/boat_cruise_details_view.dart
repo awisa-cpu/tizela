@@ -12,7 +12,6 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bo
 import 'package:tizela/features/menu/customer_menu/home/model/boat_type_details_model.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/policy_tab.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/reviews_panel.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/safety_features_panel.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
@@ -186,7 +185,7 @@ Widget _buildExpandedBodyUi(String name) {
       return const BoatDetailsPanel();
 
     case "Safety features":
-      return const SafetyFeaturesPanel();
+      // return const SafetyFeaturesPanel();
     case "Policy":
       return const PolicyTab();
 
@@ -194,7 +193,7 @@ Widget _buildExpandedBodyUi(String name) {
       return const SailorServicePanel();
 
     case "Reviews":
-      return const ReviewsPanel();
+      // return const ReviewsPanel();
 
     default:
       return Container();

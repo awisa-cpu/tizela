@@ -6,9 +6,13 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_edit_icon.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
 
+import '../../../../../host_menu/listings/model/car_rental_model.dart';
+
 class CustomCarRentalBookingsSummarySecondSection extends StatelessWidget {
+  final CarRentalModel carRental;
   const CustomCarRentalBookingsSummarySecondSection({
     super.key,
+    required this.carRental,
   });
 
   @override
@@ -31,9 +35,10 @@ class CustomCarRentalBookingsSummarySecondSection extends StatelessWidget {
             ],
           ),
           const CustomHeight(height: 20),
-          const CustomContainerBookingSummary(
+          //todo : fix the address for the car-rental_controller when creating a new one by the host
+          CustomContainerBookingSummary(
             target: "Pick-up",
-            targetValue: "No.4 atiku road, Lagos plaza kilometer road",
+            targetValue: carRental.address.addressWithoutPostal,
           ),
           const CustomHeight(height: 20),
           const CustomContainerBookingSummary(

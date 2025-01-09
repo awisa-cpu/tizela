@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tizela/features/auth/models/app_user.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/shortlet_model.dart';
 import 'package:tizela/utils/enums/booking_status.dart';
+import 'package:uuid/uuid.dart';
 
 class ShortletBookingModel {
   final String uid;
@@ -9,14 +10,14 @@ class ShortletBookingModel {
   BookingStatus status;
   AppUser user;
   ShortletBookingModel({
-    required this.uid,
     required this.shortlet,
     required this.status,
     required this.user,
-  });
+  }) : uid = const  Uuid().v4();
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
+      'uid': uid,
       'shortlet': shortlet.toJson(),
       'status': status.name,
       'user': user.toJson(),
@@ -25,7 +26,6 @@ class ShortletBookingModel {
 
   factory ShortletBookingModel.fromMap(Map<String, dynamic> json) {
     return ShortletBookingModel(
-      uid: json['uid'] as String,
       shortlet: ShortletModel.fromJson(json['shorlet'] as Map<String, dynamic>),
       status: BookingStatus.values
           .firstWhere((status) => status.name == json['status']),
@@ -34,7 +34,6 @@ class ShortletBookingModel {
   }
 
   factory ShortletBookingModel.empty() => ShortletBookingModel(
-        uid: "",
         shortlet: ShortletModel.empty(),
         status: BookingStatus.none,
         user: AppUser.empty(),
@@ -45,7 +44,6 @@ class ShortletBookingModel {
     if (docSnapshot.exists) {
       final docData = docSnapshot.data()!;
       return ShortletBookingModel(
-        uid: docSnapshot.id,
         shortlet:
             ShortletModel.fromJson(docData['shortlet'] as Map<String, Object>),
         status: BookingStatus.values

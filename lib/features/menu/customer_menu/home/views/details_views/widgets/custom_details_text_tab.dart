@@ -14,7 +14,9 @@ class CustomDetailsTextTab extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          customTextSpan(text: ". "),
+          customTextSpan(
+            text: ". ",
+          ),
           customTextSpan(
             color: AppColors.appTextFadedColor,
             fontsize: 13,

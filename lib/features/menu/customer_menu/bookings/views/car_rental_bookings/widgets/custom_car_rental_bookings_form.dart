@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_dropdown_form.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/data/local_database.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_bookings/car_rental_bookings_summary_view.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/car_rental_model.dart';
-import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
+import 'package:tizela/utils/extensions/build_context_extensions.dart';
+
+import '../../../../../../../common/widgets/custom_rounded_container.dart';
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../controller/car_rental_booking_summary_controller.dart';
 
 class CustomCarRentalBookingsForm extends StatelessWidget {
   final CarRentalModel carRental;
@@ -19,6 +23,9 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CarRentalBookingSummaryController());
+
+    //
     return Form(
       child: CustomColumn(
         children: [
@@ -30,8 +37,20 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
           //
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 40),
-            child: TextFormField(
-              decoration: const InputDecoration(hintText: "08:00am"),
+            child: GestureDetector(
+              onTap: controller.selectTimeOfDay,
+              child: CustomRoundedEdgedContainer(
+                width: context.screenWidth(),
+                height: 60,
+                borderColor: Colors.grey.withValues(alpha: 0.5),
+                child: Obx(() {
+                  return Text(
+                    controller.selectedTimeOfDay.value,
+                    style: const TextStyle()
+                        .copyWith(fontSize: 14, color: Colors.grey),
+                  );
+                }),
+              ),
             ),
           ),
 
@@ -44,10 +63,14 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
           //
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: CustomDropdownForm(
-              currentValue: LocalDatabase.durations[0],
-              items: LocalDatabase.durations,
-              onChanged: (value) {},
+            child: Obx(
+              () => CustomDropdownForm(
+                currentValue: controller.selectedBookingDuration.value,
+                items: LocalDatabase.durations,
+                onChanged: (value) => AppFunctions.updateCheckboxStringValue(
+                    newValue: value,
+                    oldValue: controller.selectedBookingDuration),
+              ),
             ),
           ),
 
@@ -79,6 +102,7 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 30),
             child: TextFormField(
+              controller: controller.itenaryCon,
               decoration: const InputDecoration(hintText: "Type here..."),
               maxLines: 7,
             ),
@@ -86,13 +110,7 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
 
           //
           CustomEleButton(
-            onPressed: () {
-              AppNagivator.pushRoute(
-                CarRentalBookingSummary(
-                  carRental: carRental,
-                ),
-              );
-            },
+            onPressed: () => controller.proceedTocheckout(carRental: carRental),
             text: "Proceed",
           ),
         ],

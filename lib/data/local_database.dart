@@ -288,17 +288,19 @@ class LocalDatabase {
   ];
 
   static final List<String> durations = [
-    "01 hours",
-    "02 hours",
-    "03 hours",
-    "04 hours",
-    "05 hours",
-    "06 hours",
-    "09 hours",
+    "1 hour",
+    "2 hours",
+    "3 hours",
+    "4 hours",
+    "5 hours",
+    "6 hours",
+    "9 hours",
     "10 hours",
     "11 hours",
     "12 hours",
     "13 hours",
+    "14 hours",
+    "15 hours",
   ];
 
   static final List<MessageModel> messages = [

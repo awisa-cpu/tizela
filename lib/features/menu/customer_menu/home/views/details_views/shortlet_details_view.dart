@@ -175,6 +175,7 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
             ),
             ElevatedButton(
               onPressed: () {
+                //if booking type is instant, go to booking summary
                 if (widget.shortLetItem.bookingType == BookingType.instant) {
                   AppNagivator.pushRoute(
                     ShorletBookingsSummaryView(
@@ -183,6 +184,7 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
                   );
                   return;
                 }
+                //if booking type is not instant, do something else
               },
               child: Text(
                 widget.shortLetItem.bookingType == BookingType.instant

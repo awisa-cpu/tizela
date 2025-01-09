@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
@@ -41,9 +40,9 @@ class _CarRentalBookingsViewState extends State<CarRentalBookingsView> {
       body: CustomScrollableLayoutWidget(
         child: CustomColumn(
           isMainAxisSize: false,
+          spacing: 10,
           children: [
             CustomCarRentalBookingsFirstSection(carRental: widget.carRental),
-            const CustomHeight(height: 10),
             CustomCarRentalBookingsForm(
               carRental: widget.carRental,
             ),

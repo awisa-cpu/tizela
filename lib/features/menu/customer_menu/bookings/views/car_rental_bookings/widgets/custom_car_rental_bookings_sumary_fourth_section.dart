@@ -7,8 +7,9 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
 
 class CustomCarRentalBookingsSumaryFourthSection extends StatelessWidget {
+  final String selectedDuration;
   const CustomCarRentalBookingsSumaryFourthSection({
-    super.key,
+    super.key, required this.selectedDuration,
   });
 
   @override
@@ -31,9 +32,9 @@ class CustomCarRentalBookingsSumaryFourthSection extends StatelessWidget {
             ],
           ),
           const CustomHeight(height: 20),
-          const CustomContainerBookingSummary(
+        CustomContainerBookingSummary(
             target: "Booking time",
-            targetValue: "12hours",
+            targetValue: selectedDuration,
             shouldExpand: false,
           ),
         ],

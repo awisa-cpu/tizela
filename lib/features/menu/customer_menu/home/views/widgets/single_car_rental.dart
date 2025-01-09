@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_display_clip_image_without_size.dart';
 import 'package:tizela/common/widgets/custom_display_cost.dart';
@@ -31,6 +30,7 @@ class SingleCarRental extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Column(
+        spacing: 15,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //section 1
@@ -39,6 +39,7 @@ class SingleCarRental extends StatelessWidget {
               CustomDisplayClipImageWithoutSize(
                 imageUrl: carRental.carImages.first,
               ),
+              //favourite
               Positioned(
                 right: 10,
                 top: 10,
@@ -62,7 +63,7 @@ class SingleCarRental extends StatelessWidget {
               )
             ],
           ),
-          const CustomHeight(height: 15),
+         
 
           //section 2:details
           Column(

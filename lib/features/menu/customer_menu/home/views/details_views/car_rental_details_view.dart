@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
+import 'package:tizela/common/widgets/custom_expansion_tile.dart';
 import 'package:tizela/common/widgets/custom_favourite.dart';
 import 'package:tizela/common/widgets/custom_network_image.dart';
 import 'package:tizela/common/widgets/custom_share.dart';
-import 'package:tizela/data/local_database.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/car_details_model.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
+import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../host_menu/listings/model/car_rental_model.dart';
 import '../../../bookings/views/car_rental_bookings/car_rental_bookings_view.dart';
+import '../../../favourite/controller/custom_car_rental_favourite_controller.dart';
+import 'widgets/custom_details_text_tab.dart';
 import 'widgets/custom_first_section_car_rental_details_view.dart';
-import 'widgets/driver_service_panel.dart';
-import 'widgets/policy_tab.dart';
 import 'widgets/reviews_panel.dart';
-import 'widgets/safety_features_panel.dart';
 import 'widgets/vehicle_details_panel.dart';
 
 class CarRentalDetailsView extends StatefulWidget {
@@ -31,9 +30,7 @@ class CarRentalDetailsView extends StatefulWidget {
 }
 
 class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
-  final List<CarTypeDetailsModel> carDetails = [
-    ...LocalDatabase.carTypeDetails
-  ];
+  bool isExpanded = false;
   @override
   void initState() {
     super.initState();
@@ -46,11 +43,15 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    final favController = CustomCarRentalFavouriteController.instance;
+
+    //
     return Scaffold(
       body: CustomScrollableLayoutWidget(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.only(bottom: 15),
         child: CustomColumn(
           isMainAxisSize: false,
           children: [
@@ -65,8 +66,8 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                 ),
                 //back button
                 Positioned(
-                  top: 40,
                   left: 10,
+                  top: 40,
                   child: IconButton(
                     onPressed: () => AppNagivator.goBack(),
                     icon: const Icon(
@@ -77,11 +78,18 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                 ),
                 //favourite
                 Positioned(
-                  right: 10,
                   top: 40,
-                  child: CustomFavourite(
-                    onTap: () {},
-                    color: Colors.grey.withValues(alpha: 0.5),
+                  right: 10,
+                  child: Obx(
+                    () => CustomFavourite(
+                      onTap: () =>
+                          favController.addOrRemoveFromCarRentalFavourites(
+                              carRentalId: widget.carRental.uid!),
+                      color: favController.isAdded(
+                              carRentalId: widget.carRental.uid!)
+                          ? Colors.red
+                          : null,
+                    ),
                   ),
                 ),
                 //share
@@ -96,7 +104,7 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                   bottom: 10,
                   right: 10,
                   child: CustomIconAndText(
-                    text: "12",
+                    text: widget.carRental.carImages.length.toString(),
                     onTap: () {
                       // AppNagivator.pushRoute(
                       //   MoreCarRentalImagesView(
@@ -123,34 +131,63 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
                     padding: EdgeInsets.symmetric(vertical: 30),
                     child: CustomDivider(),
                   ),
-
-                  //todo: work with the model data
-                  ExpansionPanelList(
-                    elevation: 0,
-                    dividerColor:
-                        AppColors.appTextFadedColor.withValues(alpha: 0.3),
-                    expansionCallback: (int panelIndex, bool isExpanded) {
-                      setState(() {
-                        carDetails[panelIndex].isExpanded = isExpanded;
-                      });
-                    },
-                    children: carDetails
-                        .map<ExpansionPanel>(
-                          (CarTypeDetailsModel carDetail) => ExpansionPanel(
-                            backgroundColor: AppColors.appWhiteColor,
-                            headerBuilder: (context, value) {
-                              return ListTile(
-                                title: Text(carDetail.name),
-                                subtitle: Text(carDetail.subText),
-                                isThreeLine: true,
-                              );
-                            },
-                            body: _buildExpandedBodyUi(carDetail.name),
-                            isExpanded: carDetail.isExpanded,
-                          ),
-                        )
+                  CustomExpansionTile(
+                    title: "Vehical Details",
+                    subtitle: "See amazing vehicle details",
+                    children: [
+                      VehicleDetailsPanel(
+                        carRental: widget.carRental,
+                      )
+                    ],
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    title: "Safety features",
+                    subtitle: "Prioritize your safety on your trip",
+                    children: widget.carRental.safetyFeatures
+                        .map((e) => CustomDetailsTextTab(
+                              mainText: e.name,
+                            ))
                         .toList(),
-                  )
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    title: "Policy",
+                    subtitle: "We have your best interest at heart",
+                    children: widget.carRental.carPolicies
+                        .map((e) => CustomDetailsTextTab(
+                              mainText: e.name,
+                            ))
+                        .toList(),
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    childrenPadding: 17,
+                    title: "Driver services",
+                    subtitle:
+                        "Specify additional services offered by the driver",
+                    children: widget.carRental.driverPolicies
+                        .map((e) => CustomDetailsTextTab(
+                              mainText: e.name,
+                            ))
+                        .toList(),
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    title: "Reviews",
+                    subtitle: "See what other users say the service offered",
+                    children: [
+                      ReviewsPanel(
+                        reviewCount: widget.carRental.ratingsCount,
+                      )
+                    ],
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
                 ],
               ),
             ),
@@ -168,26 +205,5 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
             text: "Book"),
       ),
     );
-  }
-}
-
-Widget _buildExpandedBodyUi(String name) {
-  switch (name) {
-    case "Vehicle details":
-      return const VehicleDetailsPanel();
-
-    case "Safety features":
-      return const SafetyFeaturesPanel();
-    case "Policy":
-      return const PolicyTab();
-
-    case "Driver service":
-      return const DriverServicePanel();
-
-    case "Reviews":
-      return const ReviewsPanel();
-
-    default:
-      return Container();
   }
 }
