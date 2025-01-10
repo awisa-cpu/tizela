@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tizela/setup/app_navigator.dart';
 import '../../../data/services/alert_services.dart';
 import '../../../data/services/media_service.dart';
 import '../../../features/menu/host_menu/listings/model/apartment_house_rules_model.dart';
@@ -159,6 +160,15 @@ class AppFunctions {
     if (newValue != null) {
       oldValue.value = newValue;
     }
+  }
+
+  static Future<TimeOfDay?> selectTimeOfDay() async {
+    final TimeOfDay? selectedTime = await showTimePicker(
+      context: AppNagivator.navigatorKey.currentContext!,
+      initialTime: TimeOfDay.now(),
+    );
+
+    return selectedTime;
   }
 
   static void onDateInDateSelected(DateTime date, DateTime selectedDay,

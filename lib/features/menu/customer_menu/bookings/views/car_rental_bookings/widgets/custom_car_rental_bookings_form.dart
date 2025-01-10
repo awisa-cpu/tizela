@@ -99,12 +99,16 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
             "Enter Itinerary",
             style: customTextStyle(fontSize: 14, fontWeight: FontWeight.normal),
           ),
+          
+          
+          //todo: address the focus scope and controller disposing
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 30),
             child: TextFormField(
               controller: controller.itenaryCon,
               decoration: const InputDecoration(hintText: "Type here..."),
               maxLines: 7,
+             
             ),
           ),
 

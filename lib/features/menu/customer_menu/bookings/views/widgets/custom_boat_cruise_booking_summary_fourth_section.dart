@@ -7,8 +7,11 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
 
 class CustomBoatCruiseBookingSummaryFourthSection extends StatelessWidget {
+  final String startTime, endTime;
   const CustomBoatCruiseBookingSummaryFourthSection({
     super.key,
+    required this.startTime,
+    required this.endTime,
   });
 
   @override
@@ -31,15 +34,15 @@ class CustomBoatCruiseBookingSummaryFourthSection extends StatelessWidget {
             ],
           ),
           const CustomHeight(height: 20),
-          const CustomContainerBookingSummary(
+          CustomContainerBookingSummary(
             target: "Start time",
-            targetValue: "7:00AM",
+            targetValue: startTime,
             shouldExpand: false,
           ),
           const CustomHeight(height: 10),
-          const CustomContainerBookingSummary(
+          CustomContainerBookingSummary(
             target: "End time",
-            targetValue: "8:00AM",
+            targetValue: endTime,
             shouldExpand: false,
           ),
         ],

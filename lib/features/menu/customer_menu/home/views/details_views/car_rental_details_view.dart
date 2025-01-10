@@ -43,7 +43,6 @@ class _CarRentalDetailsViewState extends State<CarRentalDetailsView> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final favController = CustomCarRentalFavouriteController.instance;

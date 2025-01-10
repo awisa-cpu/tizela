@@ -7,21 +7,19 @@ import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/common/widgets/custom_favourite.dart';
 import 'package:tizela/common/widgets/custom_network_image.dart';
 import 'package:tizela/common/widgets/custom_share.dart';
-import 'package:tizela/data/local_database.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bookings/boat_cruise_booking_view.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/boat_type_details_model.dart';
-import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/policy_tab.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/reviews_panel.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 
+import '../../../../../../common/widgets/custom_expansion_tile.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../host_menu/listings/model/boat_cruise_model.dart';
 import 'widgets/boat_details_panel.dart';
 import 'widgets/custom_boat_cruise_details_first_section.dart';
-import 'widgets/sailor_service_panel.dart';
+import 'widgets/custom_details_text_tab.dart';
 
 class BoatCruiseDetailsView extends StatefulWidget {
   const BoatCruiseDetailsView({
@@ -35,9 +33,8 @@ class BoatCruiseDetailsView extends StatefulWidget {
 }
 
 class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
-  final List<BoatTypeDetailsModel> boatDetails = [
-    ...LocalDatabase.boatTypeDetails
-  ];
+  bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +51,7 @@ class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollableLayoutWidget(
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.only(bottom: 15),
         child: CustomColumn(
           isMainAxisSize: false,
           children: [
@@ -129,33 +126,64 @@ class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
                   ),
                   const CustomDivider(),
                   const CustomHeight(height: 30),
-
-                  ExpansionPanelList(
-                    elevation: 0,
-                    dividerColor:
-                        AppColors.appTextFadedColor.withValues(alpha: 0.3),
-                    expansionCallback: (int panelIndex, bool isExpanded) {
-                      setState(() {
-                        boatDetails[panelIndex].isExpanded = isExpanded;
-                      });
-                    },
-                    children: boatDetails
-                        .map<ExpansionPanel>(
-                          (BoatTypeDetailsModel carDetail) => ExpansionPanel(
-                            backgroundColor: AppColors.appWhiteColor,
-                            headerBuilder: (context, value) {
-                              return ListTile(
-                                title: Text(carDetail.name),
-                                subtitle: Text(carDetail.subText),
-                                isThreeLine: true,
-                              );
-                            },
-                            body: _buildExpandedBodyUi(carDetail.name),
-                            isExpanded: carDetail.isExpanded,
-                          ),
-                        )
+                  CustomExpansionTile(
+                    title: "Vehical Details",
+                    subtitle: "See amazing vehicle details",
+                    children: [
+                      BoatDetailsPanel(
+                        boatCruise: widget.boatCruiseItem,
+                      )
+                    ],
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    title: "Safety features",
+                    subtitle: "Prioritize your safety on your cruise",
+                    children: widget.boatCruiseItem.boatSafetyFeatures
+                        .map((e) => CustomDetailsTextTab(
+                              mainText: e.name,
+                            ))
                         .toList(),
-                  )
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    title: "Policy",
+                    subtitle: "We have your best interest at heart",
+                    children: widget.boatCruiseItem.boatPolicies
+                        .map((e) => CustomDetailsTextTab(
+                              mainText: e.name,
+                            ))
+                        .toList(),
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    childrenPadding: 17,
+                    title: "Sailor services",
+                    subtitle:
+                        "Specify additional services offered by the sailor",
+                    children: widget.boatCruiseItem.boatSailorPolicies
+                        .map((e) => CustomDetailsTextTab(
+                              mainText: e.name,
+                            ))
+                        .toList(),
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
+                  CustomExpansionTile(
+                    title: "Reviews",
+                    subtitle:
+                        "See what other users say about the service offered",
+                    children: [
+                      ReviewsPanel(
+                        reviewCount: widget.boatCruiseItem.ratingsCount,
+                      )
+                    ],
+                    onExpansionChanged: (value) =>
+                        setState(() => isExpanded = value),
+                  ),
                 ],
               ),
             ),
@@ -176,26 +204,5 @@ class _BoatCruiseDetailsViewState extends State<BoatCruiseDetailsView> {
         ),
       ),
     );
-  }
-}
-
-Widget _buildExpandedBodyUi(String name) {
-  switch (name) {
-    case "Boat details":
-      return const BoatDetailsPanel();
-
-    case "Safety features":
-      // return const SafetyFeaturesPanel();
-    case "Policy":
-      return const PolicyTab();
-
-    case "Sailor services":
-      return const SailorServicePanel();
-
-    case "Reviews":
-      // return const ReviewsPanel();
-
-    default:
-      return Container();
   }
 }

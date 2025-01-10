@@ -35,20 +35,19 @@ class CustomBoatCruiseDetailsFirstSection extends StatelessWidget {
 
         //
         Padding(
-          padding: const EdgeInsets.only(top: 15,bottom: 30),
+          padding: const EdgeInsets.only(top: 15, bottom: 30),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //todo: passenger count
               Text(
-                "18 passengers",
+                "${boatCruiseItem.boatCruiseDetails.last.detailCount.value <= 0 ? 0 : boatCruiseItem.boatCruiseDetails.last.detailCount.value} passengers",
                 style: customTextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
                   color: AppColors.appTextFadedColor,
                 ),
               ),
-          
+
               //cost
               Text.rich(
                 TextSpan(

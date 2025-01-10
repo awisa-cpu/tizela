@@ -19,25 +19,8 @@ class VehicleDetailsPanel extends StatelessWidget {
               .map((e) => CustomVehicleOrBoatDetailTab(
                     attribute: e.name,
                     attributeValue: e.detailCount.value.toString(),
-                  ))
-              ,
-          // const CustomVehicleOrBoatDetailTab(
-          //   attribute: "Model:",
-          //   attributeValue: "Tesla Model S",
-          // ),
-          // const CustomVehicleOrBoatDetailTab(
-          //   attribute: "Year:",
-          //   attributeValue: "2023",
-          // ),
-          // const CustomVehicleOrBoatDetailTab(
-          //   attribute: "Color",
-          //   attributeValue: "Midnight Silver Metallic",
-          // ),
-          // const CustomVehicleOrBoatDetailTab(
-          //   attribute: "Seating Capacity",
-          //   attributeValue:
-          //       "4 Adults + 2 Children (with optional rear-facing seats)",
-          // ),
+                  )),
+        
           CustomOutlinedButton(actionText: "Show all", onTap: () {})
         ],
       ),

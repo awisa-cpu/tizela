@@ -7,8 +7,9 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
 
 class CustomBoatCruiseBookingSummaryThirdSection extends StatelessWidget {
+  final String passengerCount;
   const CustomBoatCruiseBookingSummaryThirdSection({
-    super.key,
+    super.key, required this.passengerCount,
   });
 
   @override
@@ -31,9 +32,9 @@ class CustomBoatCruiseBookingSummaryThirdSection extends StatelessWidget {
             ],
           ),
           const CustomHeight(height: 20),
-          const CustomContainerBookingSummary(
+         CustomContainerBookingSummary(
             target: "Passengers",
-            targetValue: "2",
+            targetValue: passengerCount,
             shouldExpand: false,
           ),
         ],

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/setup/app_navigator.dart';
 
+import '../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../host_menu/listings/model/car_rental_model.dart';
+import '../views/car_rental_bookings/car_rental_bookings_summary_view.dart';
 
 class CarRentalBookingSummaryController extends GetxController {
   static CarRentalBookingSummaryController get instance => Get.find();
@@ -24,10 +26,7 @@ class CarRentalBookingSummaryController extends GetxController {
   }
 
   Future<void> selectTimeOfDay() async {
-    final TimeOfDay? selectedTime = await showTimePicker(
-      context: AppNagivator.navigatorKey.currentContext!,
-      initialTime: TimeOfDay.now(),
-    );
+    final TimeOfDay? selectedTime = await  AppFunctions.selectTimeOfDay();
 
     if (selectedTime != null) {
       selectedTimeOfDay.value =
@@ -36,11 +35,11 @@ class CarRentalBookingSummaryController extends GetxController {
   }
 
   void proceedTocheckout({required CarRentalModel carRental}) {
-    // AppNagivator.pushRoute(
-    //             CarRentalBookingSummary(
-    //               carRental: carRental,
-    //             ),
-    //           );
+    AppNagivator.pushRoute(
+      CarRentalBookingSummary(
+        carRental: carRental,
+      ),
+    );
   }
 
   void checkoutCarRental() {
