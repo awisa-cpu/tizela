@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
+import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
 import 'package:tizela/utils/constants/images_texts.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
-import 'package:tizela/common/widgets/custom_dropdown_form.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';

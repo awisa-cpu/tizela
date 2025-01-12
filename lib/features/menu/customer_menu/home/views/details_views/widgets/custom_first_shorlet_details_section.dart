@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/styles/custom_width.dart';
+import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/custom_shortlet_attributes.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_reviews.dart';
 import 'package:tizela/utils/constants/app_colors.dart';

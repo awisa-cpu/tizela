@@ -12,24 +12,24 @@ import 'package:tizela/common/widgets/custom_rounded_container.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/shortlet_bookings/shorlet_bookings_receipt_view.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
-import 'package:tizela/features/menu/customer_menu/home/model/shorlet_model_xxxxx.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
 
+import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../model/shortlet_booking_model.dart';
+
 class CustomShorletBookingStatus extends StatelessWidget {
-  final ShortletModelxxxxxxxxxxxxxxxx booking;
-  final String statusText;
+  final ShortletBookingModel bookingModel;
   final Color statusColor;
   final bool isActive, isCompleted, isCancelled;
   const CustomShorletBookingStatus({
     super.key,
-    required this.booking,
-    required this.statusText,
+    required this.bookingModel,
     required this.statusColor,
     required this.isActive,
     required this.isCompleted,
-    required this.isCancelled,
+    required this.isCancelled, 
   });
 
   @override
@@ -39,12 +39,14 @@ class CustomShorletBookingStatus extends StatelessWidget {
       borderRadius: 12,
       child: CustomColumn(
         children: [
+
+          //first section
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               //date
               Text(
-                AppDateFormater.formatDate(date: DateTime.now()),
+                AppDateFormater.formatDate(date: bookingModel.bookingDate),
                 style: customTextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
@@ -57,43 +59,43 @@ class CustomShorletBookingStatus extends StatelessWidget {
 
           //
           Row(
+            spacing: 10,
             children: [
               //image
               CustomDisplayClipImageWithSize(
-                imageUrl: booking.imageUrl,
+                imageUrl: bookingModel.shortlet.apartmentImages.first,
+                isNetworkImage: true,
               ),
-              const CustomWidth(width: 10),
               CustomColumn(
+                spacing: 5,
                 children: [
                   //name
                   Text(
-                    booking.name,
+                    bookingModel.shortlet.apartmentName,
                     style: customTextStyle(
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const CustomHeight(height: 5),
 
                   Text(
-                    "Mar 24 - April 4,2024 (10 days)",
+                    AppFunctions.getDateRange(availableDates: bookingModel.shortlet.availableDates),
                     style: customTextStyle(
                         fontSize: 12,
                         color: AppColors.appTextFadedColor,
                         fontWeight: FontWeight.w300),
                   ),
 
-                  const CustomHeight(height: 5),
                   //cost and status
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomDisplayCost(
-                        cost: booking.cost,
+                        cost: bookingModel.shortlet.apartmentPrice.toString(),
                         perWhat: "per night",
                       ),
                       const CustomWidth(width: 15),
                       CustomBookingStatus(
-                        statusText: statusText,
+                        statusText: bookingModel.status.name,
                         textAndBorderColor: statusColor,
                       )
                     ],
@@ -111,6 +113,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
                 const CustomDivider(),
                 const CustomHeight(height: 10),
                 Row(
+                  spacing: 25,
                   children: [
                     Expanded(
                       child: CustomOutlinedButton(
@@ -130,9 +133,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
                             ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 25,
-                    ),
+                   
                     Expanded(
                       child: CustomEleButton(
                         onPressed: () => AppNagivator.pushRoute(

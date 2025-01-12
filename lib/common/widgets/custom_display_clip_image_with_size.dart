@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tizela/common/widgets/custom_network_image.dart';
 
 class CustomDisplayClipImageWithSize extends StatelessWidget {
   const CustomDisplayClipImageWithSize({
@@ -27,11 +27,11 @@ class CustomDisplayClipImageWithSize extends StatelessWidget {
         height: height ?? 100,
         width: width ?? 110,
         child: isNetworkImage
-            ? CachedNetworkImage(
+            ? CustomCachedNetworkImage(
                 fit: fit ?? BoxFit.cover,
-                imageUrl: imageUrl,
-                errorWidget: (context, url, error) =>
-                    const Icon(Icons.error_outline),
+                networkImageUrl: imageUrl,
+                errorWidget: const Icon(Icons.error_outline)
+                    ,
               )
             : Image.asset(
                 imageUrl,

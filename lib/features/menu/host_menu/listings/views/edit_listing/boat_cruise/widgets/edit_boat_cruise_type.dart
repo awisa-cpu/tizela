@@ -3,7 +3,6 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/boat_type_model.dart';
 
-import '../../../../../../../../common/widgets/custom_grid_selectable_service_types.dart';
 import '../../../../../../../../data/local_database.dart';
 import '../../../new_listing/boat_cruise/widgets/custom_boat_type.dart';
 import '../../widgets/custom_edit_view.dart';

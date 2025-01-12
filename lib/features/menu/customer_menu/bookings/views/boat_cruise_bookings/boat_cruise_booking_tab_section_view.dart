@@ -1,99 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/widgets/custom_listview.dart';
-import 'package:tizela/common/widgets/custom_column.dart';
-import 'package:tizela/data/local_database.dart';
+import 'package:get/get.dart';
+import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_tab.dart';
 import 'package:tizela/setup/app_navigator.dart';
-import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
+import '../../../../../../common/widgets/widgets.dart';
+import '../../../../../../utils/constants/app_colors.dart';
+import '../../../../../../utils/loaders/app_future_loaders.dart';
+import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
+import '../../controller/boat_cruise_bookings_controller.dart';
 import '../widgets/custom_boat_cruse_booking_status.dart';
 
-class BoatCruiseBookingTabSectionView extends StatefulWidget {
+class BoatCruiseBookingTabSectionView extends StatelessWidget {
   const BoatCruiseBookingTabSectionView({super.key});
-
-  @override
-  State<BoatCruiseBookingTabSectionView> createState() =>
-      _BoatCruiseBookingTabSectionViewState();
-}
-
-class _BoatCruiseBookingTabSectionViewState
-    extends State<BoatCruiseBookingTabSectionView> {
-  //
-
-  bool isActiveSelected = false;
-  bool isCompletedSelected = false;
-  bool isCancelledSelected = false;
-
-  Color activeTextColor = AppColors.appTextFadedColor;
-  Color completedTextColor = AppColors.appTextFadedColor;
-  Color cancelledTextColor = AppColors.appTextFadedColor;
-
-  Color activeTabColor = AppColors.appWhiteColor;
-  Color completedTabColor = AppColors.appWhiteColor;
-  Color cancelledTabColor = AppColors.appWhiteColor;
-
-  @override
-  void initState() {
-    super.initState();
-    isActiveSelected = true;
-    activeTextColor = AppColors.appWhiteColor;
-    activeTabColor = AppColors.appMainColor;
-  }
-
-  void _activeSelected() {
-    setState(() {
-      isActiveSelected = true;
-      isCancelledSelected = false;
-      isCompletedSelected = false;
-
-      //
-      activeTextColor = AppColors.appWhiteColor;
-      completedTextColor = AppColors.appTextFadedColor;
-      cancelledTextColor = AppColors.appTextFadedColor;
-      activeTabColor = AppColors.appMainColor;
-      completedTabColor = AppColors.appWhiteColor;
-      cancelledTabColor = AppColors.appWhiteColor;
-    });
-  }
-
-  void _completedSelected() {
-    setState(() {
-      isActiveSelected = false;
-      isCompletedSelected = true;
-      isCancelledSelected = false;
-
-      //
-      activeTextColor = AppColors.appTextFadedColor;
-      completedTextColor = AppColors.appWhiteColor;
-      cancelledTextColor = AppColors.appTextFadedColor;
-      activeTabColor = AppColors.appWhiteColor;
-      completedTabColor = AppColors.appMainColor;
-      cancelledTabColor = AppColors.appWhiteColor;
-    });
-  }
-
-  void _cancelledSelected() {
-    setState(() {
-      isActiveSelected = false;
-      isCompletedSelected = false;
-      isCancelledSelected = true;
-
-      //
-      activeTextColor = AppColors.appTextFadedColor;
-      completedTextColor = AppColors.appTextFadedColor;
-      cancelledTextColor = AppColors.appWhiteColor;
-      activeTabColor = AppColors.appWhiteColor;
-      completedTabColor = AppColors.appWhiteColor;
-      cancelledTabColor = AppColors.appMainColor;
-    });
-  }
 
   //
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(BoatCruiseBookingsController());
+
+    //
     return CustomScrollableLayoutWidget(
       child: CustomColumn(
         isMainAxisSize: false,
@@ -117,88 +43,161 @@ class _BoatCruiseBookingTabSectionViewState
                 ],
               ),
               const CustomHeight(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomBookingTab(
-                    text: "Active",
-                    textColor: activeTextColor,
-                    tabColor: activeTabColor,
-                    onTap: _activeSelected,
-                  ),
-                  CustomBookingTab(
-                    text: "Completed",
-                    textColor: completedTextColor,
-                    tabColor: completedTabColor,
-                    onTap: _completedSelected,
-                    width: 120,
-                  ),
-                  CustomBookingTab(
-                    text: "Cancelled",
-                    textColor: cancelledTextColor,
-                    tabColor: cancelledTabColor,
-                    onTap: _cancelledSelected,
-                    width: 120,
-                  ),
-                ],
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomBookingTab(
+                      text: "Active",
+                      textColor: controller.activeTextColor.value,
+                      tabColor: controller.activeTabColor.value,
+                      onTap: controller.activeSelected,
+                    ),
+                    CustomBookingTab(
+                      text: "Completed",
+                      textColor: controller.completedTextColor.value,
+                      tabColor: controller.completedTabColor.value,
+                      onTap: controller.completedSelected,
+                      width: 120,
+                    ),
+                    CustomBookingTab(
+                      text: "Cancelled",
+                      textColor: controller.cancelledTextColor.value,
+                      tabColor: controller.cancelledTabColor.value,
+                      onTap: controller.cancelledSelected,
+                      width: 120,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
 
           const CustomHeight(height: 20),
-          if (isActiveSelected)
-            //fetches all the user shorlet  bookings whose status is #active
-            CustomListview(
-              itemCount: LocalDatabase.boatCruisePackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.boatCruisePackages[index];
+          Obx(
+            () {
+              return controller.isActiveSelected.value
+                  ? FutureBuilder(
+                      future: controller.fetchBoatCruiseBookingsByStatus(
+                          status: 'paid'),
+                      builder: (context, snapshot) {
+                        //
+                        final widgetToDisplay =
+                            AppFutureLoaders.checkMultiFutureState(
+                          snapshot: snapshot,
+                          loaderWidget: const CustomHostDataShimmerListView(),
+                          nothingFoundWidget: const CustomEmptyDataView(
+                            mainText: "No Bookings",
+                            subText:
+                                "You don't have any upcoming bookings yet, click\n on home to get started",
+                          ),
+                        );
 
-                return CustomBoatCruseBookingStatus(
-                  booking: activeItem,
-                  statusText: "Paid",
-                  statusColor: AppColors.appMainColor,
-                  isActive: true,
-                  isCompleted: false,
-                  isCancelled: false,
-                );
-              },
-            ),
+                        if (widgetToDisplay != null) return widgetToDisplay;
 
-          if (isCompletedSelected)
-            //fetches all the user shorlet  bookings whose status is #completed
-            CustomListview(
-              itemCount: LocalDatabase.boatCruisePackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.boatCruisePackages[index];
+                        final boatCruiseBookings = snapshot.data!;
 
-                return CustomBoatCruseBookingStatus(
-                  booking: activeItem,
-                  statusText: "Comp.",
-                  statusColor: Colors.green,
-                  isActive: false,
-                  isCompleted: true,
-                  isCancelled: false,
-                );
-              },
-            ),
+                        //
+                        return CustomListview(
+                          itemCount: boatCruiseBookings.length,
+                          itemBuilder: (_, index) {
+                            final booking = boatCruiseBookings[index];
 
-          if (isCancelledSelected)
-            //fetches all the user shorlet  bookings whose status is #cancelled
-            CustomListview(
-              itemCount: LocalDatabase.boatCruisePackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.boatCruisePackages[index];
+                            return CustomBoatCruseBookingStatus(
+                              boatCruiseBooking: booking,
+                              statusColor: AppColors.appMainColor,
+                              isActive: true,
+                              isCompleted: false,
+                              isCancelled: true,
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : controller.isCompletedSelected.value
+                      ? FutureBuilder(
+                          future: controller.fetchBoatCruiseBookingsByStatus(
+                              status: 'completed'),
+                          builder: (context, snapshot) {
+                            //
+                            final widgetToDisplay =
+                                AppFutureLoaders.checkMultiFutureState(
+                              snapshot: snapshot,
+                              loaderWidget:
+                                  const CustomHostDataShimmerListView(),
+                              nothingFoundWidget: const CustomEmptyDataView(
+                                mainText: "No Bookings",
+                                subText:
+                                    "You don't have any upcoming bookings yet, click\n on home to get started",
+                              ),
+                            );
 
-                return CustomBoatCruseBookingStatus(
-                  booking: activeItem,
-                  statusText: "Cancel.",
-                  statusColor: Colors.red,
-                  isActive: false,
-                  isCompleted: false,
-                  isCancelled: true,
-                );
-              },
-            ),
+                            if (widgetToDisplay != null) return widgetToDisplay;
+
+                            final boatCruiseBookings = snapshot.data!;
+
+                            //
+                            return CustomListview(
+                              itemCount: boatCruiseBookings.length,
+                              itemBuilder: (_, index) {
+                                final booking = boatCruiseBookings[index];
+
+                                return CustomBoatCruseBookingStatus(
+                                  boatCruiseBooking: booking,
+                                  statusColor: Colors.green,
+                                  isActive: false,
+                                  isCompleted: true,
+                                  isCancelled: false,
+                                );
+                              },
+                            );
+                          },
+                        )
+                      : controller.isCancelledSelected.value
+                          ? FutureBuilder(
+                              future:
+                                  controller.fetchBoatCruiseBookingsByStatus(
+                                      status: 'cancelled'),
+                              builder: (context, snapshot) {
+                                //
+                                final widgetToDisplay =
+                                    AppFutureLoaders.checkMultiFutureState(
+                                  snapshot: snapshot,
+                                  loaderWidget:
+                                      const CustomHostDataShimmerListView(),
+                                  nothingFoundWidget: const CustomEmptyDataView(
+                                    mainText: "No Bookings",
+                                    subText:
+                                        "You don't have any upcoming bookings yet, click\n on home to get started",
+                                  ),
+                                );
+
+                                if (widgetToDisplay != null) {
+                                  return widgetToDisplay;
+                                }
+
+                                final boatCruiseBookings = snapshot.data!;
+
+                                //
+                                return CustomListview(
+                                  itemCount: boatCruiseBookings.length,
+                                  itemBuilder: (_, index) {
+                                    final booking = boatCruiseBookings[index];
+
+                                    return CustomBoatCruseBookingStatus(
+                                      boatCruiseBooking: booking,
+                                      statusColor: Colors.red,
+                                      isActive: false,
+                                      isCompleted: false,
+                                      isCancelled: true,
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          : const SizedBox();
+            },
+          )
         ],
       ),
     );

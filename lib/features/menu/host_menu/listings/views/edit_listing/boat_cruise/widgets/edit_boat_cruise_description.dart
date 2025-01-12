@@ -4,7 +4,6 @@ import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 
-import '../../../../../../../../common/widgets/custom_grid_selectable_service_types.dart';
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/edit_host_boat_cruise_controller.dart';
 import '../../../../model/boat_cruise_model.dart';

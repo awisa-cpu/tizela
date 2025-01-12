@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
-import 'package:tizela/common/widgets/custom_column.dart';
-import 'package:tizela/common/widgets/custom_divider.dart';
-import 'package:tizela/common/widgets/custom_ele_button.dart';
-import 'package:tizela/common/widgets/custom_favourite.dart';
-import 'package:tizela/common/widgets/custom_network_image.dart';
-import 'package:tizela/common/widgets/custom_share.dart';
+import 'package:tizela/common/widgets/widgets.dart';
+import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bookings/boat_cruise_booking_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/widgets/reviews_panel.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
-
-import '../../../../../../common/widgets/custom_expansion_tile.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../host_menu/listings/model/boat_cruise_model.dart';
 import 'widgets/boat_details_panel.dart';

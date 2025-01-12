@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
-import 'package:tizela/common/widgets/custom_network_image.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart';
 import 'package:tizela/utils/constants/app_colors.dart';

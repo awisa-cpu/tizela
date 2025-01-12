@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_bulliet_point_with_text.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/car_rental/widgets/car_rental_edits_imports.dart';

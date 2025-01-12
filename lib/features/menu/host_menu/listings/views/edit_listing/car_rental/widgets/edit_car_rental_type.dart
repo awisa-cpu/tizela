@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 
-import '../../../../../../../../common/widgets/custom_dropdown_form.dart';
-import '../../../../../../../../common/widgets/custom_grid_selectable_service_types.dart';
 import '../../../../../../../../data/local_database.dart';
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/edit_host_car_rental_controller.dart';

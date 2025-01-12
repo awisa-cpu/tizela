@@ -5,7 +5,6 @@ import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/widgets/custom_edit_view.dart';
 import 'package:tizela/features/personalization/host_personalization/profile/views/widgets/custom_info_notification_with_text.dart';
 
-import '../../../../../../../../common/widgets/custom_dropdown_form.dart';
 import '../../../../../../../../data/local_database.dart';
 import '../../../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../controllers/edit_host_shortlet_controller.dart';

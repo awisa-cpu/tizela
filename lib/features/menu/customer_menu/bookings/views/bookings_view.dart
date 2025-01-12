@@ -7,16 +7,10 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_tab
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
-class BookingsView extends StatefulWidget {
+class BookingsView extends StatelessWidget {
   const BookingsView({super.key});
 
-  @override
-  State<BookingsView> createState() => _BookingsViewState();
-}
-
-class _BookingsViewState extends State<BookingsView> {
   //
-
   @override
   Widget build(BuildContext context) {
     return const CustomSliverAndTabBarView(

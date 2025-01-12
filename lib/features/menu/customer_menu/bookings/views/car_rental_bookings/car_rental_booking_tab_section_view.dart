@@ -1,101 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/widgets/custom_listview.dart';
-import 'package:tizela/common/widgets/custom_column.dart';
-import 'package:tizela/data/local_database.dart';
+import 'package:get/get.dart';
+import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_tab.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../../../../../../common/widgets/widgets.dart';
+import '../../../../../../utils/loaders/app_future_loaders.dart';
+import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
+import '../../controller/car_rental_bookings_controller.dart';
 import '../widgets/custom_car_rental_booking_status.dart';
 
-class CarRentalBookingTabSectionView extends StatefulWidget {
+class CarRentalBookingTabSectionView extends StatelessWidget {
   const CarRentalBookingTabSectionView({super.key});
 
-  @override
-  State<CarRentalBookingTabSectionView> createState() =>
-      _CarRentalBookingTabSectionViewState();
-}
-
-class _CarRentalBookingTabSectionViewState
-    extends State<CarRentalBookingTabSectionView> {
   //
-  bool isCRBActiveSelected = false;
-  bool isCRBCompletedSelected = false;
-  bool isCRBCancelledSelected = false;
-
-  Color activeTextColor = AppColors.appTextFadedColor;
-  Color completedTextColor = AppColors.appTextFadedColor;
-  Color cancelledTextColor = AppColors.appTextFadedColor;
-
-  Color activeTabColor = AppColors.appWhiteColor;
-  Color completedTabColor = AppColors.appWhiteColor;
-  Color cancelledTabColor = AppColors.appWhiteColor;
-
-  @override
-  void initState() {
-    super.initState();
-    isCRBActiveSelected = true;
-    activeTextColor = AppColors.appWhiteColor;
-    activeTabColor = AppColors.appMainColor;
-  }
-
-  void _activeCRBSelected() {
-    setState(() {
-      isCRBActiveSelected = true;
-      isCRBCancelledSelected = false;
-      isCRBCompletedSelected = false;
-
-      //
-      activeTextColor = AppColors.appWhiteColor;
-      completedTextColor = AppColors.appTextFadedColor;
-      cancelledTextColor = AppColors.appTextFadedColor;
-      activeTabColor = AppColors.appMainColor;
-      completedTabColor = AppColors.appWhiteColor;
-      cancelledTabColor = AppColors.appWhiteColor;
-    });
-  }
-
-  void _completedCRBSelected() {
-    setState(() {
-      isCRBActiveSelected = false;
-      isCRBCompletedSelected = true;
-      isCRBCancelledSelected = false;
-
-      //
-      activeTextColor = AppColors.appTextFadedColor;
-      completedTextColor = AppColors.appWhiteColor;
-      cancelledTextColor = AppColors.appTextFadedColor;
-      activeTabColor = AppColors.appWhiteColor;
-      completedTabColor = AppColors.appMainColor;
-      cancelledTabColor = AppColors.appWhiteColor;
-    });
-  }
-
-  void _cancelledCRBSelected() {
-    setState(() {
-      isCRBActiveSelected = false;
-      isCRBCompletedSelected = false;
-      isCRBCancelledSelected = true;
-
-      //
-      activeTextColor = AppColors.appTextFadedColor;
-      completedTextColor = AppColors.appTextFadedColor;
-      cancelledTextColor = AppColors.appWhiteColor;
-      activeTabColor = AppColors.appWhiteColor;
-      completedTabColor = AppColors.appWhiteColor;
-      cancelledTabColor = AppColors.appMainColor;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CarRentalBookingsController());
+
+    //
     return CustomScrollableLayoutWidget(
       child: CustomColumn(
         isMainAxisSize: false,
+        spacing: 20,
         children: [
           //first section
           CustomColumn(
@@ -119,85 +48,160 @@ class _CarRentalBookingTabSectionViewState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomBookingTab(
-                    text: "Active",
-                    textColor: activeTextColor,
-                    tabColor: activeTabColor,
-                    onTap: _activeCRBSelected,
+                  Obx(
+                    () => CustomBookingTab(
+                      text: "Active",
+                      textColor: controller.activeTextColor.value,
+                      tabColor: controller.activeTabColor.value,
+                      onTap: controller.activeCRBSelected,
+                    ),
                   ),
-                  CustomBookingTab(
-                    text: "Completed",
-                    textColor: completedTextColor,
-                    tabColor: completedTabColor,
-                    onTap: _completedCRBSelected,
-                    width: 120,
+                  Obx(
+                    () => CustomBookingTab(
+                      text: "Completed",
+                      textColor: controller.completedTextColor.value,
+                      tabColor: controller.completedTabColor.value,
+                      onTap: controller.completedCRBSelected,
+                      width: 120,
+                    ),
                   ),
-                  CustomBookingTab(
-                    text: "Cancelled",
-                    textColor: cancelledTextColor,
-                    tabColor: cancelledTabColor,
-                    onTap: _cancelledCRBSelected,
-                    width: 120,
+                  Obx(
+                    () => CustomBookingTab(
+                      text: "Cancelled",
+                      textColor: controller.cancelledTextColor.value,
+                      tabColor: controller.cancelledTabColor.value,
+                      onTap: controller.cancelledCRBSelected,
+                      width: 120,
+                    ),
                   ),
                 ],
               ),
             ],
           ),
 
-          const CustomHeight(height: 20),
-          if (isCRBActiveSelected)
-            //fetches all the user shorlet  bookings whose status is #active
-            CustomListview(
-              itemCount: LocalDatabase.carRentalPackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.carRentalPackages[index];
+          Obx(
+            () {
+              return controller.isCRBActiveSelected.value
+                  ? FutureBuilder(
+                      future: controller.fetchCarRentalBookingsByStatus(
+                          status: 'paid'),
+                      builder: (context, snapshot) {
+                        //
+                        final widgetToDisplay =
+                            AppFutureLoaders.checkMultiFutureState(
+                          snapshot: snapshot,
+                          loaderWidget: const CustomHostDataShimmerListView(),
+                          nothingFoundWidget: const CustomEmptyDataView(
+                            mainText: "No Bookings",
+                            subText:
+                                "You don't have any upcoming bookings yet, click\n on home to get started",
+                          ),
+                        );
 
-                return CustomCarRentalBookingStatus(
-                  carRental: activeItem,
-                  statusText: "Paid",
-                  statusColor: AppColors.appMainColor,
-                  isActive: true,
-                  isComplete: false,
-                  isCancelled: false,
-                );
-              },
-            ),
+                        if (widgetToDisplay != null) return widgetToDisplay;
 
-          if (isCRBCompletedSelected)
-            //fetches all the user shorlet  bookings whose status is #completed
-            CustomListview(
-              itemCount: LocalDatabase.carRentalPackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.carRentalPackages[index];
+                        final carRentalBookings = snapshot.data!;
 
-                return CustomCarRentalBookingStatus(
-                  carRental: activeItem,
-                  statusText: "Comp.",
-                  statusColor: Colors.green,
-                  isActive: false,
-                  isComplete: true,
-                  isCancelled: false,
-                );
-              },
-            ),
+                        //
+                        return CustomListview(
+                          itemCount: carRentalBookings.length,
+                          itemBuilder: (_, index) {
+                            final booking = carRentalBookings[index];
 
-          if (isCRBCancelledSelected)
-            //fetches all the user shorlet  bookings whose status is #cancelled
-            CustomListview(
-              itemCount: LocalDatabase.carRentalPackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.carRentalPackages[index];
+                            return CustomCarRentalBookingStatus(
+                              bookingCarRental: booking,
+                              statusColor: AppColors.appMainColor,
+                              isActive: true,
+                              isComplete: false,
+                              isCancelled: false,
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : controller.isCRBCancelledSelected.value
+                      ? FutureBuilder(
+                          future: controller.fetchCarRentalBookingsByStatus(
+                              status: 'completed'),
+                          builder: (context, snapshot) {
+                            //
+                            final widgetToDisplay =
+                                AppFutureLoaders.checkMultiFutureState(
+                              snapshot: snapshot,
+                              loaderWidget:
+                                  const CustomHostDataShimmerListView(),
+                              nothingFoundWidget: const CustomEmptyDataView(
+                                mainText: "No Bookings",
+                                subText:
+                                    "You don't have any upcoming bookings yet, click\n on home to get started",
+                              ),
+                            );
 
-                return CustomCarRentalBookingStatus(
-                  carRental: activeItem,
-                  statusText: "Cancel.",
-                  statusColor: Colors.red,
-                  isActive: false,
-                  isComplete: false,
-                  isCancelled: true,
-                );
-              },
-            ),
+                            if (widgetToDisplay != null) return widgetToDisplay;
+
+                            final carRentalBookings = snapshot.data!;
+
+                            //
+                            return CustomListview(
+                              itemCount: carRentalBookings.length,
+                              itemBuilder: (_, index) {
+                                final booking = carRentalBookings[index];
+
+                                return CustomCarRentalBookingStatus(
+                                  bookingCarRental: booking,
+                                  statusColor: AppColors.appMainColor,
+                                  isActive: false,
+                                  isComplete: true,
+                                  isCancelled: false,
+                                );
+                              },
+                            );
+                          },
+                        )
+                      : controller.isCRBCompletedSelected.value
+                          ? FutureBuilder(
+                              future: controller.fetchCarRentalBookingsByStatus(
+                                  status: 'cancelled'),
+                              builder: (context, snapshot) {
+                                //
+                                final widgetToDisplay =
+                                    AppFutureLoaders.checkMultiFutureState(
+                                  snapshot: snapshot,
+                                  loaderWidget:
+                                      const CustomHostDataShimmerListView(),
+                                  nothingFoundWidget: const CustomEmptyDataView(
+                                    mainText: "No Bookings",
+                                    subText:
+                                        "You don't have any upcoming bookings yet, click\n on home to get started",
+                                  ),
+                                );
+
+                                if (widgetToDisplay != null) {
+                                  return widgetToDisplay;
+                                }
+
+                                final carRentalBookings = snapshot.data!;
+
+                                //
+                                return CustomListview(
+                                  itemCount: carRentalBookings.length,
+                                  itemBuilder: (_, index) {
+                                    final booking = carRentalBookings[index];
+
+                                    return CustomCarRentalBookingStatus(
+                                      bookingCarRental: booking,
+                                      statusColor: AppColors.appMainColor,
+                                      isActive: false,
+                                      isComplete: false,
+                                      isCancelled: true,
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          : const SizedBox();
+            },
+          )
         ],
       ),
     );

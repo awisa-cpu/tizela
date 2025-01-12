@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/boat_cruise_model.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/edit_listing/boat_cruise/widgets/boat_cruise_edits_imports.dart';
-import '../../../../../../../common/styles/custom_bulliet_point_with_text.dart';
 import '../../../../../../../common/styles/styles.dart';
 import '../../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../../utils/constants/images_texts.dart';

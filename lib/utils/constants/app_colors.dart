@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  //todo: change system default color to green
   static const Color appMainColor = Color(0xff324D96);
   static const Color disabledEleButton = Color(0xff324D96);
   static const Color appWhiteColor = Color(0xFFFFFFFF);

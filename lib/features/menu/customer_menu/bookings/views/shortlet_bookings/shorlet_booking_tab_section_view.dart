@@ -1,104 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/widgets/custom_listview.dart';
-import 'package:tizela/common/widgets/custom_column.dart';
-import 'package:tizela/data/local_database.dart';
+import 'package:get/get.dart';
+import 'package:tizela/common/styles/styles.dart';
+import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_shorlet_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_tab.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
-class ShorletBookingTabSectionView extends StatefulWidget {
+import '../../../../../../utils/loaders/app_future_loaders.dart';
+import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
+import '../../controller/shortlet_bookings_controller.dart';
+
+class ShorletBookingTabSectionView extends StatelessWidget {
   const ShorletBookingTabSectionView({super.key});
 
   @override
-  State<ShorletBookingTabSectionView> createState() =>
-      _ShorletBookingTabSectionViewState();
-}
-
-class _ShorletBookingTabSectionViewState
-    extends State<ShorletBookingTabSectionView> {
-  bool isActiveSelected = false;
-  bool isCompletedSelected = false;
-  bool isCancelledSelected = false;
-
-  Color activeTextColor = AppColors.appTextFadedColor;
-  Color completedTextColor = AppColors.appTextFadedColor;
-  Color cancelledTextColor = AppColors.appTextFadedColor;
-
-  Color activeTabColor = AppColors.appWhiteColor;
-  Color completedTabColor = AppColors.appWhiteColor;
-  Color cancelledTabColor = AppColors.appWhiteColor;
-
-  @override
-  void initState() {
-    super.initState();
-    isActiveSelected = true;
-    activeTextColor = AppColors.appWhiteColor;
-    activeTabColor = AppColors.appMainColor;
-  }
-
-  void _activeSelected() {
-    setState(() {
-      isActiveSelected = true;
-      isCancelledSelected = false;
-      isCompletedSelected = false;
-
-      //
-      activeTextColor = AppColors.appWhiteColor;
-      completedTextColor = AppColors.appTextFadedColor;
-      cancelledTextColor = AppColors.appTextFadedColor;
-      activeTabColor = AppColors.appMainColor;
-      completedTabColor = AppColors.appWhiteColor;
-      cancelledTabColor = AppColors.appWhiteColor;
-    });
-  }
-
-  void _completedSelected() {
-    setState(() {
-      isActiveSelected = false;
-      isCompletedSelected = true;
-      isCancelledSelected = false;
-
-      //
-      activeTextColor = AppColors.appTextFadedColor;
-      completedTextColor = AppColors.appWhiteColor;
-      cancelledTextColor = AppColors.appTextFadedColor;
-      activeTabColor = AppColors.appWhiteColor;
-      completedTabColor = AppColors.appMainColor;
-      cancelledTabColor = AppColors.appWhiteColor;
-    });
-  }
-
-  void _cancelledSelected() {
-    setState(() {
-      isActiveSelected = false;
-      isCompletedSelected = false;
-      isCancelledSelected = true;
-
-      //
-      activeTextColor = AppColors.appTextFadedColor;
-      completedTextColor = AppColors.appTextFadedColor;
-      cancelledTextColor = AppColors.appWhiteColor;
-      activeTabColor = AppColors.appWhiteColor;
-      completedTabColor = AppColors.appWhiteColor;
-      cancelledTabColor = AppColors.appMainColor;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ShortletBookingsController());
+
+    //
     return CustomScrollableLayoutWidget(
       child: CustomColumn(
         isMainAxisSize: false,
+        spacing: 20,
         children: [
           //first section
           CustomColumn(
             children: [
               const CustomHeight(height: 15),
+
+              //section one
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -114,88 +46,163 @@ class _ShorletBookingTabSectionViewState
                 ],
               ),
               const CustomHeight(height: 25),
+
+              //section two
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomBookingTab(
-                    text: "Active",
-                    textColor: activeTextColor,
-                    tabColor: activeTabColor,
-                    onTap: _activeSelected,
+                  Obx(
+                    () => CustomBookingTab(
+                      text: "Active",
+                      textColor: controller.activeTextColor.value,
+                      tabColor: controller.activeTabColor.value,
+                      onTap: controller.activeSelected,
+                    ),
                   ),
-                  CustomBookingTab(
-                    text: "Completed",
-                    textColor: completedTextColor,
-                    tabColor: completedTabColor,
-                    onTap: _completedSelected,
-                    width: 120,
+                  Obx(
+                    () => CustomBookingTab(
+                      text: "Completed",
+                      textColor: controller.completedTextColor.value,
+                      tabColor: controller.completedTabColor.value,
+                      onTap: controller.completedSelected,
+                      width: 120,
+                    ),
                   ),
-                  CustomBookingTab(
-                    text: "Cancelled",
-                    textColor: cancelledTextColor,
-                    tabColor: cancelledTabColor,
-                    onTap: _cancelledSelected,
-                    width: 120,
+                  Obx(
+                    () => CustomBookingTab(
+                      text: "Cancelled",
+                      textColor: controller.cancelledTextColor.value,
+                      tabColor: controller.cancelledTabColor.value,
+                      onTap: controller.cancelledSelected,
+                      width: 120,
+                    ),
                   ),
                 ],
               ),
             ],
           ),
 
-          const CustomHeight(height: 20),
-          if (isActiveSelected)
-            //fetches all the user shorlet  bookings whose status is #active
-            CustomListview(
-              itemCount: LocalDatabase.shortletPackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.shortletPackages[index];
+          Obx(
+            () {
+              return controller.isActiveSelected.value
+                  ? FutureBuilder(
+                      future: controller.fetchBookingsByStatus(status: 'paid'),
+                      builder: (context, snapshot) {
 
-                return CustomShorletBookingStatus(
-                  booking: activeItem,
-                  statusText: "Paid",
-                  statusColor: AppColors.appMainColor,
-                  isActive: true,
-                  isCompleted: false,
-                  isCancelled: false,
-                );
-              },
-            ),
+                        //
+                        final widgetToDisplay =
+                            AppFutureLoaders.checkMultiFutureState(
+                          snapshot: snapshot,
+                          loaderWidget: const CustomHostDataShimmerListView(),
+                          nothingFoundWidget: const CustomEmptyDataView(
+                            mainText: "No Bookings",
+                            subText:
+                                "You don't have any upcoming bookings yet, click\n on home to get started",
+                          ),
+                        );
 
-          if (isCompletedSelected)
-            //fetches all the user shorlet  bookings whose status is #completed
-            CustomListview(
-              itemCount: LocalDatabase.shortletPackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.shortletPackages[index];
+                        if (widgetToDisplay != null) return widgetToDisplay;
 
-                return CustomShorletBookingStatus(
-                  booking: activeItem,
-                  statusText: "Comp.",
-                  statusColor: Colors.green,
-                  isActive: false,
-                  isCompleted: true,
-                  isCancelled: false,
-                );
-              },
-            ),
+                        final shortletBookings = snapshot.data!;
 
-          if (isCancelledSelected)
-            //fetches all the user shorlet  bookings whose status is #cancelled
-            CustomListview(
-              itemCount: LocalDatabase.shortletPackages.length,
-              itemBuilder: (_, index) {
-                final activeItem = LocalDatabase.shortletPackages[index];
+                        //
+                        return CustomListview(
+                          itemCount: shortletBookings.length,
+                          itemBuilder: (_, index) {
+                            final booking = shortletBookings[index];
 
-                return CustomShorletBookingStatus(
-                  booking: activeItem,
-                  statusText: "Cancel.",
-                  statusColor: Colors.red,
-                  isActive: false,
-                  isCompleted: false,
-                  isCancelled: true,
-                );
-              },
-            ),
+                            return CustomShorletBookingStatus(
+                              bookingModel: booking,
+                              statusColor: AppColors.appMainColor,
+                              isActive: true,
+                              isCompleted: false,
+                              isCancelled: false,
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : controller.isCompletedSelected.value
+                      ? FutureBuilder(
+                          future: controller.fetchBookingsByStatus(
+                              status: 'completed'),
+                          builder: (context, snapshot) {
+
+                            //
+                            final widgetToDisplay =
+                                AppFutureLoaders.checkMultiFutureState(
+                              snapshot: snapshot,
+                              loaderWidget:
+                                  const CustomHostDataShimmerListView(),
+                              nothingFoundWidget: const CustomEmptyDataView(
+                                mainText: "No Bookings",
+                                subText:
+                                    "You don't have any upcoming bookings yet, click\n on home to get started",
+                              ),
+                            );
+
+                            if (widgetToDisplay != null) return widgetToDisplay;
+
+                            final shortletBookings = snapshot.data!;
+                            return CustomListview(
+                              itemCount: shortletBookings.length,
+                              itemBuilder: (_, index) {
+                                final booking = shortletBookings[index];
+
+                                return CustomShorletBookingStatus(
+                                  bookingModel: booking,
+                                  statusColor: Colors.green,
+                                  isActive: false,
+                                  isCompleted: true,
+                                  isCancelled: false,
+                                );
+                              },
+                            );
+                          },
+                        )
+                      : controller.isCancelledSelected.value
+                          ? FutureBuilder(
+                              future: controller.fetchBookingsByStatus(
+                                  status: 'cancelled'),
+                              builder: (context, snapshot) {
+
+                                //
+                                final widgetToDisplay =
+                                    AppFutureLoaders.checkMultiFutureState(
+                                  snapshot: snapshot,
+                                  loaderWidget:
+                                      const CustomHostDataShimmerListView(),
+                                  nothingFoundWidget: const CustomEmptyDataView(
+                                    mainText: "No Bookings",
+                                    subText:
+                                        "You don't have any upcoming bookings yet, click\n on home to get started",
+                                  ),
+                                );
+
+                                if (widgetToDisplay != null) {
+                                  return widgetToDisplay;
+                                }
+
+                                final shortletBookings = snapshot.data!;
+                                return CustomListview(
+                                  itemCount: shortletBookings.length,
+                                  itemBuilder: (_, index) {
+                                    final booking = shortletBookings[index];
+
+                                    return CustomShorletBookingStatus(
+                                      bookingModel: booking,
+                                      statusColor: Colors.red,
+                                      isActive: false,
+                                      isCompleted: false,
+                                      isCancelled: true,
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          : const SizedBox();
+            },
+          ),
         ],
       ),
     );

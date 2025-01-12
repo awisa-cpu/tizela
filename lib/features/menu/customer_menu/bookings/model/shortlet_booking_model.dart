@@ -9,10 +9,12 @@ class ShortletBookingModel {
   final ShortletModel shortlet;
   BookingStatus status;
   AppUser user;
+  final DateTime bookingDate;
   ShortletBookingModel({
     required this.shortlet,
     required this.status,
     required this.user,
+    required this.bookingDate,
   }) : uid = const  Uuid().v4();
 
   Map<String, dynamic> toJson() {
@@ -21,6 +23,7 @@ class ShortletBookingModel {
       'shortlet': shortlet.toJson(),
       'status': status.name,
       'user': user.toJson(),
+      'bookingDate': bookingDate.toIso8601String(),
     };
   }
 
@@ -30,6 +33,7 @@ class ShortletBookingModel {
       status: BookingStatus.values
           .firstWhere((status) => status.name == json['status']),
       user: AppUser.fromJson(json['user'] as Map<String, dynamic>),
+      bookingDate: DateTime.parse(json['bookingDate'] as String),
     );
   }
 
@@ -37,6 +41,7 @@ class ShortletBookingModel {
         shortlet: ShortletModel.empty(),
         status: BookingStatus.none,
         user: AppUser.empty(),
+        bookingDate: DateTime.now(),
       );
 
   factory ShortletBookingModel.fromSnapShot(
@@ -50,7 +55,9 @@ class ShortletBookingModel {
             .firstWhere((status) => status.name == docData['status']),
         user: AppUser.fromJson(
           docData['user'],
+          
         ),
+        bookingDate: DateTime.parse(docData['bookingDate'] as String),
       );
     } else {
       return ShortletBookingModel.empty();

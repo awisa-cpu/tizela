@@ -26,7 +26,8 @@ class CustomBookingStatus extends StatelessWidget {
         style: customTextStyle(
             color: textAndBorderColor,
             fontWeight: FontWeight.normal,
-            fontSize: 10),
+            fontSize: 10,
+            overflow: TextOverflow.ellipsis),
       ),
     );
   }

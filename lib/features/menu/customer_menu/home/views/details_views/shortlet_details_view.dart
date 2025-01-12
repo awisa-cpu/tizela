@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/widgets/custom_favourite.dart';
-import 'package:tizela/common/widgets/custom_share.dart';
+import 'package:tizela/common/styles/styles.dart';
+import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/more_shorlet_images_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
-import '../../../../../../common/widgets/custom_divider.dart';
-import '../../../../../../common/widgets/custom_network_image.dart';
 import '../../../../../../setup/app_navigator.dart';
 import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';

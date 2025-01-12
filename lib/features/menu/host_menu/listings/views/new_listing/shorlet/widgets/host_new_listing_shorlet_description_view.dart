@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
-import 'package:tizela/common/widgets/custom_grid_selectable_service_types.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/search_and_filter_views/widgets/custom_apartment_type.dart';
 import 'package:tizela/features/menu/host_menu/listings/controllers/host_shorlet_controller.dart';

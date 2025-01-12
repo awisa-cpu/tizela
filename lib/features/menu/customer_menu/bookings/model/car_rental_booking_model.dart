@@ -11,9 +11,12 @@ class CarRentalBookingModel {
   String pickUpTime;
   String bookingDuration;
   String itenery;
-  CarRentalBookingModel({
+  final DateTime dateCreated;
+  CarRentalBookingModel( {
+
     required this.uid,
     required this.carRental,
+    required this.dateCreated,
     required this.status,
     required this.pickUp,
     required this.dropOff,
@@ -31,6 +34,7 @@ class CarRentalBookingModel {
       'pickUpTime': pickUpTime,
       'bookingDuration': bookingDuration,
       'itenery': itenery,
+      'dateCreated': dateCreated.toIso8601String(),
     };
   }
 
@@ -46,6 +50,7 @@ class CarRentalBookingModel {
       pickUpTime: json['pickUpTime'] as String,
       bookingDuration: json['bookingDuration'] as String,
       itenery: json['itenery'] as String,
+      dateCreated: DateTime.parse(json['dateCreated'] as String),
     );
   }
 
@@ -58,6 +63,7 @@ class CarRentalBookingModel {
         pickUpTime: "",
         bookingDuration: "",
         itenery: "",
+        dateCreated: DateTime.now()
       );
 
   factory CarRentalBookingModel.fromSnapShot(
@@ -74,6 +80,7 @@ class CarRentalBookingModel {
         pickUpTime: docData['pickUpTime'],
         bookingDuration: docData['bookingDuration'],
         itenery: docData['itenery'],
+        dateCreated: DateTime.parse(docData['dateCreated'] as String)
       );
     } else {
       return CarRentalBookingModel.empty();
