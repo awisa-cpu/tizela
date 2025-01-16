@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/model/car_rental_booking_model.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_bookings/car_rental_bookings_receipt_view.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
-import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
-
-import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../host_menu/listings/model/car_rental_details_model.dart';
+import '../../widgets/custom_outlined_booking_status_button.dart';
 
 class CustomCarRentalBookingStatus extends StatelessWidget {
   final CarRentalBookingModel bookingCarRental;
@@ -37,7 +36,8 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
             children: [
               //date
               Text(
-                AppDateFormater.formatDate(date: bookingCarRental.dateCreated),
+                AppDateFormater.formatDate(
+                    date: bookingCarRental.bookingDateCreated),
                 style: customTextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
@@ -53,7 +53,7 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
             children: [
               //image
               CustomDisplayClipImageWithSize(
-                imageUrl: bookingCarRental.carRental.carImages.first,
+                imageUrl: bookingCarRental.carRentalDetails["carImage"],
                 isNetworkImage: true,
               ),
               const CustomWidth(width: 10),
@@ -62,19 +62,23 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                 children: [
                   //name
                   Text(
-                    bookingCarRental.carRental.carName,
+                    bookingCarRental.carRentalDetails['carName'],
                     style: customTextStyle(
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Row(
                     spacing: 7,
-                    children: bookingCarRental.carRental.carRentalDetails.map(
-                      (attribute) {
+                    children: bookingCarRental
+                        .carRentalDetails['carRentalDetails']
+                        .map(
+                      (a) {
+                        final atribute = CarRentalDetailsModel.fromJson(
+                            a as Map<String, dynamic>);
                         return CustomIconAndText(
-                          text: attribute.detailCount.value.toString(),
-                          iconImage: AppFunctions.getIconImageByAttributeName(
-                              attribute.name),
+                          text: atribute.detailCount.value.toString(),
+                          iconImage:
+                              AppFunctions.getIconImageByAttributeName(atribute.name),
                           color: AppColors.appIconColorBox,
                           textStyle: customTextStyle(
                             fontSize: 14,
@@ -91,7 +95,7 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomDisplayCost(
-                        cost: bookingCarRental.carRental.carPrice.toString(),
+                        cost: bookingCarRental.carRentalDetails['carPrice'].toString(),
                         perWhat: "12hr",
                       ),
                       const CustomWidth(width: 15),
@@ -114,33 +118,21 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                 const CustomDivider(),
                 const CustomHeight(height: 10),
                 Row(
+                  spacing: 25,
                   children: [
                     Expanded(
-                      child: CustomOutlinedButton(
+                      child: CustomOutlinedBookingStatusButton(
                         onTap: () {},
-                        actionText: "Details",
-                        style: Theme.of(context)
-                            .outlinedButtonTheme
-                            .style
-                            ?.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                AppColors.appMainColor,
-                              ),
-                              side: const WidgetStatePropertyAll(
-                                  BorderSide(color: AppColors.appMainColor)),
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  AppColors.appWhiteColor),
-                            ),
+                        buttonText: "Details",
                       ),
-                    ),
-                    const SizedBox(
-                      width: 25,
                     ),
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () => AppNagivator.pushRoute(
-                          const CarRentalBookingsReceiptView(),
-                        ),
+                        onPressed: () {
+                          //    AppNagivator.pushRoute(
+                          //   const CarRentalBookingsReceiptView(),
+                          // );
+                        },
                         text: "View E-Receipt",
                       ),
                     ),
@@ -156,33 +148,20 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                 const CustomDivider(),
                 const CustomHeight(height: 10),
                 Row(
+                  spacing: 25,
                   children: [
                     Expanded(
-                      child: CustomOutlinedButton(
-                        onTap: () => AppNagivator.pushRoute(
-                          const CarRentalBookingsReceiptView(),
-                        ),
-                        actionText: "View E-Receipt",
-                        style: Theme.of(context)
-                            .outlinedButtonTheme
-                            .style
-                            ?.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                AppColors.appMainColor,
-                              ),
-                              side: const WidgetStatePropertyAll(
-                                  BorderSide(color: AppColors.appMainColor)),
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  AppColors.appWhiteColor),
-                            ),
+                      child: CustomOutlinedBookingStatusButton(
+                        onTap: () {},
+                        buttonText: "View E-Receipt",
                       ),
-                    ),
-                    const SizedBox(
-                      width: 25,
                     ),
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () => _leaveReview(context),
+                        onPressed: () => AppFunctions.displayReviewSheet(
+                          context: context,
+                          child: const CustomReview(),
+                        ),
                         text: "Leave a review",
                       ),
                     ),
@@ -192,16 +171,6 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
             ),
         ],
       ),
-    );
-  }
-
-  void _leaveReview(BuildContext context) {
-    showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (context) {
-        return const CustomReview();
-      },
     );
   }
 }

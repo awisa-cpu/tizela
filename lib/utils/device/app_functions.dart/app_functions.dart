@@ -98,6 +98,16 @@ class AppFunctions {
     );
   }
 
+  static void displayReviewSheet(
+      {required BuildContext context, required Widget child}) {
+    showModalBottomSheet(
+      isDismissible: false,
+      elevation: 0.0,
+      context: context,
+      builder: (context) => child,
+    );
+  }
+
   static void selectImages(
       {required RxList<AppFileModel> selectedImages}) async {
     try {

@@ -102,7 +102,8 @@ class CustomShortletBookingsSummaryForm extends StatelessWidget {
                   ),
                   const CustomHeight(height: 20),
                   CustomEleButton(
-                    onPressed: controller.makePayment,
+                    // onPressed: controller.makePayment,
+                    onPressed: (){},
                     text: "Pay",
                   )
                 ],

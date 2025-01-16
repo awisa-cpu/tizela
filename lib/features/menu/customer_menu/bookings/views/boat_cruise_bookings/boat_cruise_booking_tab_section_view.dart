@@ -9,7 +9,7 @@ import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/loaders/app_future_loaders.dart';
 import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
 import '../../controller/boat_cruise_bookings_controller.dart';
-import '../widgets/custom_boat_cruse_booking_status.dart';
+import 'widgets/custom_boat_cruse_booking_status.dart';
 
 class BoatCruiseBookingTabSectionView extends StatelessWidget {
   const BoatCruiseBookingTabSectionView({super.key});

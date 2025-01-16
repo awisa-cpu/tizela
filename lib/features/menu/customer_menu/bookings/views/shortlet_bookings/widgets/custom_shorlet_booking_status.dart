@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/styles/custom_width.dart';
-import 'package:tizela/common/widgets/custom_column.dart';
-import 'package:tizela/common/widgets/custom_display_clip_image_with_size.dart';
-import 'package:tizela/common/widgets/custom_display_cost.dart';
-import 'package:tizela/common/widgets/custom_divider.dart';
-import 'package:tizela/common/widgets/custom_ele_button.dart';
-import 'package:tizela/common/widgets/custom_outlined_button.dart';
-import 'package:tizela/common/widgets/custom_rounded_container.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/shortlet_bookings/shorlet_bookings_receipt_view.dart';
+import 'package:tizela/common/styles/styles.dart';
+import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
+import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_outlined_booking_status_button.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
-import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
-
-import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
-import '../../model/shortlet_booking_model.dart';
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../model/shortlet_booking_model.dart';
 
 class CustomShorletBookingStatus extends StatelessWidget {
   final ShortletBookingModel bookingModel;
@@ -29,7 +19,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
     required this.statusColor,
     required this.isActive,
     required this.isCompleted,
-    required this.isCancelled, 
+    required this.isCancelled,
   });
 
   @override
@@ -39,14 +29,13 @@ class CustomShorletBookingStatus extends StatelessWidget {
       borderRadius: 12,
       child: CustomColumn(
         children: [
-
           //first section
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               //date
               Text(
-                AppDateFormater.formatDate(date: bookingModel.bookingDate),
+                AppDateFormater.formatDate(date: bookingModel.bookingDateCreated),
                 style: customTextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
@@ -63,7 +52,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
             children: [
               //image
               CustomDisplayClipImageWithSize(
-                imageUrl: bookingModel.shortlet.apartmentImages.first,
+                imageUrl: bookingModel.shortletDetails['shortletImage'] as String,
                 isNetworkImage: true,
               ),
               CustomColumn(
@@ -71,14 +60,15 @@ class CustomShorletBookingStatus extends StatelessWidget {
                 children: [
                   //name
                   Text(
-                    bookingModel.shortlet.apartmentName,
+                    bookingModel.shortletDetails['shortletName'] as String,
                     style: customTextStyle(
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
 
                   Text(
-                    AppFunctions.getDateRange(availableDates: bookingModel.shortlet.availableDates),
+                    AppFunctions.getDateRange(
+                        availableDates: <DateTime>[bookingModel.shortletDetails['startDate'], bookingModel.shortletDetails['endDate']]),
                     style: customTextStyle(
                         fontSize: 12,
                         color: AppColors.appTextFadedColor,
@@ -88,12 +78,12 @@ class CustomShorletBookingStatus extends StatelessWidget {
                   //cost and status
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    spacing: 15,
                     children: [
                       CustomDisplayCost(
-                        cost: bookingModel.shortlet.apartmentPrice.toString(),
+                        cost: bookingModel.shortletDetails['shortletPrice'].toString(),
                         perWhat: "per night",
                       ),
-                      const CustomWidth(width: 15),
                       CustomBookingStatus(
                         statusText: bookingModel.status.name,
                         textAndBorderColor: statusColor,
@@ -116,29 +106,17 @@ class CustomShorletBookingStatus extends StatelessWidget {
                   spacing: 25,
                   children: [
                     Expanded(
-                      child: CustomOutlinedButton(
+                      child: CustomOutlinedBookingStatusButton(
                         onTap: () {},
-                        actionText: "Details",
-                        style: Theme.of(context)
-                            .outlinedButtonTheme
-                            .style
-                            ?.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                AppColors.appMainColor,
-                              ),
-                              side: const WidgetStatePropertyAll(
-                                  BorderSide(color: AppColors.appMainColor)),
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  AppColors.appWhiteColor),
-                            ),
+                        buttonText: "Details",
                       ),
                     ),
-                   
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () => AppNagivator.pushRoute(
-                       const ShorletBookingsReceiptView(),
-                        ),
+                        onPressed: () {
+                          // AppNagivator.pushRoute(
+                          // const ShorletBookingsReceiptView(),
+                        },
                         text: "View E-Receipt",
                       ),
                     ),
@@ -156,23 +134,9 @@ class CustomShorletBookingStatus extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomOutlinedButton(
-                        onTap: () => AppNagivator.pushRoute(
-                         const ShorletBookingsReceiptView(),
-                        ),
-                        actionText: "View E-Receipt",
-                        style: Theme.of(context)
-                            .outlinedButtonTheme
-                            .style
-                            ?.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                AppColors.appMainColor,
-                              ),
-                              side: const WidgetStatePropertyAll(
-                                  BorderSide(color: AppColors.appMainColor)),
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  AppColors.appWhiteColor),
-                            ),
+                      child: CustomOutlinedBookingStatusButton(
+                        onTap: () {},
+                        buttonText: "View E-Receipt",
                       ),
                     ),
                     const SizedBox(
@@ -180,7 +144,10 @@ class CustomShorletBookingStatus extends StatelessWidget {
                     ),
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () => _leaveReview(context),
+                        onPressed: () => AppFunctions.displayReviewSheet(
+                          context: context,
+                          child: const CustomReview(),
+                        ),
                         text: "Leave a review",
                       ),
                     ),
@@ -190,16 +157,6 @@ class CustomShorletBookingStatus extends StatelessWidget {
             ),
         ],
       ),
-    );
-  }
-
-  void _leaveReview(BuildContext context) {
-    showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (context) {
-        return const CustomReview();
-      },
     );
   }
 }

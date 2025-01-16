@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_shorlet_booking_status.dart';
+import 'package:tizela/features/menu/customer_menu/bookings/views/shortlet_bookings/widgets/custom_shorlet_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_tab.dart';
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';

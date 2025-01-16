@@ -5,9 +5,9 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bo
 
 import '../../../../host_menu/listings/model/boat_cruise_model.dart';
 import '../../controller/boat_cruise_booking_summary_controller.dart';
-import '../widgets/custom_boat_cruise_booking_summary_fourth_section.dart';
-import '../widgets/custom_boat_cruise_booking_summary_second_section.dart';
-import '../widgets/custom_boat_cruise_booking_summary_third_section.dart';
+import 'widgets/custom_boat_cruise_booking_summary_fourth_section.dart';
+import 'widgets/custom_boat_cruise_booking_summary_third_section.dart';
+import 'widgets/custom_boat_cruise_booking_summary_second_section.dart';
 
 class BoatCruiseBookingSummary extends StatelessWidget {
   final BoatCruiseModel boatCruise;

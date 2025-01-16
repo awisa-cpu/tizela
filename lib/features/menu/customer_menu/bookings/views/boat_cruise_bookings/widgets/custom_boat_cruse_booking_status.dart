@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/model/boat_cruise_booking_model.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bookings/boat_cruise_bookings_receipt_view.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
-import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
+
+import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../widgets/custom_outlined_booking_status_button.dart';
 
 class CustomBoatCruseBookingStatus extends StatelessWidget {
   final BoatCruiseBookingModel boatCruiseBooking;
@@ -36,7 +37,7 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
               //date
               Text(
                 AppDateFormater.formatDate(
-                    date: boatCruiseBooking.dateToCruise),
+                    date: boatCruiseBooking.bookingDateCreated),
                 style: customTextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
@@ -53,7 +54,7 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
             children: [
               //image
               CustomDisplayClipImageWithSize(
-                imageUrl: boatCruiseBooking.boatCruise.boatImages.first,
+                imageUrl: boatCruiseBooking.boatCruiseDetails['boatImage'] as String,
                 isNetworkImage: true,
               ),
 
@@ -62,14 +63,14 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
                 children: [
                   //name
                   Text(
-                    boatCruiseBooking.boatCruise.name,
+                    boatCruiseBooking.boatCruiseDetails['boatName'] as String,
                     style: customTextStyle(
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
 
                   Text(
-                    "${boatCruiseBooking.boatCruise.boatCruiseDetails.last.detailCount.value} passengers",
+                    "${boatCruiseBooking.boatCruiseDetails['boatCruiseMaxPassenger'] as int} passengers",
                     style: customTextStyle(
                         fontSize: 12,
                         color: AppColors.appTextFadedColor,
@@ -81,7 +82,7 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomDisplayCost(
-                        cost: boatCruiseBooking.boatCruise.boatFee.toString(),
+                        cost: boatCruiseBooking.boatCruiseDetails['boatPrice'].toString(),
                         perWhat: "per night",
                       ),
                       const CustomWidth(width: 15),
@@ -104,33 +105,21 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
                 const CustomDivider(),
                 const CustomHeight(height: 10),
                 Row(
+                  spacing: 25,
                   children: [
                     Expanded(
-                      child: CustomOutlinedButton(
+                      child: CustomOutlinedBookingStatusButton(
+                        buttonText: 'Details',
                         onTap: () {},
-                        actionText: "Details",
-                        style: Theme.of(context)
-                            .outlinedButtonTheme
-                            .style
-                            ?.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                AppColors.appMainColor,
-                              ),
-                              side: const WidgetStatePropertyAll(
-                                  BorderSide(color: AppColors.appMainColor)),
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  AppColors.appWhiteColor),
-                            ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 25,
                     ),
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () => AppNagivator.pushRoute(
-                          const BoatCruiseBookingsReceiptView(),
-                        ),
+                        onPressed: () {
+                          //    AppNagivator.pushRoute(
+                          //   const BoatCruiseBookingsReceiptView(),
+                          // )
+                        },
                         text: "View E-Receipt",
                       ),
                     ),
@@ -146,33 +135,20 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
                 const CustomDivider(),
                 const CustomHeight(height: 10),
                 Row(
+                  spacing: 25,
                   children: [
                     Expanded(
-                      child: CustomOutlinedButton(
-                        onTap: () => AppNagivator.pushRoute(
-                          const BoatCruiseBookingsReceiptView(),
-                        ),
-                        actionText: "View E-Receipt",
-                        style: Theme.of(context)
-                            .outlinedButtonTheme
-                            .style
-                            ?.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                AppColors.appMainColor,
-                              ),
-                              side: const WidgetStatePropertyAll(
-                                  BorderSide(color: AppColors.appMainColor)),
-                              backgroundColor: const WidgetStatePropertyAll(
-                                  AppColors.appWhiteColor),
-                            ),
+                      child: CustomOutlinedBookingStatusButton(
+                        buttonText: 'View E-Receipt',
+                        onTap: () {},
                       ),
-                    ),
-                    const SizedBox(
-                      width: 25,
                     ),
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () => _leaveReview(context),
+                        onPressed: () => AppFunctions.displayReviewSheet(
+                          context: context,
+                          child: const CustomReview(),
+                        ),
                         text: "Leave a review",
                       ),
                     ),
@@ -182,16 +158,6 @@ class CustomBoatCruseBookingStatus extends StatelessWidget {
             ),
         ],
       ),
-    );
-  }
-
-  void _leaveReview(BuildContext context) {
-    showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (context) {
-        return const CustomReview();
-      },
     );
   }
 }

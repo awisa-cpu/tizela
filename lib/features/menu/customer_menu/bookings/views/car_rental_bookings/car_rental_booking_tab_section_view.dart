@@ -10,7 +10,7 @@ import '../../../../../../common/widgets/widgets.dart';
 import '../../../../../../utils/loaders/app_future_loaders.dart';
 import '../../../../../../utils/shimmers/custom_data_shimmer_list_view.dart';
 import '../../controller/car_rental_bookings_controller.dart';
-import '../widgets/custom_car_rental_booking_status.dart';
+import 'widgets/custom_car_rental_booking_status.dart';
 
 class CarRentalBookingTabSectionView extends StatelessWidget {
   const CarRentalBookingTabSectionView({super.key});
