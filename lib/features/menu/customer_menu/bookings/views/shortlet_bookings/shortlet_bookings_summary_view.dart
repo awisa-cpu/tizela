@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../host_menu/listings/model/shortlet_model.dart';
-import '../../controller/shortlet_booking_summary_controller.dart';
 import 'widgets/custom_shorlet_booking_summary_first_section.dart';
 import 'widgets/custom_shorlet_booking_summary_fourth_section.dart';
 import 'widgets/custom_shorlet_booking_summary_second_section.dart';
@@ -32,8 +30,6 @@ class _ShorletBookingsSummaryViewState
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ShortletBookingSummaryController());
-
     //
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +62,7 @@ class _ShorletBookingsSummaryViewState
             CustomShorletBookingSummaryFourthSection(
               shortletModel: widget.shortlet,
             ),
-            const CustomShortletBookingsSummaryForm()
+            CustomShortletBookingsSummaryForm(shortlet: widget.shortlet)
           ],
         ),
       ),

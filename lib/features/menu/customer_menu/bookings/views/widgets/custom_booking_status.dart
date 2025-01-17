@@ -15,7 +15,7 @@ class CustomBookingStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      width: 60,
+      width: 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: AppColors.appWhiteColor,

@@ -59,7 +59,8 @@ class CustomerProfileController extends GetxController {
 
       isUserStillLoading.value = false;
       currentAppUser.value = receivedUser;
-      selectedUserDob.value = AppDateFormater.formatDate( date:receivedUser.dob);
+      selectedUserDob.value =
+          AppDateFormater.formatDate(date: receivedUser.dob);
     } catch (e) {
       AlertServices.errorSnackBar(
         title: "Oh snap",

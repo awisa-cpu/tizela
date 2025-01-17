@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/widgets/widgets.dart';
 import 'package:get/get.dart';
-
 import '../../../../../../../common/styles/custom_text_style.dart';
-import '../../../controller/shortlet_booking_summary_controller.dart';
+import '../../../../../host_menu/listings/model/shortlet_model.dart';
+import '../../../controller/shortlet_bookings_controller.dart';
 
 class CustomShortletBookingsSummaryForm extends StatelessWidget {
+  final ShortletModel shortlet;
   const CustomShortletBookingsSummaryForm({
     super.key,
+    required this.shortlet,
   });
 
   @override
   Widget build(BuildContext context) {
-    final controller = ShortletBookingSummaryController.instance;
+    final controller = ShortletBookingsController.instance;
 
     //
     return Padding(
@@ -102,8 +104,8 @@ class CustomShortletBookingsSummaryForm extends StatelessWidget {
                   ),
                   const CustomHeight(height: 20),
                   CustomEleButton(
-                    // onPressed: controller.makePayment,
-                    onPressed: (){},
+                    onPressed: () => controller.makePaymentForShortletBooking(
+                        shortlet: shortlet),
                     text: "Pay",
                   )
                 ],

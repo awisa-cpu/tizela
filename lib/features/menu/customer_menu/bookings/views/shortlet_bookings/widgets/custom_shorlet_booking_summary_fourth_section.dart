@@ -9,7 +9,7 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom
 import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../../host_menu/listings/model/shortlet_model.dart';
-import '../../../controller/shortlet_booking_summary_controller.dart';
+import '../../../controller/shortlet_bookings_controller.dart';
 
 class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
   final ShortletModel shortletModel;
@@ -20,7 +20,7 @@ class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final controller = ShortletBookingSummaryController.instance;
+      final controller = ShortletBookingsController.instance;
 
       //
     return CustomBookingSummaryTab(
@@ -28,7 +28,7 @@ class CustomShorletBookingSummaryFourthSection extends StatelessWidget {
         spacing: 20,
         children: [
           CustomContainerBookingSummary(
-            target: "Amount(${controller.getNumberOfDays(shortletModel: shortletModel)})",
+            target: "Amount(${controller.getNumberOfDays(availableDates: shortletModel.availableDates)})",
             targetValue: "#${controller.calculateCostByDays(shortletModel: shortletModel)}",
             shouldExpand: false,
           ),

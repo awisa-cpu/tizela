@@ -1,67 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
-import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/widgets/custom_column.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booked_user_details.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_summary_tab.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_container_booking_summary.dart';
-import 'package:tizela/utils/extensions/build_context_extensions.dart';
-import 'package:tizela/utils/constants/images_texts.dart';
+import 'package:tizela/utils/device/app_debugger/app_debugger.dart';
 
 class ShorletBookingsReceiptView extends StatelessWidget {
-  const ShorletBookingsReceiptView({super.key});
+  final String receiptFilePath;
+  const ShorletBookingsReceiptView({super.key, required this.receiptFilePath});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 90,
         automaticallyImplyLeading: true,
         title: Text(
           "E-Receipt",
           style: customTextStyle(fontSize: 16),
         ),
       ),
-      body: CustomScrollableLayoutWidget(
-        child: CustomColumn(
-          children: [
-            SizedBox(
-              width: context.screenWidth(),
-              child: Image.asset(
-                ImagesText.barCodeImage,
-                fit: BoxFit.contain,
-              ),
-            ),
-            const CustomHeight(height: 10),
-            const CustomBookingSummaryTab(
-              child: CustomColumn(
-                children: [
-                  CustomContainerBookingSummary(
-                    target: "Date",
-                    targetValue: "Dec 23 - Dec 27 2022",
-                    shouldExpand: false,
-                  ),
-                  SizedBox(height: 13.5),
-                  CustomContainerBookingSummary(
-                    target: "Check in",
-                    targetValue: "Dec 23 2022",
-                    shouldExpand: false,
-                  ),
-                  SizedBox(height: 13.5),
-                  CustomContainerBookingSummary(
-                    target: "Check out",
-                    targetValue: " Dec 27 2022",
-                    shouldExpand: false,
-                  ),
-                ],
-              ),
-            ),
-            const CustomHeight(height: 10),
-            // const CustomShorletBookingSummaryFourthSection(),
-            const CustomHeight(height: 10),
-            const CustomBookedUserDetails(),
-          ],
-        ),
+      body: PDFView(
+        filePath: receiptFilePath,
+        enableSwipe: true,
+        swipeHorizontal: false,
+        autoSpacing: true,
+        pageFling: true,
+        onRender: (pages) => AppDebugger.debugger("Rendered $pages pages"),
+        onError: (error) => AppDebugger.debugger("Error: $error"),
+        onPageError: (page, error) =>
+            AppDebugger.debugger("Page $page Error: $error"),
       ),
     );
   }

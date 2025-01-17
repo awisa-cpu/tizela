@@ -80,12 +80,19 @@ class AppNagivator {
 
   ///push the current route unto the stack
   static void pushRoute(Widget routeWidget) {
-    
-
     Navigator.push(
       navigatorKey.currentContext!,
       MaterialPageRoute(
         builder: (context) => routeWidget,
+      ),
+    );
+  }
+
+  static void pushAndRemovePreRoute(Widget route) {
+    Navigator.pushReplacement(
+      navigatorKey.currentContext!,
+      MaterialPageRoute(
+        builder: (context) => route,
       ),
     );
   }

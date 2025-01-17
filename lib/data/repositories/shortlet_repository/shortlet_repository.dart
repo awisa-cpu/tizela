@@ -54,7 +54,6 @@ class ShortletRepository extends GetxController {
       final shorlets = querySnapshot.docs
           .map((qds) => ShortletModel.fromDocReference(docSnapshot: qds))
           .toList();
-
       return shorlets;
     } catch (e) {
       rethrow;

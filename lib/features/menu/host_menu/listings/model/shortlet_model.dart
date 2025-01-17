@@ -83,50 +83,50 @@ class ShortletModel {
       'thumbImage': thumbImage,
       'apartmentImages': apartmentImages,
       'idType': idType.toJson(),
-      'bookingType':bookingType.name,
+      'bookingType': bookingType.name,
     };
   }
 
   factory ShortletModel.fromJson(Map<String, dynamic> json) {
     return ShortletModel(
-      uid: json['uid'] as String,
-      userId: json['userId'] as String,
-      apartmentType: ApartmentTypeModel.fromJson(
-          json['apartmentType'] as Map<String, dynamic>),
-      apartmentName: json['apartmentName'] as String,
-      anyStory: json['anyStory'] != null ? json['anyStory'] as String : '',
-      address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
-      apartmentPrice: json['apartmentPrice'] as double,
-      cautionFee: json['cautionFee'] as double,
-      ratingsCount: json['ratingsCount'] as double,
-      availableDates: List<DateTime>.from(
-        (json['availableDates'] as List<String>).map<DateTime>(
-          (dateString) => DateTime.tryParse(dateString) ?? DateTime.now(),
+        uid: json['uid'] as String,
+        userId: json['userId'] as String,
+        apartmentType: ApartmentTypeModel.fromJson(
+            json['apartmentType'] as Map<String, dynamic>),
+        apartmentName: json['apartmentName'] as String,
+        anyStory: json['anyStory'] != null ? json['anyStory'] as String : '',
+        address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
+        apartmentPrice: json['apartmentPrice'] as double,
+        cautionFee: json['cautionFee'] as double,
+        ratingsCount: json['ratingsCount'] as double,
+        availableDates: List<DateTime>.from(
+          (json['availableDates'] as List<String>).map<DateTime>(
+            (dateString) => DateTime.tryParse(dateString) ?? DateTime.now(),
+          ),
         ),
-      ),
-      checkInTime: json['checkinTime'] as String,
-      checkOutTime: json['checkOutTime'] as String,
-      minimumCheckInTime: json['minimumCheckInTime'] as String,
-      apartmentDetails: (json['apartmentDetails'] as List)
-          .map((e) => ApartmentDetailModel.fromJson(e))
-          .toList(),
-      amenities: (json['amenities'] as List)
-          .map((ame) => ApartmentAmenitiesModel.fromJson(ame))
-          .toList(),
-      safetyFeatures: (json['safetyFeatures'] as List)
-          .map((safety) => ApartmentAmenitiesModel.fromJson(safety))
-          .toList(),
-      standOutAmenities: (json['standOutAmenities'] as List)
-          .map((ame) => ApartmentAmenitiesModel.fromJson(ame))
-          .toList(),
-      houseRules: (json['houseRules'] as List)
-          .map((house) => ApartmentHouseRulesModel.fromJson(house))
-          .toList(),
-      thumbImage: json['thumbImage'] as String,
-      apartmentImages: List.from(json['apartmentImages']),
-      idType: IdTypeModel.fromJson(json['idType']),
-      bookingType: BookingType.values.firstWhere((type)=>type.name == json['bookingType'])
-    );
+        checkInTime: json['checkinTime'] as String,
+        checkOutTime: json['checkOutTime'] as String,
+        minimumCheckInTime: json['minimumCheckInTime'] as String,
+        apartmentDetails: (json['apartmentDetails'] as List)
+            .map((e) => ApartmentDetailModel.fromJson(e))
+            .toList(),
+        amenities: (json['amenities'] as List)
+            .map((ame) => ApartmentAmenitiesModel.fromJson(ame))
+            .toList(),
+        safetyFeatures: (json['safetyFeatures'] as List)
+            .map((safety) => ApartmentAmenitiesModel.fromJson(safety))
+            .toList(),
+        standOutAmenities: (json['standOutAmenities'] as List)
+            .map((ame) => ApartmentAmenitiesModel.fromJson(ame))
+            .toList(),
+        houseRules: (json['houseRules'] as List)
+            .map((house) => ApartmentHouseRulesModel.fromJson(house))
+            .toList(),
+        thumbImage: json['thumbImage'] as String,
+        apartmentImages: List.from(json['apartmentImages']),
+        idType: IdTypeModel.fromJson(json['idType']),
+        bookingType: BookingType.values
+            .firstWhere((type) => type.name == json['bookingType']));
   }
 
   factory ShortletModel.empty() {
@@ -195,7 +195,10 @@ class ShortletModel {
         thumbImage: data['thumbImage'] as String,
         apartmentImages: List.from(data['apartmentImages'] as List),
         idType: IdTypeModel.fromJson(data['idType'] as Map<String, dynamic>),
-        bookingType: BookingType.values.firstWhere((type)=>type.name==data['bookingType'])
+        bookingType: BookingType.values.firstWhere(
+          (type) => type.name == data['bookingType'],
+          orElse: () => BookingType.none,
+        ),
       );
     }
     return ShortletModel.empty();
@@ -247,7 +250,7 @@ class ShortletModel {
       thumbImage: thumbImage ?? this.thumbImage,
       apartmentImages: apartmentImages ?? this.apartmentImages,
       idType: idType ?? this.idType,
-      bookingType: bookingType??this.bookingType,
+      bookingType: bookingType ?? this.bookingType,
     );
   }
 }

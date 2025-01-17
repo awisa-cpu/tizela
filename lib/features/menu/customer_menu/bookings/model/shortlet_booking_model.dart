@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tizela/utils/enums/booking_status.dart';
+
+import '../../../../../utils/enums/booking_type.dart';
+
 /*
 class ShortletBookingModel {
   final String uid;
@@ -60,25 +63,28 @@ class ShortletBookingModel {
 }
 */
 class ShortletBookingModel {
-  final String bookingId;
+  final String? bookingId;
   final String shortletId;
   final String userId;
-  final Map<String, dynamic>
-      shortletDetails; 
+  final Map<String, dynamic> shortletDetails;
   final Map<String, dynamic> bookingUserDetails;
+  final Map<String, dynamic> transactionDetails;
   BookingStatus status; //active-completed-cancelled
   final DateTime bookingDateCreated;
-  final String bookingMode; // "direct" or "request"
+  final BookingType bookingType; // "instant" or "reserve"
+  final double totalAmountPaid;
 
   ShortletBookingModel({
-    required this.bookingId,
+    this.bookingId,
     required this.shortletId,
     required this.userId,
     required this.shortletDetails,
     required this.bookingUserDetails,
+    required this.transactionDetails,
     required this.status,
     required this.bookingDateCreated,
-    required this.bookingMode,
+    required this.bookingType,
+    required this.totalAmountPaid,
   });
 
   Map<String, dynamic> toJson() {
@@ -88,23 +94,28 @@ class ShortletBookingModel {
       'shortletDetails':
           shortletDetails, //name, price, image, start and end date
       'bookingUserDetails': bookingUserDetails,
+      'transactionDetails': transactionDetails,
       'status': status.name,
       'bookingDateCreated': bookingDateCreated.toIso8601String(),
-      'bookingMode': bookingMode,
+      'bookingType': bookingType.name,
+      'totalAmountPaid':totalAmountPaid,
     };
   }
 
   factory ShortletBookingModel.fromMap(Map<String, dynamic> json) {
     return ShortletBookingModel(
-      bookingId: json['bookingId'] as String,
+      bookingId: json['bookingId'] ?? "",
       shortletId: json['shortletId'] as String,
       userId: json['userId'] as String,
       shortletDetails: json['shortletDetails'] as Map<String, dynamic>,
       bookingUserDetails: json['bookingUserDetails'] as Map<String, dynamic>,
+      transactionDetails: json["transactionDetails"] as Map<String, dynamic>,
       status: BookingStatus.values
           .firstWhere((status) => status.name == json['status']),
       bookingDateCreated: DateTime.parse(json['bookingDateCreated'] as String),
-      bookingMode: json['bookingMode'] as String,
+      bookingType: BookingType.values
+          .firstWhere((mode) => mode.name == json['bookingType']),
+      totalAmountPaid: json['totalAmountPaid'] as double
     );
   }
 
@@ -114,9 +125,11 @@ class ShortletBookingModel {
         userId: '',
         shortletDetails: {},
         bookingUserDetails: {},
+        transactionDetails: {},
         status: BookingStatus.none,
         bookingDateCreated: DateTime.now(),
-        bookingMode: '',
+        bookingType: BookingType.none,
+        totalAmountPaid: 0.0,
       );
 
   factory ShortletBookingModel.fromSnapShot(
@@ -130,11 +143,15 @@ class ShortletBookingModel {
         shortletDetails: docData['shortletDetails'] as Map<String, dynamic>,
         bookingUserDetails:
             docData['bookingUserDetails'] as Map<String, dynamic>,
+        transactionDetails:
+            docData['transactionDetails'] as Map<String, dynamic>,
         status: BookingStatus.values
             .firstWhere((status) => status.name == docData['status']),
         bookingDateCreated:
             DateTime.parse(docData['bookingDateCreated'] as String),
-        bookingMode: docData['bookingMode'] as String,
+        bookingType: BookingType.values
+            .firstWhere((mode) => mode.name == docData['bookingType']),
+        totalAmountPaid: docData['totalAmountPaid'] as double
       );
     } else {
       return ShortletBookingModel.empty();
@@ -149,11 +166,5 @@ shortletImage: String
 startDate: DateTime
 endDate: DateTime
 
-
-
 */
-
-
-
-
 }

@@ -10,6 +10,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_sel
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_shortlet_packages.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_tabs.dart';
 
+
 class CustomHomeViewServiceDisplayer extends StatelessWidget {
   const CustomHomeViewServiceDisplayer({
     super.key,
@@ -25,11 +26,12 @@ class CustomHomeViewServiceDisplayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = CustomerHomeController.instance;
+  
 
     //
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         //section 1
         CustomSectionHeader(
@@ -109,12 +111,11 @@ class CustomHomeViewServiceDisplayer extends StatelessWidget {
               )
             : isCarRentalSelected
                 ? CustomCarRentalPackages(
-                   carRentals: controller.allCarRentals,
-                    )
+                    carRentals: controller.allCarRentals,
+                  )
                 : isBoatCruiseSelected
                     ? CustomBoatCruisePackages(
-                        boatCruise: controller.allBoatCruises
-                      )
+                        boatCruise: controller.allBoatCruises)
                     : const SizedBox.shrink(),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
+import 'package:tizela/features/menu/customer_menu/bookings/controller/shortlet_bookings_controller.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/details_views/more_shorlet_images_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_icon_and_text.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
@@ -44,6 +45,7 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
   Widget build(BuildContext context) {
     final CustomShortletFavouriteController controller =
         CustomShortletFavouriteController.instance;
+    Get.put(ShortletBookingsController());
 
     //
     return Scaffold(
