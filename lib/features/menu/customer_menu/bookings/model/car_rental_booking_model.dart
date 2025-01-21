@@ -87,7 +87,7 @@ class CarRentalBookingModel {
 */
 
 class CarRentalBookingModel {
-  final String bookingId;
+  String? bookingId;
   final String carRentalId;
   final String userId;
   final Map<String, dynamic>
@@ -97,7 +97,7 @@ class CarRentalBookingModel {
   final DateTime bookingDateCreated;
   BookingStatus status; //active-completed-cancelled
   CarRentalBookingModel({
-    required this.bookingId,
+    this.bookingId,
     required this.carRentalId,
     required this.userId,
     required this.carRentalDetails,

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/controller/shortlet_bookings_controller.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_booking_status.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_outlined_booking_status_button.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/widgets/custom_review.dart';
@@ -11,11 +11,13 @@ import 'package:tizela/setup/setup.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
+import 'package:tizela/utils/extensions/string_extension.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
 import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../../../utils/formatters/number_formatters.dart';
 import '../../../model/shorlet_booking_receipt.dart';
 import '../../../model/shortlet_booking_model.dart';
-import '../shorlet_bookings_receipt_view.dart';
+import '../../bookings_receipt_view.dart';
 
 class CustomShorletBookingStatus extends StatelessWidget {
   final ShortletBookingModel bookingModel;
@@ -89,8 +91,8 @@ class CustomShorletBookingStatus extends StatelessWidget {
 
                   //cost and status
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    spacing: 15,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    spacing: 6,
                     children: [
                       CustomDisplayCost(
                         cost: bookingModel.shortletDetails['shortletPrice']
@@ -98,7 +100,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         perWhat: "per night",
                       ),
                       CustomBookingStatus(
-                        statusText: bookingModel.status.name,
+                        statusText: bookingModel.status.name.toProperCase(),
                         textAndBorderColor: statusColor,
                       )
                     ],
@@ -126,11 +128,11 @@ class CustomShorletBookingStatus extends StatelessWidget {
                     ),
                     Expanded(
                       child: CustomEleButton(
-                        onPressed: () async {
-                          File file = await createAndSaveReceipt(bookingModel);
+                        onPressed: () {
                           AppNagivator.pushRoute(
-                            ShorletBookingsReceiptView(
-                              receiptFilePath: file.path,
+                            BookingsReceiptView(
+                              pdfFutureOperation:
+                                  createAndSaveReceipt(bookingModel),
                             ),
                           );
                         },
@@ -152,7 +154,15 @@ class CustomShorletBookingStatus extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomOutlinedBookingStatusButton(
-                        onTap: () {},
+                        onTap: () {
+                          AppNagivator.pushRoute(
+                            BookingsReceiptView(
+                              pdfFutureOperation: createAndSaveReceipt(
+                                bookingModel,
+                              ),
+                            ),
+                          );
+                        },
                         buttonText: "View E-Receipt",
                       ),
                     ),
@@ -178,29 +188,28 @@ class CustomShorletBookingStatus extends StatelessWidget {
   }
 
   Future<File> createAndSaveReceipt(ShortletBookingModel bookingModel) async {
-    final controller = ShortletBookingsController.instance;
     final receiptModel = ShorletBookingReceipt(
-        dateRange: AppFunctions.getDateRange(
-          availableDates: [
-            DateTime.parse(bookingModel.shortletDetails['startDate']),
-            DateTime.parse(bookingModel.shortletDetails['endDate'])
-          ],
-        ),
-        checkIn: AppDateFormater.formatDate(
-            useContructor: true,
-            date: DateTime.parse(bookingModel.shortletDetails['startDate'])),
-        checkOut: AppDateFormater.formatDate(
-            useContructor: true,
-            date: DateTime.parse(bookingModel.shortletDetails['endDate'])),
-        amount: bookingModel.shortletDetails['shortletPrice'],
-        cautionAmount: bookingModel.shortletDetails['shortletCautionFee'],
-        totalAmount: bookingModel.shortletDetails['shortletPrice'] +
-            bookingModel.shortletDetails['shortletCautionFee'],
-        name:
-            "${bookingModel.bookingUserDetails['firstName']} ${bookingModel.bookingUserDetails['lastName']}",
-        email: bookingModel.bookingUserDetails['email'],
-        transactionId: bookingModel.transactionDetails['transactionId'],
-        status: bookingModel.status);
+      dateRange: AppFunctions.getDateRange(
+        availableDates: [
+          DateTime.parse(bookingModel.shortletDetails['startDate']),
+          DateTime.parse(bookingModel.shortletDetails['endDate'])
+        ],
+      ),
+      checkIn: AppDateFormater.formatDate(
+          format: 'MMMM dd, yyyy',
+          date: DateTime.parse(bookingModel.shortletDetails['startDate'])),
+      checkOut: AppDateFormater.formatDate(
+          format: 'MMMM dd, yyyy',
+          date: DateTime.parse(bookingModel.shortletDetails['endDate'])),
+      amount: bookingModel.shortletDetails['shortletPrice'],
+      cautionAmount: bookingModel.shortletDetails['shortletCautionFee'],
+      totalAmount: bookingModel.transactionDetails["amount"],
+      name:
+          "${bookingModel.bookingUserDetails['firstName']} ${bookingModel.bookingUserDetails['lastName']}",
+      email: bookingModel.bookingUserDetails['email'],
+      transactionId: bookingModel.transactionDetails['transactionId'],
+      status: bookingModel.status,
+    );
 
     final pw.Document pdf = pw.Document();
 
@@ -208,17 +217,13 @@ class CustomShorletBookingStatus extends StatelessWidget {
       pw.Page(
         build: (pw.Context context) {
           return pw.Padding(
-            padding: const pw.EdgeInsets.all(16),
+            padding: const pw.EdgeInsets.all(10),
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
-                pw.SizedBox(height: 40),
-                pw.Container(
-                  width: double.infinity,
-                  padding: const pw.EdgeInsets.all(13.5),
-                  decoration: pw.BoxDecoration(
-                    borderRadius: pw.BorderRadius.circular(15),
-                  ),
+                pw.Padding(
+                  padding:
+                      const pw.EdgeInsets.only(top: 40, left: 10, right: 10),
                   child: pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
@@ -228,6 +233,7 @@ class CustomShorletBookingStatus extends StatelessWidget {
                           pw.Text("Date"),
                           pw.Text(
                             receiptModel.dateRange,
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                           )
                         ],
                       ),
@@ -236,7 +242,10 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Check in"),
-                          pw.Text(receiptModel.checkIn)
+                          pw.Text(
+                            receiptModel.checkIn,
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          )
                         ],
                       ),
                       pw.SizedBox(height: 10),
@@ -244,41 +253,44 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Check out"),
-                          pw.Text(receiptModel.checkOut)
+                          pw.Text(
+                            receiptModel.checkOut,
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          )
                         ],
                       )
                     ],
                   ),
                 ),
-                pw.SizedBox(height: 20),
-                pw.Container(
-                  width: double.infinity,
-                  padding: const pw.EdgeInsets.all(13.5),
-                  decoration: pw.BoxDecoration(
-                    borderRadius: pw.BorderRadius.circular(16),
-                  ),
+                pw.Padding(
+                  padding:
+                      const pw.EdgeInsets.only(top: 20, left: 10, right: 10),
                   child: pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text("Amount(${controller.getNumberOfDays(
-                              availableDates: [
-                                DateTime.parse(
-                                    bookingModel.shortletDetails['startDate']),
-                                DateTime.parse(
-                                    bookingModel.shortletDetails['endDate'])
-                              ],
-                            )})"),
-                            pw.Text("#${receiptModel.amount}")
-                          ]),
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            "Amount (${DateTime.parse(bookingModel.shortletDetails['endDate']).difference(DateTime.parse(bookingModel.shortletDetails['startDate'])).inDays} days)",
+                          ),
+                          pw.Text(
+                            AppNumberFormater.formatCurrency(
+                                amount: receiptModel.amount),
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          )
+                        ],
+                      ),
                       pw.SizedBox(height: 10),
                       pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Caution (Refundable)"),
-                          pw.Text("#${receiptModel.cautionAmount}")
+                          pw.Text(
+                            AppNumberFormater.formatCurrency(
+                                amount: receiptModel.cautionAmount),
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          )
                         ],
                       ),
                       pw.SizedBox(height: 10),
@@ -288,18 +300,19 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Total"),
-                          pw.Text("#${receiptModel.totalAmount}"),
+                          pw.Text(
+                            AppNumberFormater.formatCurrency(
+                                amount: receiptModel.totalAmount),
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                pw.SizedBox(height: 20),
-                pw.Container(
-                  padding: const pw.EdgeInsets.all(13.5),
-                  width: double.infinity,
-                  decoration: pw.BoxDecoration(
-                      borderRadius: pw.BorderRadius.circular(16)),
+                pw.Padding(
+                  padding:
+                      const pw.EdgeInsets.only(top: 20, left: 10, right: 10),
                   child: pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
@@ -307,7 +320,10 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Name"),
-                          pw.Text(receiptModel.name),
+                          pw.Text(
+                            receiptModel.name,
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          ),
                         ],
                       ),
                       pw.SizedBox(height: 10),
@@ -315,7 +331,10 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Email"),
-                          pw.Text(receiptModel.email)
+                          pw.Text(
+                            receiptModel.email,
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          )
                         ],
                       ),
                       pw.SizedBox(height: 10),
@@ -323,7 +342,10 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Transaction ID"),
-                          pw.Text(receiptModel.transactionId)
+                          pw.Text(
+                            receiptModel.transactionId,
+                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          )
                         ],
                       ),
                       pw.SizedBox(height: 10),
@@ -331,7 +353,21 @@ class CustomShorletBookingStatus extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Status"),
-                          pw.Text(receiptModel.status.name),
+                          pw.Container(
+                            height: 30,
+                            width: 50,
+                            alignment: pw.Alignment.center,
+                            decoration: pw.BoxDecoration(
+                                color: PdfColors.white,
+                                borderRadius: pw.BorderRadius.circular(10),
+                                border: pw.Border.all(color: PdfColors.blue)),
+                            child: pw.Text(
+                              receiptModel.status.name.toProperCase(),
+                              style: const pw.TextStyle(
+                                color: PdfColors.blue,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                       pw.SizedBox(height: 10),
@@ -347,7 +383,8 @@ class CustomShorletBookingStatus extends StatelessWidget {
 
     final Directory directory = await getTemporaryDirectory();
     final File receiptFile = File("${directory.path}/e_receipt.pdf");
-    await receiptFile.writeAsBytes(await pdf.save());
+    final pdfBytesFile = await pdf.save();
+    await receiptFile.writeAsBytes(pdfBytesFile);
 
     return receiptFile;
   }

@@ -8,14 +8,14 @@ import '../../utils/device/app_device_services/app_device_services.dart';
 
 class MediaServiceController extends GetxController {
   static MediaServiceController get instance => Get.find();
-  final ImagePicker _pickImage = ImagePicker();
-  final FilePicker _pickFile = FilePicker.platform;
+  final ImagePicker _imagePicker = ImagePicker();
+  final FilePicker _filePicker = FilePicker.platform;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<File?> pickImageFromGallery() async {
     try {
       final XFile? imagexFile =
-          await _pickImage.pickImage(source: ImageSource.gallery);
+          await _imagePicker.pickImage(source: ImageSource.gallery);
       if (imagexFile != null) {
         final File imageFile = File(imagexFile.path);
         return imageFile;
@@ -29,7 +29,7 @@ class MediaServiceController extends GetxController {
 
   Future<File?> pickFile() async {
     try {
-      final FilePickerResult? pickedFiles = await _pickFile.pickFiles();
+      final FilePickerResult? pickedFiles = await _filePicker.pickFiles();
       if (pickedFiles != null) {
         final filePicked = File(pickedFiles.files.single.path!);
         return filePicked;
@@ -43,7 +43,7 @@ class MediaServiceController extends GetxController {
 
   Future<List<File>?> pickImagesFromGallery() async {
     try {
-      final List<XFile> imagexFiles = await _pickImage.pickMultiImage();
+      final List<XFile> imagexFiles = await _imagePicker.pickMultiImage();
       if (imagexFiles.isNotEmpty) {
         final List<File> imageFiles =
             imagexFiles.map((image) => File(image.path)).toList();

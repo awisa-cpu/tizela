@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/common/styles/styles.dart';
 import 'package:tizela/common/widgets/widgets.dart';
-import 'package:tizela/features/menu/customer_menu/bookings/controller/boat_cruise_booking_summary_controller.dart';
 import 'package:tizela/utils/extensions/build_context_extensions.dart';
+
+import '../../../controller/boat_cruise_bookings_controller.dart';
 
 class CustomBoatCruiseDurationSelector extends StatelessWidget {
   const CustomBoatCruiseDurationSelector({
@@ -12,7 +13,7 @@ class CustomBoatCruiseDurationSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = BoatCruiseBookingSummaryController.instance;
+    final controller = BoatCruiseBookingsController.instance;
     return CustomColumn(children: [
       Text(
         "Select cruise duration",

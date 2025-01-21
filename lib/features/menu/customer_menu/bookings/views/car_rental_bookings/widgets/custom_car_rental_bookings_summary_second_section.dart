@@ -40,11 +40,11 @@ class CustomCarRentalBookingsSummarySecondSection extends StatelessWidget {
             target: "Pick-up",
             targetValue: carRental.address.addressWithoutPostal,
           ),
-          const CustomHeight(height: 20),
-          const CustomContainerBookingSummary(
-            target: "Drop-off",
-            targetValue: "No.4 atiku road, Lagos plaza kilometer road",
-          ),
+          // const CustomHeight(height: 20),
+          // const CustomContainerBookingSummary(
+          //   target: "Drop-off",
+          //   targetValue: "No.4 atiku road, Lagos plaza kilometer road",
+          // ),
           const CustomHeight(height: 20),
         ],
       ),

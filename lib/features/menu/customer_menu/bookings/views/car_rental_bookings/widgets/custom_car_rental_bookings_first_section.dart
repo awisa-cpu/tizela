@@ -9,6 +9,8 @@ import 'package:tizela/features/menu/host_menu/listings/model/car_rental_model.d
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 
+import '../../../../../../../utils/formatters/number_formatters.dart';
+
 class CustomCarRentalBookingsFirstSection extends StatelessWidget {
   const CustomCarRentalBookingsFirstSection({
     super.key,
@@ -83,7 +85,8 @@ class CustomCarRentalBookingsFirstSection extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "#${carRental.carPrice}",
+                      text:
+                          "#${AppNumberFormater.formatCurrency(amount: carRental.carPrice)}",
                       style: customTextStyle(
                         color: AppColors.appMainColor,
                         fontSize: 18,

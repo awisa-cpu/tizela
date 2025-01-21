@@ -8,6 +8,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_ico
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/formatters/app_date_formatter.dart';
 import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../../../utils/formatters/number_formatters.dart';
 import '../../../../../host_menu/listings/model/car_rental_details_model.dart';
 import '../../widgets/custom_outlined_booking_status_button.dart';
 
@@ -69,25 +70,26 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                   ),
                   Row(
                     spacing: 7,
-                    children: bookingCarRental
-                        .carRentalDetails['carRentalDetails']
-                        .map(
-                      (a) {
-                        final atribute = CarRentalDetailsModel.fromJson(
-                            a as Map<String, dynamic>);
-                        return CustomIconAndText(
-                          text: atribute.detailCount.value.toString(),
-                          iconImage:
-                              AppFunctions.getIconImageByAttributeName(atribute.name),
-                          color: AppColors.appIconColorBox,
-                          textStyle: customTextStyle(
-                            fontSize: 14,
-                            color: AppColors.appTextFadedColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
-                      },
-                    ).toList(),
+                    children: [
+                      ...bookingCarRental.carRentalDetails['carRentalDetails']
+                          .map(
+                        (a) {
+                          final atribute = CarRentalDetailsModel.fromJson(
+                              a as Map<String, dynamic>);
+                          return CustomIconAndText(
+                            text: atribute.detailCount.value.toString(),
+                            iconImage: AppFunctions.getIconImageByAttributeName(
+                                atribute.name),
+                            color: AppColors.appIconColorBox,
+                            textStyle: customTextStyle(
+                              fontSize: 14,
+                              color: AppColors.appTextFadedColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
 
                   //cost and status
@@ -95,7 +97,9 @@ class CustomCarRentalBookingStatus extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomDisplayCost(
-                        cost: bookingCarRental.carRentalDetails['carPrice'].toString(),
+                        cost: AppNumberFormater.formatCurrency(
+                            amount: bookingCarRental
+                                .carRentalDetails['carPrice'] as double),
                         perWhat: "12hr",
                       ),
                       const CustomWidth(width: 15),

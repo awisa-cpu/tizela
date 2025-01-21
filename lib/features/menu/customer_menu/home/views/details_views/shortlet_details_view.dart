@@ -10,6 +10,7 @@ import '../../../../../../setup/app_navigator.dart';
 import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../../../utils/enums/booking_type.dart';
+import '../../../../../../utils/formatters/number_formatters.dart';
 import '../../../../host_menu/listings/model/shortlet_model.dart';
 import '../../../bookings/views/shortlet_bookings/shortlet_bookings_summary_view.dart';
 import '../../../favourite/controller/customer_shortlet_favourite_controller.dart';
@@ -155,7 +156,8 @@ class _ShortletDetailsViewState extends State<ShortletDetailsView> {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: "#${widget.shortLetItem.apartmentPrice.round()}",
+                    text:
+                        "#${AppNumberFormater.formatCurrency(amount: widget.shortLetItem.apartmentPrice)}",
                     style: customTextStyle(
                       color: AppColors.appMainColor,
                       fontSize: 18,

@@ -4,7 +4,7 @@ import 'package:tizela/common/widgets/widgets.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bookings/widgets/custom_boat_cruse_booking_first_section.dart';
 
 import '../../../../host_menu/listings/model/boat_cruise_model.dart';
-import '../../controller/boat_cruise_booking_summary_controller.dart';
+import '../../controller/boat_cruise_bookings_controller.dart';
 import 'widgets/custom_boat_cruise_booking_summary_fourth_section.dart';
 import 'widgets/custom_boat_cruise_booking_summary_third_section.dart';
 import 'widgets/custom_boat_cruise_booking_summary_second_section.dart';
@@ -15,7 +15,7 @@ class BoatCruiseBookingSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = BoatCruiseBookingSummaryController.instance;
+    final controller = BoatCruiseBookingsController.instance;
 
     //
     return Scaffold(
@@ -46,7 +46,7 @@ class BoatCruiseBookingSummary extends StatelessWidget {
               endTime: controller.selectedEndTimeOfDay.value,
             ),
             CustomEleButton(
-              onPressed: () => controller.processToCheckOut(),
+              onPressed: () => controller.checkoutForCarRentalBooking(boatCruise: boatCruise),
               text: "Checkout",
             )
           ],

@@ -8,7 +8,7 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/boat_cruise_bo
 import '../../../../../../utils/device/app_device_services/app_device_services.dart';
 import '../../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../host_menu/listings/model/boat_cruise_model.dart';
-import '../../controller/boat_cruise_booking_summary_controller.dart';
+import '../../controller/boat_cruise_bookings_controller.dart';
 
 class BoatCruiseBookingView extends StatefulWidget {
   final BoatCruiseModel boatCruise;
@@ -33,7 +33,7 @@ class _BoatCruiseBookingViewState extends State<BoatCruiseBookingView> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BoatCruiseBookingSummaryController());
+    final controller = Get.put(BoatCruiseBookingsController());
 
     //
     return Scaffold(
@@ -71,16 +71,19 @@ class _BoatCruiseBookingViewState extends State<BoatCruiseBookingView> {
                       rowHeight: 38,
                       locale: 'en_US',
                       availableGestures: AvailableGestures.all,
-                      focusedDay: controller.selectedDateForBooking.value,
+                      focusedDay: controller.selectedBoatCruiseDate.value,
                       firstDay: DateTime.utc(2023, 1, 30),
                       lastDay: DateTime.utc(2030, 12, 30),
                       onDaySelected: (d1, d2) =>
                           AppFunctions.onDateInDateSelected(
-                              d1, d2,
-                              dateInFocusedDay:
-                                  controller.selectedDateForBooking),
+                        d1,
+                        d2,
+                        dateInFocusedDay: controller.selectedBoatCruiseDate,
+                      ),
                       selectedDayPredicate: (day) => isSameDay(
-                          day, controller.selectedDateForBooking.value),
+                        day,
+                        controller.selectedBoatCruiseDate.value,
+                      ),
                     ),
                   ),
                 ),

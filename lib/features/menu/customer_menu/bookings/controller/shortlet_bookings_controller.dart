@@ -4,6 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/model/shortlet_booking_model.dart';
 import 'package:tizela/setup/setup.dart';
+import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 
 import '../../../../../common/widgets/widgets.dart';
 import '../../../../../data/repositories/bookings/shortlet_booking_repository.dart';
@@ -124,8 +125,7 @@ class ShortletBookingsController extends GetxController {
   String getNumberOfDays(
       {required List<DateTime> availableDates,
       bool shouldreturnOnlyvalue = false}) {
-    final differenceInDays = availableDates[1]
-        .difference(availableDates[0]);
+    final differenceInDays = availableDates[1].difference(availableDates[0]);
     if (shouldreturnOnlyvalue) {
       if (differenceInDays.inDays <= 0) {
         return "0";
@@ -160,7 +160,7 @@ class ShortletBookingsController extends GetxController {
     return finalCost;
   }
 
-  void makePaymentForShortletBooking({required ShortletModel shortlet}) async {
+  void checkOutForShortletBooking({required ShortletModel shortlet}) async {
     try {
       //all criteria must be fulfilled
       final AppPaymentService appPaymentService = AppPaymentService();
@@ -183,6 +183,7 @@ class ShortletBookingsController extends GetxController {
             title: "Oh snap", message: "payment error");
         return;
       }
+
 
       //once payment is successful, create a booking
       await _createShortletBooking(
@@ -253,8 +254,8 @@ class ShortletBookingsController extends GetxController {
               },
         transactionDetails: {
           "id": paymentIntent['id'],
-          "object": paymentIntent['object'],
-          "amount": paymentIntent['amount'],
+          "payment_method": paymentIntent['payment_method'],
+          "amount": AppFunctions.formatStripeAmountToBase(amount: paymentIntent['amount'] as int),
           "status": paymentIntent['status'],
           "transactionId": paymentIntent['latest_charge']
         },

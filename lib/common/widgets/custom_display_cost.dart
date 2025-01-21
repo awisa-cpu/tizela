@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_text_span.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 
+import '../../utils/formatters/number_formatters.dart';
+
 class CustomDisplayCost extends StatelessWidget {
   const CustomDisplayCost({
     super.key,
@@ -28,7 +30,8 @@ class CustomDisplayCost extends StatelessWidget {
       TextSpan(
         children: [
           customTextSpan(
-              text: "#$cost",
+              text:
+                  "#${AppNumberFormater.formatCurrency(amount: double.tryParse(cost) ?? 0.0)}",
               fontweight: costFontWeight ?? FontWeight.normal,
               color: costColor ?? AppColors.appMainColor,
               fontsize: costFontSize ?? 18),

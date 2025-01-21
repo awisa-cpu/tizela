@@ -12,7 +12,7 @@ import 'package:tizela/utils/extensions/build_context_extensions.dart';
 
 import '../../../../../../../common/widgets/custom_rounded_container.dart';
 import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
-import '../../../controller/car_rental_booking_summary_controller.dart';
+import '../../../controller/car_rental_bookings_controller.dart';
 
 class CustomCarRentalBookingsForm extends StatelessWidget {
   final CarRentalModel carRental;
@@ -23,7 +23,7 @@ class CustomCarRentalBookingsForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CarRentalBookingSummaryController());
+    final controller = Get.put(CarRentalBookingsController());
 
     //
     return Form(

@@ -276,4 +276,10 @@ class AppFunctions {
     // return format.currencySymbol;
     return "₦";
   }
+
+  static double formatStripeAmountToBase(
+      {required int amount, int conversionFactor = 100}) {
+    final formatedAmount = amount / conversionFactor;
+    return formatedAmount;
+  }
 }

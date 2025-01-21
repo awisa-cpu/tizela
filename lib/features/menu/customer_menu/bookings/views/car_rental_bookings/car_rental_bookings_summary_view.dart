@@ -5,7 +5,7 @@ import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_ele_button.dart';
 import 'package:tizela/features/menu/customer_menu/bookings/views/car_rental_bookings/widgets/custom_car_rental_bookings_first_section.dart';
 import 'package:tizela/features/menu/host_menu/listings/model/car_rental_model.dart';
-import '../../controller/car_rental_booking_summary_controller.dart';
+import '../../controller/car_rental_bookings_controller.dart';
 import 'widgets/custom_car_rental_bookings_sumary_fourth_section.dart';
 import 'widgets/custom_car_rental_bookings_summary_fifth_section.dart';
 import 'widgets/custom_car_rental_bookings_summary_second_section.dart';
@@ -17,7 +17,7 @@ class CarRentalBookingSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = CarRentalBookingSummaryController.instance;
+    final controller = CarRentalBookingsController.instance;
 
     //
     return Scaffold(
@@ -37,7 +37,9 @@ class CarRentalBookingSummary extends StatelessWidget {
             CustomCarRentalBookingsFirstSection(
               carRental: carRental,
             ),
-             CustomCarRentalBookingsSummarySecondSection(carRental: carRental,),
+            CustomCarRentalBookingsSummarySecondSection(
+              carRental: carRental,
+            ),
             CustomCarRentalBookingsSummaryThirdSection(
               selectedPickUpTime: controller.selectedTimeOfDay.value,
             ),
@@ -48,7 +50,8 @@ class CarRentalBookingSummary extends StatelessWidget {
               iteneryText: controller.itenaryCon.text,
             ),
             CustomEleButton(
-              onPressed: controller.checkoutCarRental,
+              onPressed: () =>
+                  controller.checkoutForCarRentalBooking(carRental: carRental),
               text: "Checkout",
             )
           ],

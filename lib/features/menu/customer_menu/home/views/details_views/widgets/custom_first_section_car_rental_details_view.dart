@@ -6,6 +6,7 @@ import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_ico
 import 'package:tizela/utils/constants/app_colors.dart';
 
 import '../../../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../../../utils/formatters/number_formatters.dart';
 import '../../../../../host_menu/listings/model/car_rental_model.dart';
 import '../../widgets/custom_reviews.dart';
 
@@ -77,7 +78,8 @@ class CustomFirstSectionCarRentalDetailsView extends StatelessWidget {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: "#${carRental.carPrice.round()}",
+                    text:
+                        "#${AppNumberFormater.formatCurrency(amount: carRental.carPrice)}",
                     style: customTextStyle(
                       color: AppColors.appMainColor,
                       fontSize: 18,
