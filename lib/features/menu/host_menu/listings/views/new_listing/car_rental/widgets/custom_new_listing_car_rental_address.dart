@@ -37,7 +37,9 @@ class CustomNewListingCarRentalAddress extends StatelessWidget {
             child: Form(
               key: controller.carRentaladdressKey,
               child: CustomColumn(
+                spacing: 10,
                 children: [
+                  //street name
                   CustomTextFormField(
                     controller: controller.addressStreetNameCon,
                     prefixIcon: const Icon(Icons.location_on_outlined),
@@ -46,8 +48,10 @@ class CustomNewListingCarRentalAddress extends StatelessWidget {
                         address,
                         fieldName: "Street name"),
                   ),
-                  const CustomHeight(),
+
+                  //
                   Row(
+                    spacing: 10,
                     children: [
                       Expanded(
                         child: CustomTextFormField(
@@ -59,7 +63,6 @@ class CustomNewListingCarRentalAddress extends StatelessWidget {
                                   fieldName: "House number"),
                         ),
                       ),
-                      const CustomWidth(),
                       Expanded(
                         child: CustomTextFormField(
                           controller: controller.addressPostalCodeCon,
@@ -69,7 +72,6 @@ class CustomNewListingCarRentalAddress extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const CustomHeight(),
                   //state
                   Obx(
                     () => CustomDropdownForm(
@@ -83,7 +85,6 @@ class CustomNewListingCarRentalAddress extends StatelessWidget {
                     ),
                   ),
                   //lga
-                  const CustomHeight(),
                   Obx(
                     () => CustomDropdownForm(
                       currentValue: controller.currentStateLga.value,

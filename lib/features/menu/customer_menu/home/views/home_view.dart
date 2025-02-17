@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/data/local_database.dart';
+import 'package:tizela/data/services/app_location_service.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/see_more_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/widgets/custom_see_more_item.dart';
 import 'package:tizela/setup/app_navigator.dart';
@@ -10,6 +12,7 @@ import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 import '../../../../../common/styles/custom_text_style.dart';
 import '../../../../../common/widgets/custom_section_header.dart';
+import '../../../../../utils/loaders/app_stream_loaders.dart';
 import '../../../../../utils/shimmers/app_custom_shimmer.dart';
 import '../../../../personalization/customer_personalization/profile/controller/customer_profile_controller.dart';
 import '../../favourite/controller/custom_boat_cruise_favourite_controller.dart';
@@ -41,7 +44,7 @@ class HomeView extends StatelessWidget {
     _initControllers();
     final controller = CustomerHomeController.instance;
     final userProfileController = CustomerProfileController.instance;
-
+    final locationController = Get.put(AppLocationService());
     //
     return Scaffold(
       body: CustomScrollableLayoutWidget(
@@ -83,7 +86,34 @@ class HomeView extends StatelessWidget {
                     );
                   },
                 ),
-                const CustomHeight(height: 30),
+                const CustomHeight(height: 15),
+
+                //user app location
+                StreamBuilder(
+                  stream: locationController.location.onLocationChanged,
+                  builder: (context, snapshot) {
+                    final widget = AppStreamLoaders.checkSingleStreamState(
+                        snapshot: snapshot);
+                    if (widget != null) {
+                      return widget;
+                    }
+
+                    final locatonData = snapshot.data as LocationData;
+
+                    return Align(
+                      child: Text(
+                        "${locatonData.latitude ?? 0.0}, ${locatonData.longitude ?? 0.0}",
+                        style: customTextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: AppColors.appTextFadedColor,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                const CustomHeight(height: 15),
 
                 //selectable tabs
                 Obx(

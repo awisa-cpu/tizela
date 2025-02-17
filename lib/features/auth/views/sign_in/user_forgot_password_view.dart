@@ -43,11 +43,6 @@ class UserForgotPasswordView extends StatelessWidget {
                 () => CustomEleButton(
                   onPressed: () => controller.forgotUserPassword(),
 
-                  // onPressed: () {
-                  //   AppNagivator.pushRoute(
-                  //     const UserPasswordVerifyEmailView()
-                  //   );
-                  // },
 
                   text: controller.isPasswordForgotloading.value
                       ? "sending email, pls wait..."

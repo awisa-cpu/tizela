@@ -116,14 +116,14 @@ class HostCarRentalController extends GetxController {
 
       //todo: verify details
 
-      //upload selected images to cloud
+      //upload selected images to cloud storage
       final uploadedImages = await AppFunctions.uploadSelectedImagesToCloud(
         selectedImages: carImagesSelected,
         uid: _currentUserId,
       );
 
       //create address
-
+      //todo: fix the default valies for state and lga
       final newAddress = AddressModel(
         houseNumber: addressHouseNumberCon.text.trim(),
         streetName: addressStreetNameCon.text.trim(),
