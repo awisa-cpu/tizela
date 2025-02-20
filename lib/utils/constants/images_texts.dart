@@ -187,6 +187,10 @@ class ImagesText {
   static const String uploadIcon = "assets/icons/uploadIcon.png";
   static const String galleryAddIcon = "assets/icons/gallery-add.png";
   static const String blackEditIcon = "assets/icons/black_editicon.png";
+
+  //booking
+  static const String approveBookingIcon = "assets/icons/approve-icon.png";
+  static const String instantBookingIcon = "assets/icons/instant-booking-icon.png";
 }
 
 const loremIpsum =

@@ -78,9 +78,22 @@ class AppValidators {
     return null;
   }
 
-  static String? validateTextField(String? addressText, {required String fieldName}) {
+  static String? validateTextField(String? addressText,
+      {required String fieldName}) {
     if (addressText == null || addressText.isEmpty) {
       return "$fieldName is required";
+    }
+
+    return null;
+  }
+
+  static String? validateAccountNumber( String? accountNumber) {
+    if ( accountNumber == null ||  accountNumber.isEmpty) {
+      return "Account number is required";
+    }
+
+    if (accountNumber.length < 10 || accountNumber.length > 10) {
+      return "Account number must be 10 digits";
     }
 
     return null;

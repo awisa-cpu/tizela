@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/features/menu/host_menu/bookings/views/host_bookings_view.dart';
 import 'package:tizela/features/menu/host_menu/home/views/host_home_view.dart';
 import 'package:tizela/features/menu/host_menu/inbox/views/host_inbox_view.dart';
 import 'package:tizela/features/menu/host_menu/listings/views/listings_home/host_listings_view.dart';
+import 'package:tizela/features/personalization/host_personalization/profile/controller/host_profile_controller.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../features/personalization/host_personalization/profile/controller/payment_details_controller.dart';
 import '../features/personalization/host_personalization/profile/views/host_profile_view.dart';
 
 class AppHostMenu extends StatefulWidget {
@@ -19,14 +22,15 @@ class AppHostMenu extends StatefulWidget {
 class _AppMenuHostNavigator extends State<AppHostMenu> {
   int _currentIndex = 0;
 
-  void _onMenuChanged(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
+
+     Get.put(HostProfileController());
+      Get.put(PaymentDetailsController());
+
+    //
     return Scaffold(
       body: _menuBodyBuilder(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -77,6 +81,11 @@ class _AppMenuHostNavigator extends State<AppHostMenu> {
         ],
       ),
     );
+  }
+   void _onMenuChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   Widget _menuBodyBuilder(int index) {

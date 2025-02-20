@@ -18,8 +18,11 @@ import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../../../../../utils/shimmers/app_custom_shimmer.dart';
 import '../../../../auth/controllers/user_sign_in_controller.dart';
+import '../controller/host_profile_controller.dart';
 import 'booking_type_setting_view.dart';
+import 'edit_host_profile_view.dart';
 import 'id_verification_view.dart';
 import 'payment_details_view.dart';
 
@@ -29,6 +32,9 @@ class HostProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = Get.put(UserSignInController());
+    final hostProfileController = HostProfileController.instance;
+
+    //
     return Scaffold(
       body: SingleChildScrollView(
         child: CustomColumn(
@@ -38,19 +44,20 @@ class HostProfileView extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   child: Image.asset(
                     ImagesText.bkImage,
                     fit: BoxFit.contain,
                   ),
                 ),
                 Positioned(
-                    bottom: 20,
-                    left: 20.0,
-                    child: Text(
-                      "Profile setting",
-                      style: customTextStyle(fontSize: 20),
-                    ))
+                  bottom: 20,
+                  left: 20.0,
+                  child: Text(
+                    "Profile setting",
+                    style: customTextStyle(fontSize: 20),
+                  ),
+                )
               ],
             ),
 
@@ -59,28 +66,45 @@ class HostProfileView extends StatelessWidget {
               children: [
                 CustomColumn(
                   children: [
-                    CustomUserProfileListTile(
-                      titleText: "Asuquo Godwin",
-                      subText: "jellygrande@gmail.com",
-                      trailing: Image.asset(
-                        ImagesText.logoutIcon,
-                      ),
-                      onTap: () => _showLogoutSheet(
-                        context,
-                        authController,
-                      ),
+                    //
+                    Obx(
+                      () {
+                        return hostProfileController.isUserStillLoading.value
+                            ? const AppCustomShimmerEffect(
+                                height: 50,
+                                width: double.infinity,
+                              )
+                            : CustomUserProfileListTile(
+                                titleText: hostProfileController
+                                    .currentAppUser.value.userFullName,
+                                subText: hostProfileController
+                                    .currentAppUser.value.emailAddress,
+                                trailing: Image.asset(
+                                  ImagesText.logoutIcon,
+                                ),
+                                onTap: () => _showLogoutSheet(
+                                  context,
+                                  authController,
+                                ),
+                              );
+                      },
                     ),
                     const CustomDivider(),
+
+                    //profile
                     CustomUserProfileListTile(
                       titleText: "Edit profile",
                       trailing: const Icon(Icons.chevron_right),
-                      onTap: () {},
-                      // onTap: () => AppNagivator.pushRoute(
-                      //   context,
-                      //   (_) => const EditUserProfileView(),
-                      // ),
+                      onTap: () => AppNagivator.pushRoute(
+                        EditHostProfileView(
+                          currentAppUser:
+                              hostProfileController.currentAppUser.value,
+                        ),
+                      ),
                     ),
                     const CustomDivider(),
+
+                    //booking
                     CustomUserProfileListTile(
                       titleText: "Booking type setting",
                       trailing: const Icon(Icons.chevron_right),
@@ -89,6 +113,8 @@ class HostProfileView extends StatelessWidget {
                       ),
                     ),
                     const CustomDivider(),
+
+                    //payment
                     CustomUserProfileListTile(
                       titleText: "Payment",
                       trailing: const Icon(Icons.chevron_right),
@@ -97,6 +123,8 @@ class HostProfileView extends StatelessWidget {
                       ),
                     ),
                     const CustomDivider(),
+
+                    //password
                     CustomUserProfileListTile(
                       titleText: "Change password",
                       trailing: const Icon(Icons.chevron_right),
@@ -105,6 +133,8 @@ class HostProfileView extends StatelessWidget {
                       ),
                     ),
                     const CustomDivider(),
+
+                    //Id verification
                     CustomUserProfileListTile(
                       titleText: "ID Verification",
                       trailing: const Icon(Icons.chevron_right),
@@ -116,7 +146,6 @@ class HostProfileView extends StatelessWidget {
                 ),
 
                 //
-
                 CustomRoundedEdgedContainer(
                   color: AppColors.appIconColorBox,
                   showBorder: false,
@@ -124,6 +153,7 @@ class HostProfileView extends StatelessWidget {
                   child: CustomRoundedEdgedContainer(
                     child: Row(
                       children: [
+                        //
                         CustomRoundedEdgedContainer(
                           color: AppColors.appIconColorBox,
                           showBorder: false,

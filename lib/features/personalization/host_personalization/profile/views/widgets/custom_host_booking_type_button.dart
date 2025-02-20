@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
-import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
@@ -28,6 +27,7 @@ class CustomHostBookingTypeButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: CustomRoundedEdgedContainer(
+        paddingNumber: 10,
         borderColor: borderColor,
         borderWidth: borderWidth,
         child: Stack(
@@ -53,8 +53,17 @@ class CustomHostBookingTypeButton extends StatelessWidget {
                 : const SizedBox.shrink(),
             Row(
               children: [
-                Image.asset(imageUrl),
-                const CustomWidth(width: 10),
+                CustomRoundedEdgedContainer(
+                  margin: const EdgeInsets.only(right: 10),
+                  showBorder: false,
+                  color: AppColors.appTextFadedColor.withValues(alpha: 0.15),
+                  boxShape: BoxShape.circle,
+                  child: Image.asset(
+                    imageUrl,
+                    width: 15,
+                    height: 30,
+                  ),
+                ),
                 Expanded(
                   child: CustomColumn(
                     children: [
@@ -62,7 +71,6 @@ class CustomHostBookingTypeButton extends StatelessWidget {
                         mainText,
                         style: customTextStyle(fontSize: 17),
                       ),
-                      // const CustomHeight(height: 10),
                       Text(
                         subText,
                         style: customTextStyle(

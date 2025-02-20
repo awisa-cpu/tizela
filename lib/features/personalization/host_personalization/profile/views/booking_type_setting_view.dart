@@ -1,32 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:tizela/common/styles/custom_height.dart';
+import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_scrollable_layout_widget.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_header_sub_and_back_button.dart';
-import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../controller/booking_type_controller.dart';
 import 'widgets/custom_host_booking_type_button.dart';
 
-class BookingTypeSettingView extends StatefulWidget {
+class BookingTypeSettingView extends StatelessWidget {
   const BookingTypeSettingView({super.key});
 
   @override
-  State<BookingTypeSettingView> createState() => _BookingTypeSettingViewState();
-}
-
-class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
-  bool isInstantHostTapped = false;
-  bool isApproveDeclineTapped = false;
-
-  Color? instantBorderColor = Colors.grey.withValues(alpha: 0.5);
-  Color? approveDeclineBorderColor = Colors.grey.withValues(alpha: 0.5);
-
-  double instantBorderWidth = 1.0;
-  double approveDeclineBorderWidth = 1.0;
-
-  @override
   Widget build(BuildContext context) {
+    final bookingTypeController = Get.put(BookingTypeController());
+
+    //
     return Scaffold(
       body: CustomScrollableLayoutWidget(
         padding: const EdgeInsets.symmetric(
@@ -34,79 +23,54 @@ class _BookingTypeSettingViewState extends State<BookingTypeSettingView> {
           horizontal: 13.5,
         ),
         child: CustomColumn(
+          spacing: 30,
           isMainAxisSize: false,
           children: [
-            //
-            CustomColumn(
-              children: [
-                const CustomHeaderSubAndBackButton(
-                  headerText: "Decide how you want to\n confirm  bookings",
-                  isthereSubText: false,
-                ),
-                //
-                const CustomHeight(height: 30),
-                CustomScrollableLayoutWidget(
-                  child: CustomColumn(
-                    children: [
-                      CustomHostBookingTypeButton(
-                        mainText: "Instant Booking",
-                        subText: "Guest can book automatically",
-                        imageUrl: ImagesText.userIcon,
-                        borderWidth: instantBorderWidth,
-                        isTapped: isInstantHostTapped,
-                        borderColor: instantBorderColor,
-                        onTap: _tapInstantBooking,
-                      ),
-                      const CustomHeight(height: 25),
-                      CustomHostBookingTypeButton(
-                        mainText: "Approve or decline request",
-                        subText: "Guest may ask if they can book",
-                        imageUrl: ImagesText.userIcon,
-                        borderWidth: approveDeclineBorderWidth,
-                        isTapped: isApproveDeclineTapped,
-                        borderColor: approveDeclineBorderColor,
-                        onTap: _tapApproveDeclineRequest,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+            const CustomHeaderSubAndBackButton(
+              headerText: "Decide how you want to\n confirm  bookings",
+              isthereSubText: false,
             ),
+            //
+            CustomScrollableLayoutWidget(
+              child: CustomColumn(
+                spacing: 25,
+                children: [
+                  //instant booking
+                  Obx(
+                    () => CustomHostBookingTypeButton(
+                      mainText: "Instant Booking",
+                      subText: "Guest can book automatically",
+                      imageUrl: ImagesText.instantBookingIcon,
+                      borderWidth:
+                          bookingTypeController.instantBorderWidth.value,
+                      isTapped: bookingTypeController.isInstantHostTapped.value,
+                      borderColor: bookingTypeController.instantBorderColor,
+                      onTap: bookingTypeController.onInstantBookingTapped,
+                    ),
+                  ),
+
+                  //approve or decline request booking
+                  Obx(
+                    () => CustomHostBookingTypeButton(
+                      mainText: "Approve or decline request",
+                      subText: "Guest may ask if they can book",
+                      imageUrl: ImagesText.approveBookingIcon,
+                      borderWidth:
+                          bookingTypeController.approveDeclineBorderWidth.value,
+                      isTapped:
+                          bookingTypeController.isApproveDeclineTapped.value,
+                      borderColor:
+                          bookingTypeController.approveDeclineBorderColor,
+                      onTap:
+                          bookingTypeController.onApproveDeclineRequestTapped,
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
-  }
-
-  void _tapInstantBooking() {
-    setState(() {
-      isInstantHostTapped = true;
-      isApproveDeclineTapped = false;
-
-      //
-      if (isInstantHostTapped) {
-        instantBorderColor = AppColors.appMainColor;
-        instantBorderWidth = 2.0;
-
-        approveDeclineBorderColor = Colors.grey.withValues(alpha: 0.5);
-        approveDeclineBorderWidth = 1.0;
-      }
-    });
-  }
-
-  void _tapApproveDeclineRequest() {
-    setState(() {
-      isInstantHostTapped = false;
-      isApproveDeclineTapped = true;
-
-      //
-      if (isApproveDeclineTapped) {
-        instantBorderColor = Colors.grey.withValues(alpha: 0.5);
-        instantBorderWidth = 1.0;
-
-        approveDeclineBorderColor = AppColors.appMainColor;
-        approveDeclineBorderWidth = 2.0;
-      }
-    });
   }
 }

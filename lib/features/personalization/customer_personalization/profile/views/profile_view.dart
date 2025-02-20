@@ -12,7 +12,7 @@ import 'package:tizela/common/widgets/custom_rounded_container.dart';
 import 'package:tizela/common/widgets/custom_switch_button.dart';
 import 'package:tizela/features/auth/controllers/user_sign_in_controller.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/change_password_view.dart';
-import 'package:tizela/features/personalization/customer_personalization/profile/views/edit_user_profile_view.dart';
+import 'package:tizela/features/personalization/customer_personalization/profile/views/edit_customer_profile_view.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/help_center_view.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/privacy_policy_view.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/widgets/custom_user_profile_list_tile.dart';
@@ -77,7 +77,7 @@ class ProfileView extends StatelessWidget {
                       titleText: "Edit profile",
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => AppNagivator.pushRoute(
-                        EditUserProfileView(
+                        EditCustomerProfileView(
                           currentAppUser: userProfileCon.currentAppUser.value,
                         ),
                       ),

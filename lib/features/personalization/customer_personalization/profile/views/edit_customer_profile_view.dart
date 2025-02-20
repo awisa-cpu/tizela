@@ -13,9 +13,9 @@ import '../../../../../setup/app_navigator.dart';
 import '../../../../auth/models/app_user.dart';
 import '../controller/customer_profile_controller.dart';
 
-class EditUserProfileView extends StatelessWidget {
+class EditCustomerProfileView extends StatelessWidget {
   final AppUser currentAppUser;
-  const EditUserProfileView({super.key, required this.currentAppUser});
+  const EditCustomerProfileView({super.key, required this.currentAppUser});
 
   @override
   Widget build(BuildContext context) {
