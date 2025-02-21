@@ -52,8 +52,8 @@ class AppLoaderService {
             color: Colors.transparent,
             child: Center(
               child: Container(
-                height: Get.context!.screenHeight() * 0.30,
-                width: Get.context!.screenWidth() * 0.60,
+                height: Get.context!.screenHeight() * 0.50,
+                width: Get.context!.screenWidth() * 0.80,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.white,

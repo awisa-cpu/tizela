@@ -45,10 +45,11 @@ class ChangePasswordView extends StatelessWidget {
               key: changePasswordCon.changePasswordFormKey,
               child: CustomColumn(
                 children: [
+                  //current password
                   Obx(
                     () => CustomTextFormField(
                       maxLines: 1,
-                      controller: changePasswordCon.cPasswordCon,
+                      controller: changePasswordCon.currentPasswordCon,
                       labelText: "Current password",
                       obscureText: changePasswordCon
                           .currentPasswordshouldObscureText.value,
@@ -70,10 +71,12 @@ class ChangePasswordView extends StatelessWidget {
                     ),
                   ),
                   const CustomHeight(height: 15),
+
+                  //new password
                   Obx(
                     () => CustomTextFormField(
                       maxLines: 1,
-                      controller: changePasswordCon.nPasswordCon,
+                      controller: changePasswordCon.newPasswordCon,
                       labelText: "New password",
                       obscureText:
                           changePasswordCon.newPasswordshouldObscureText.value,
@@ -93,6 +96,8 @@ class ChangePasswordView extends StatelessWidget {
                     ),
                   ),
                   const CustomHeight(height: 15),
+
+                  //confirm new password
                   Obx(
                     () => CustomTextFormField(
                       maxLines: 1,
@@ -115,14 +120,15 @@ class ChangePasswordView extends StatelessWidget {
                       ),
                       validator: (value) =>
                           AppValidators.validateConfirmPassword(
-                              value, changePasswordCon.nPasswordCon.text),
+                              value, changePasswordCon.newPasswordCon.text),
                     ),
                   ),
+
                   SizedBox(
                     height: context.screenHeight() * 0.2,
                   ),
                   CustomEleButton(
-                    onPressed: changePasswordCon.savePassword,
+                    onPressed: changePasswordCon.updatePassword,
                     text: "Save",
                   )
                 ],

@@ -5,7 +5,7 @@ import 'package:tizela/features/menu/customer_menu/bookings/views/bookings_view.
 import 'package:tizela/features/menu/customer_menu/favourite/views/favourite_view.dart';
 import 'package:tizela/features/menu/customer_menu/home/views/home_view.dart';
 import 'package:tizela/features/menu/customer_menu/inbox/views/inbox_view.dart';
-import 'package:tizela/features/personalization/customer_personalization/profile/views/profile_view.dart';
+import 'package:tizela/features/personalization/customer_personalization/profile/views/customer_profile_view.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
@@ -102,7 +102,7 @@ class _AppCustomerMenuState extends State<AppCustomerMenu> {
         return const InboxView();
 
       case 4:
-        return const ProfileView();
+        return const CustomerProfileView();
 
       default:
         return Container();

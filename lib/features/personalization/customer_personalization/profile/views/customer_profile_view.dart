@@ -6,8 +6,6 @@ import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/styles/custom_width.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
-import 'package:tizela/common/widgets/custom_ele_button.dart';
-import 'package:tizela/common/widgets/custom_outlined_button.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
 import 'package:tizela/common/widgets/custom_switch_button.dart';
 import 'package:tizela/features/auth/controllers/user_sign_in_controller.dart';
@@ -20,10 +18,12 @@ import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
 
+import '../../../../../utils/device/app_functions.dart/app_functions.dart';
+import '../../../../../utils/shimmers/app_custom_shimmer.dart';
 import '../controller/customer_profile_controller.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+class CustomerProfileView extends StatelessWidget {
+  const CustomerProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +60,32 @@ class ProfileView extends StatelessWidget {
                   children: [
                     //
                     Obx(
-                      () => CustomUserProfileListTile(
-                        titleText:
-                            userProfileCon.currentAppUser.value.userFullName,
-                        subText:
-                            userProfileCon.currentAppUser.value.emailAddress,
-                        trailing: Image.asset(
-                          ImagesText.logoutIcon,
-                        ),
-                        onTap: () =>
-                            _showLogoutSheet(context, userSignInController),
-                      ),
+                      () {
+                        if (userProfileCon.isUserStillLoading.value) {
+                          return const AppCustomShimmerEffect(
+                            height: 50,
+                            width: double.infinity,
+                          );
+                        }
+
+                        return CustomUserProfileListTile(
+                          titleText:
+                              userProfileCon.currentAppUser.value.userFullName,
+                          subText:
+                              userProfileCon.currentAppUser.value.emailAddress,
+                          trailing: Image.asset(
+                            ImagesText.logoutIcon,
+                          ),
+                          onTap: () =>
+                              AppFunctions.showAppLogoutModalBottomSheet(
+                            controller: userSignInController,
+                          ),
+                        );
+                      },
                     ),
                     const CustomDivider(),
+
+                    //profile
                     CustomUserProfileListTile(
                       titleText: "Edit profile",
                       trailing: const Icon(Icons.chevron_right),
@@ -83,6 +96,8 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     const CustomDivider(),
+
+                    //change password
                     CustomUserProfileListTile(
                       titleText: "Change password",
                       trailing: const Icon(Icons.chevron_right),
@@ -94,8 +109,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
 
-              //
-
+              //account switch
               CustomRoundedEdgedContainer(
                 color: AppColors.appIconColorBox,
                 showBorder: false,
@@ -138,7 +152,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
 
-              //
+              //prive and help center
               CustomScrollableLayoutWidget(
                 child: CustomColumn(
                   children: [
@@ -163,69 +177,6 @@ class ProfileView extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  void _showLogoutSheet(
-    BuildContext context,
-    UserSignInController controller,
-  ) {
-    showModalBottomSheet(
-      backgroundColor: AppColors.appWhiteColor,
-      isDismissible: false,
-      context: context,
-      builder: (context) {
-        return CustomScrollableLayoutWidget(
-          padding: const EdgeInsets.only(
-            bottom: 60,
-            top: 13.5,
-            left: 13.5,
-            right: 13.5,
-          ),
-          child: CustomColumn(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Logout",
-                    style: customTextStyle(
-                        fontSize: 20, color: const Color(0xFFD31212)),
-                  )
-                ],
-              ),
-              const CustomHeight(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Are you sure you want to log out?",
-                    style: customTextStyle(
-                      fontSize: 16,
-                    ),
-                  )
-                ],
-              ),
-              const CustomHeight(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomOutlinedButton(
-                      actionText: "Cancel",
-                      onTap: () => AppNagivator.goBack(),
-                    ),
-                  ),
-                  const CustomWidth(width: 15),
-                  Expanded(
-                    child: CustomEleButton(
-                        onPressed: controller.logOutUser, text: "Yes, logout"),
-                  )
-                ],
-              )
-            ],
-          ),
-        );
-      },
     );
   }
 }

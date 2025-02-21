@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tizela/setup/app_navigator.dart';
+import '../../../common/styles/styles.dart';
+import '../../../common/widgets/widgets.dart';
 import '../../../data/services/alert_services.dart';
 import '../../../data/services/media_service.dart';
+import '../../../features/auth/controllers/user_sign_in_controller.dart';
 import '../../../features/menu/host_menu/listings/model/apartment_house_rules_model.dart';
 import '../../../features/menu/host_menu/listings/model/app_file_model.dart';
 import '../../../features/menu/host_menu/listings/model/boat_type_model.dart';
@@ -281,5 +284,69 @@ class AppFunctions {
       {required int amount, int conversionFactor = 100}) {
     final formatedAmount = amount / conversionFactor;
     return formatedAmount;
+  }
+
+  static void showAppLogoutModalBottomSheet(
+      {required UserSignInController controller}) {
+    showModalBottomSheet(
+      backgroundColor: AppColors.appWhiteColor,
+      isDismissible: false,
+      context: AppNagivator.navigatorKey.currentContext!,
+      useSafeArea: true,
+      builder: (context) {
+        return CustomScrollableLayoutWidget(
+          padding: const EdgeInsets.only(
+            bottom: 60,
+            top: 13.5,
+            left: 13.5,
+            right: 13.5,
+          ),
+          child: CustomColumn(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Logout",
+                    style: customTextStyle(
+                        fontSize: 20, color: const Color(0xFFD31212)),
+                  )
+                ],
+              ),
+              const CustomHeight(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to log out?",
+                    style: customTextStyle(
+                      fontSize: 16,
+                    ),
+                  )
+                ],
+              ),
+              const CustomHeight(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomOutlinedButton(
+                      actionText: "Cancel",
+                      onTap: () => AppNagivator.goBack(),
+                    ),
+                  ),
+                  const CustomWidth(width: 15),
+                  Expanded(
+                    child: CustomEleButton(
+                      onPressed: controller.logOutUser,
+                      text: "Yes, logout",
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }

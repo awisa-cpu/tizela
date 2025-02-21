@@ -41,11 +41,13 @@ const String hostNewListingCarRentalRoute = "/hostNewListingCarRentalRoute";
 const String hostNewListingBoatCruiseRoute = "/hostNewListingBoatCruiseRoute";
 
 class AppNagivator {
+
+  //defined key to access the buildcontext from anywhere outside the widget tree
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
   //
-  static Map<String, Widget Function(BuildContext context)> routes() {
+  static Map<String, WidgetBuilder> routes() {
     return {
       onboardingRoute: (context) => const OnboardingView(),
       userSAcountTypeRoute: (context) => const UserAccountTypeView(),
@@ -73,10 +75,10 @@ class AppNagivator {
     };
   }
 
-  static void goBack() => Navigator.of(navigatorKey.currentContext!).pop();
+  static void goBack() => 
+  Navigator.pop(navigatorKey.currentContext!);
 
-  static void pushNamedRoute(String routeName) =>
-      Navigator.of(navigatorKey.currentContext!).pushNamed(routeName);
+  static void pushNamedRoute(String routeName) => Navigator.pushNamed(navigatorKey.currentContext!, routeName);
 
   ///push the current route unto the stack
   static void pushRoute(Widget routeWidget) {

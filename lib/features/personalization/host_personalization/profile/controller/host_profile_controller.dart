@@ -19,7 +19,7 @@ class HostProfileController extends GetxController {
       NetworkServiceController.instance;
   final AppUserRepository hostRepository = AppUserRepository.instance;
 
-  final GlobalKey<FormState> hostEditFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> hostEditEmailFormKey = GlobalKey<FormState>();
   late final TextEditingController fNameCon;
   late final TextEditingController lNameCon;
   late final TextEditingController emailCon;
@@ -40,7 +40,7 @@ class HostProfileController extends GetxController {
   }
 
   void resetResources() {
-    hostEditFormKey.currentState?.reset();
+    hostEditEmailFormKey.currentState?.reset();
     fNameCon.clear();
     lNameCon.clear();
     emailCon.clear();
@@ -87,7 +87,17 @@ class HostProfileController extends GetxController {
         return;
       }
 
+      //check for the email field
+      if (emailCon.text.isNotEmpty) {
+        if (!(hostEditEmailFormKey.currentState?.validate() ?? false)) {
+          AppLoaderService.stopLoader();
+          return;
+        }
+      }
+
       await _updateHostUserRecord();
+
+      //
       AppLoaderService.stopLoader();
       AlertServices.successSnackBar(
         title: "Successful",
@@ -105,22 +115,25 @@ class HostProfileController extends GetxController {
 
   Future<void> _updateHostUserRecord() async {
     try {
+      final Map<String, String> updatedData = {
+        "firstName": fNameCon.text.isNotEmpty
+            ? fNameCon.text.trim()
+            : currentAppUser.value.firstName,
+        "lastName": lNameCon.text.isNotEmpty
+            ? lNameCon.text.trim()
+            : currentAppUser.value.lastName,
+        "phoneNumber": phoneNumberCon.text.isNotEmpty
+            ? phoneNumberCon.text.trim()
+            : currentAppUser.value.phoneNumber,
+        "emailAddress": emailCon.text.isNotEmpty
+            ? emailCon.text.trim()
+            : currentAppUser.value.emailAddress,
+      };
+
+      //update user record
       await hostRepository.updateSpecificUserData(
         uid: authRepo.currentUser!.uid,
-        data: {
-          "firstName": fNameCon.text.isNotEmpty
-              ? fNameCon.text.trim()
-              : currentAppUser.value.firstName,
-          "lastName": lNameCon.text.isNotEmpty
-              ? lNameCon.text.trim()
-              : currentAppUser.value.lastName,
-          "phoneNumber": phoneNumberCon.text.isNotEmpty
-              ? phoneNumberCon.text.trim()
-              : currentAppUser.value.phoneNumber,
-          "emailAddress": emailCon.text.isNotEmpty
-              ? emailCon.text.trim()
-              : currentAppUser.value.emailAddress,
-        },
+        data: updatedData,
       );
       resetResources();
       final updatedUser =

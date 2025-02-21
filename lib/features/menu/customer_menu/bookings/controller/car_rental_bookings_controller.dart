@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-import 'package:tizela/data/repositories/bookings/car_rental_bookings_repository.dart';
+import 'package:tizela/data/repositories/bookings_repository/car_rental_bookings_repository.dart';
 import 'package:tizela/utils/device/app_debugger/app_debugger.dart';
 
 import '../../../../../common/widgets/widgets.dart';

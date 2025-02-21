@@ -188,7 +188,7 @@ class AuthRepository extends GetxController {
     }
   }
 
-  ///send password set email to user's email address
+  ///send password set email to user's email address when password is forgotten but not signed in
   Future<void> sendPasswordResetEmail({required String email}) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -201,6 +201,29 @@ class AuthRepository extends GetxController {
     try {
       if (currentUser != null) {
         currentUser?.delete();
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateUserPasswordWithEmail({
+    required String email,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      if (currentUser != null) {
+        final AuthCredential authCredental = EmailAuthProvider.credential(
+          email: email,
+          password: currentPassword,
+        );
+
+        // Re-authenticate
+        await currentUser!.reauthenticateWithCredential(authCredental);
+
+        // Update password
+        await currentUser!.updatePassword(newPassword);
       }
     } catch (e) {
       rethrow;

@@ -7,7 +7,7 @@ import 'package:tizela/setup/setup.dart';
 import 'package:tizela/utils/device/app_functions.dart/app_functions.dart';
 
 import '../../../../../common/widgets/widgets.dart';
-import '../../../../../data/repositories/bookings/shortlet_booking_repository.dart';
+import '../../../../../data/repositories/bookings_repository/shortlet_booking_repository.dart';
 import '../../../../../data/services/alert_services.dart';
 import '../../../../../data/services/app_payment_service.dart';
 import '../../../../../utils/constants/app_colors.dart';

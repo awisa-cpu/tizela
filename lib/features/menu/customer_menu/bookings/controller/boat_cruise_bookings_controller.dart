@@ -4,7 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 
 import '../../../../../common/widgets/success_view.dart';
-import '../../../../../data/repositories/bookings/boat_cruise_bookings_repository.dart';
+import '../../../../../data/repositories/bookings_repository/boat_cruise_bookings_repository.dart';
 import '../../../../../data/services/alert_services.dart';
 import '../../../../../data/services/app_payment_service.dart';
 import '../../../../../setup/app_customer_menu.dart';
