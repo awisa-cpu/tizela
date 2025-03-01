@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:tizela/features/auth/models/app_user.dart';
 
 import '../../../setup/app_navigator.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../../../utils/enums/user_type.dart';
 
 class UserOnboardingController extends GetxController {
   static UserOnboardingController get instance => Get.find();

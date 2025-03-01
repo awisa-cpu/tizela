@@ -85,21 +85,21 @@ class CustomNewListingShorletVerification extends StatelessWidget {
     );
   }
 
-  String getIdName({required IdTypes idType}) {
+  String getIdName({required IdType idType}) {
     switch (idType) {
-      case IdTypes.interpassport:
+      case IdType.interpassport:
         return "International passport";
 
-      case IdTypes.nationalid:
+      case IdType.nationalid:
         return "National ID";
 
-      case IdTypes.driverlicense:
+      case IdType.driverlicense:
         return "Driver's license";
 
-      case IdTypes.nin:
+      case IdType.nin:
         return "National Identity Number (NIN)";
 
-      case IdTypes.voterscard:
+      case IdType.voterscard:
         return "Voters card";
 
       default:

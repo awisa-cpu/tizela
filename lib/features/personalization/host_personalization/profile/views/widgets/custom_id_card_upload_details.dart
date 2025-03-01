@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tizela/common/styles/custom_height.dart';
 import 'package:tizela/common/styles/custom_text_style.dart';
 import 'package:tizela/common/widgets/custom_column.dart';
-import '../../../../../menu/host_menu/listings/controllers/host_shorlet_controller.dart';
+import '../../controller/id_verification_controller.dart';
 import 'custom_card_displayer.dart';
 
 class CustomIdCardUploadDetails extends StatelessWidget {
@@ -13,7 +13,9 @@ class CustomIdCardUploadDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hostShorletCon = HostShorletController.instance;
+    final idVerificationController = IdVerificationController.instance;
+
+    //
     return CustomColumn(
       children: [
         Text(
@@ -21,16 +23,18 @@ class CustomIdCardUploadDetails extends StatelessWidget {
           style: customTextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         const CustomHeight(height: 20),
+
+        //
         Obx(
           () => CustomCardDisplayer(
-            cardName: hostShorletCon.idFrontPage.value.name ?? '',
-            size: hostShorletCon.idFrontPage.value.size ?? '',
+            cardName: idVerificationController.idFrontPage.value.name ?? '',
+            size: idVerificationController.idFrontPage.value.size ?? '',
             uploadStatus: "100",
             isCardTapped:
-                hostShorletCon.idFrontPage.value.name != null ? true : false,
+                idVerificationController.idFrontPage.value.name != null ? true : false,
             onDelete: () {},
             onCardTapped: () =>
-                hostShorletCon.selectIdCardType(id: hostShorletCon.idFrontPage),
+                idVerificationController.selectIdCardType(id: idVerificationController.idFrontPage),
           ),
         ),
 
@@ -45,14 +49,14 @@ class CustomIdCardUploadDetails extends StatelessWidget {
 
         Obx(
           () => CustomCardDisplayer(
-            cardName: hostShorletCon.idBackPage.value.name ?? '',
-            size: hostShorletCon.idBackPage.value.size ?? '',
+            cardName: idVerificationController.idBackPage.value.name ?? '',
+            size: idVerificationController.idBackPage.value.size ?? '',
             uploadStatus: "100",
             isCardTapped:
-                hostShorletCon.idBackPage.value.name != null ? true : false,
+                idVerificationController.idBackPage.value.name != null ? true : false,
             onDelete: () {},
             onCardTapped: () =>
-                hostShorletCon.selectIdCardType(id: hostShorletCon.idBackPage),
+                idVerificationController.selectIdCardType(id: idVerificationController.idBackPage),
           ),
         ),
       ],

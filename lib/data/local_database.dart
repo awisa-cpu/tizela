@@ -470,31 +470,31 @@ class LocalDatabase {
   static RxList<IdTypeModel> availableIdTypes = [
     IdTypeModel(
       uid: "01",
-      type: IdTypes.interpassport,
+      type: IdType.interpassport,
       isActive: false.obs,
       idFiles: [],
     ),
     IdTypeModel(
       uid: "02",
-      type: IdTypes.nationalid,
+      type: IdType.nationalid,
       isActive: false.obs,
       idFiles: [],
     ),
     IdTypeModel(
       uid: "03",
-      type: IdTypes.driverlicense,
+      type: IdType.driverlicense,
       isActive: false.obs,
       idFiles: [],
     ),
     IdTypeModel(
       uid: "04",
-      type: IdTypes.nin,
+      type: IdType.nin,
       isActive: false.obs,
       idFiles: [],
     ),
     IdTypeModel(
       uid: "05",
-      type: IdTypes.voterscard,
+      type: IdType.voterscard,
       isActive: false.obs,
       idFiles: [],
     ),

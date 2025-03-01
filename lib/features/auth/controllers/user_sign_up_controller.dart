@@ -7,6 +7,7 @@ import 'package:tizela/data/services/alert_services.dart';
 import 'package:tizela/data/services/app_loader_services.dart';
 import 'package:tizela/features/auth/models/app_user.dart';
 import 'package:tizela/setup/app_navigator.dart';
+import 'package:tizela/utils/enums/user_type.dart';
 
 import '../../../utils/device/app_debugger/app_debugger.dart';
 import '../../../utils/formatters/app_date_formatter.dart';

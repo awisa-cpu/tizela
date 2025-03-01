@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../utils/enums/id_verification_status.dart';
+import '../../../utils/enums/user_type.dart';
+
 class AppUser {
   final String uid;
   final UserType userType;
@@ -10,6 +13,10 @@ class AppUser {
   String phoneNumber;
   DateTime dob;
   String? profilePicture;
+  List<String> idDocuments;
+  IdVerificationStatus idVerificationStatus;
+  String? idRejectionReason;
+  DateTime? idVerificationDate;
   AppUser({
     required this.uid,
     required this.userType,
@@ -19,6 +26,10 @@ class AppUser {
     required this.phoneNumber,
     required this.dob,
     this.profilePicture,
+    this.idDocuments = const [],
+    this.idVerificationStatus = IdVerificationStatus.none,
+    this.idRejectionReason,
+    this.idVerificationDate,
   });
 
   Map<String, dynamic> toJson() {
@@ -30,6 +41,10 @@ class AppUser {
       'phoneNumber': phoneNumber,
       'dob': dob.toIso8601String(),
       'profilePicture': profilePicture ?? '',
+      "idDocuments":idDocuments,
+      "idVerificationStatus": idVerificationStatus.name,
+      "idRejectionReason": idRejectionReason ?? "",
+      "idVerificationDate": idVerificationDate?.toIso8601String() ?? "",
     };
   }
 
@@ -40,7 +55,13 @@ class AppUser {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      dob: DateTime.now());
+      dob: DateTime.now(),
+      idDocuments: [],
+      idVerificationStatus: IdVerificationStatus.none,
+      idRejectionReason: "",
+      idVerificationDate: null
+      
+      );
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
     return AppUser(
@@ -55,6 +76,13 @@ class AppUser {
       profilePicture: json['profilePicture'] != null
           ? json['profilePicture'] as String
           : "",
+      idDocuments: List<String>.from(json['idDocuments'] as List),
+      idVerificationStatus: IdVerificationStatus.values.firstWhere(
+          (status) => status.name == json['idVerificationStatus']),
+      idRejectionReason: json['idRejectionReason'] as String,
+      idVerificationDate: json['idVerificationDate'] != null
+          ? DateTime.parse(json['idVerificationDate'] as String)
+          : null,
     );
   }
 
@@ -71,6 +99,13 @@ class AppUser {
         phoneNumber: userData['phoneNumber'],
         dob: DateTime.tryParse(userData['dob']) ?? DateTime.now(),
         profilePicture: userData['profilePicture'],
+        idDocuments:  List<String>.from(userData['idDocuments']),
+        idVerificationStatus: IdVerificationStatus.values.firstWhere(
+            (value) => value.name == userData['idVerificationStatus']),
+        idRejectionReason: userData['idRejectionReason'],
+        idVerificationDate: userData['idVerificationDate'] != null
+            ? DateTime.tryParse(userData['idVerificationDate'])
+            : null,
       );
     } else {
       return AppUser.empty();
@@ -80,4 +115,4 @@ class AppUser {
   String get userFullName => "$firstName $lastName";
 }
 
-enum UserType { customer, host, none }
+

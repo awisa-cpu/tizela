@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 
-enum IdTypes {
+enum IdType {
   interpassport,
   nationalid,
   driverlicense,
@@ -15,7 +15,7 @@ enum IdTypes {
 
 class IdTypeModel {
   final String uid;
-  final IdTypes type;
+  final IdType type;
   RxBool isActive;
   List<File> idFiles;
   IdTypeModel({
@@ -36,7 +36,7 @@ class IdTypeModel {
 
   factory IdTypeModel.empty() => IdTypeModel(
         uid: "",
-        type: IdTypes.none,
+        type: IdType.none,
         idFiles: [],
         isActive: false.obs,
       );
@@ -44,7 +44,7 @@ class IdTypeModel {
   factory IdTypeModel.fromJson(Map<String, dynamic> json) {
     return IdTypeModel(
       uid: json['uid'] as String,
-      type: IdTypes.values.firstWhere((id) => id.name == json['type']),
+      type: IdType.values.firstWhere((id) => id.name == json['type']),
       isActive: (json['isActive'] as bool).obs,
       idFiles: (json['idFiles'] as List).map((x) => File(x)).toList(),
     );
@@ -56,7 +56,7 @@ class IdTypeModel {
 
   IdTypeModel copyWith({
     String? uid,
-    IdTypes? type,
+    IdType? type,
     RxBool? isActive,
     List<File>? idFiles,
   }) {

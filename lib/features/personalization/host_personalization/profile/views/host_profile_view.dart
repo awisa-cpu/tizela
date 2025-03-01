@@ -8,6 +8,7 @@ import 'package:tizela/common/widgets/custom_column.dart';
 import 'package:tizela/common/widgets/custom_divider.dart';
 import 'package:tizela/common/widgets/custom_rounded_container.dart';
 import 'package:tizela/common/widgets/custom_switch_button.dart';
+import 'package:tizela/data/services/alert_services.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/change_password_view.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/help_center_view.dart';
 import 'package:tizela/features/personalization/customer_personalization/profile/views/privacy_policy_view.dart';
@@ -15,6 +16,7 @@ import 'package:tizela/features/personalization/customer_personalization/profile
 import 'package:tizela/setup/app_navigator.dart';
 import 'package:tizela/utils/constants/app_colors.dart';
 import 'package:tizela/utils/constants/images_texts.dart';
+import 'package:tizela/data/services/theme_service/app_theme_controller.dart';
 
 import '../../../../../utils/device/app_functions.dart/app_functions.dart';
 import '../../../../../utils/shimmers/app_custom_shimmer.dart';
@@ -32,6 +34,7 @@ class HostProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final authController = Get.put(UserSignInController());
     final hostProfileController = HostProfileController.instance;
+    final themeController = AppThemeController.instance;
 
     //
     return Scaffold(
@@ -133,7 +136,7 @@ class HostProfileView extends StatelessWidget {
                     ),
                     const CustomDivider(),
 
-                    //Id verification
+                    //todo: Id verification
                     CustomUserProfileListTile(
                       titleText: "ID Verification",
                       trailing: const Icon(Icons.chevron_right),
@@ -188,6 +191,28 @@ class HostProfileView extends StatelessWidget {
                   ),
                 ),
 
+                //theme change
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 27.5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Change Theme",
+                        style: customTextStyle(fontSize: 16),
+                      ),
+                      CustomSwitchButton(
+                        value:
+                            themeController.themeMode.value == ThemeMode.dark,
+                        onValueChanged: (value) {
+                          AlertServices.showSnackBar(content: "Coming soon...");
+                          // themeController.updateThemeMode(
+                          //     isDark: value as bool);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 //
                 CustomScrollableLayoutWidget(
                   child: CustomColumn(
